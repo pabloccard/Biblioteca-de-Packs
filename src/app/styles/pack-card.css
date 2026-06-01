@@ -1,0 +1,147 @@
+/* ===================== */
+/* PACK CARD             */
+/* ===================== */
+
+.pack-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  transition: all var(--transition-slow);
+  position: relative;
+  aspect-ratio: 4/5;
+}
+
+.pack-card.unlocked:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
+.pack-card.locked {
+  /* Retiramos o opacity e filter daqui para não apagar as cores da tag de promoção */
+}
+
+.pack-card.locked:hover {
+  /* Hover subtil */
+}
+
+.pack-card.locked .pack-card-image {
+  /* Filtro removido para não escurecer o cadeado que está dentro */
+}
+
+.pack-card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.pack-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.pack-card.unlocked:hover .pack-card-image img {
+  transform: scale(1.05);
+}
+
+.pack-card-lock {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65); /* Escurece a capa mas não afeta os filhos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lock-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pack-card-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 6px 18px;
+  border-radius: 100px;
+  background: rgba(0, 82, 255, 0.12);
+  border: 1px solid rgba(0, 82, 255, 0.3);
+  color: #4da6ff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  z-index: 2;
+  isolation: isolate;
+}
+
+.pack-card-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Discount tag for locked cards */
+.pack-card-wrapper-locked {
+  position: relative;
+}
+
+.pack-card-discount-tag {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 14px;
+  border-radius: 100px;
+  background: var(--accent-gradient);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.discount-tag-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+
+}
+
+/* Pack info removed from card layout */
+
+
+/* Promo Tag (Locked Cards) */
+.promo-tag {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: #00FF33;
+  color: #000;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 6px solid var(--bg-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}

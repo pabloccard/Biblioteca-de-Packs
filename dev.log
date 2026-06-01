@@ -1,0 +1,688 @@
+
+> biblioteca-de-packs@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.101:3000
+- Environments: .env.local
+✓ Ready in 235ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+- Experiments (use with caution):
+  · serverActions
+
+ GET /pt 200 in 1112ms (next.js: 1036ms, proxy.ts: 1678µs, application-code: 75ms)
+ GET /pt 200 in 80ms (next.js: 12ms, proxy.ts: 21ms, application-code: 47ms)
+ GET /pt 200 in 76ms (next.js: 9ms, proxy.ts: 24ms, application-code: 44ms)
+ GET /es 200 in 44ms (next.js: 9ms, proxy.ts: 4ms, application-code: 31ms)
+ GET /es/dashboard 200 in 828ms (next.js: 382ms, proxy.ts: 6ms, application-code: 440ms)
+ POST /es 303 in 2.6s (next.js: 8ms, proxy.ts: 6ms, application-code: 2.6s)
+  └─ ƒ loginAction({}) in 1760ms src/app/actions.ts
+✓ Compiled in 0ms
+ GET /es/dashboard 200 in 207ms (next.js: 98ms, proxy.ts: 35ms, application-code: 74ms)
+ GET /es/dashboard 200 in 62ms (next.js: 6ms, proxy.ts: 3ms, application-code: 53ms)
+ GET /es/dashboard 200 in 33ms (next.js: 2ms, proxy.ts: 7ms, application-code: 24ms)
+ GET /es/dashboard 200 in 593ms (next.js: 27ms, proxy.ts: 14ms, application-code: 551ms)
+✓ Compiled in 15ms
+ GET /es/dashboard 200 in 295ms (next.js: 129ms, proxy.ts: 17ms, application-code: 149ms)
+✓ Compiled in 101ms
+ GET /es/dashboard 200 in 183ms (next.js: 107ms, proxy.ts: 18ms, application-code: 58ms)
+ GET /es/dashboard 200 in 51ms (next.js: 1699µs, proxy.ts: 1105µs, application-code: 48ms)
+ GET /es/dashboard 200 in 71ms (next.js: 4ms, proxy.ts: 1269µs, application-code: 66ms)
+ GET /es/dashboard 200 in 48ms (next.js: 2ms, proxy.ts: 3ms, application-code: 43ms)
+ GET /es/dashboard 200 in 380ms (next.js: 28ms, proxy.ts: 10ms, application-code: 343ms)
+ GET /es/dashboard 200 in 1147ms (next.js: 9ms, proxy.ts: 11ms, application-code: 1127ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /es 200 in 35ms (next.js: 19ms, proxy.ts: 1521µs, application-code: 14ms)
+ POST /es/dashboard 303 in 68ms (next.js: 10ms, proxy.ts: 7ms, application-code: 51ms)
+  └─ ƒ logoutAction({}) in 2ms src/app/actions.ts
+ GET /pt/dashboard 200 in 432ms (next.js: 4ms, proxy.ts: 1340µs, application-code: 427ms)
+ POST /es 303 in 570ms (next.js: 10ms, proxy.ts: 6ms, application-code: 555ms)
+  └─ ƒ loginAction({}) in 113ms src/app/actions.ts
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 1595ms (next.js: 725ms, proxy.ts: 39ms, application-code: 830ms)
+ GET /pt/dashboard 200 in 542ms (next.js: 10ms, proxy.ts: 5ms, application-code: 528ms)
+ GET /pt/dashboard 200 in 90ms (next.js: 18ms, proxy.ts: 7ms, application-code: 64ms)
+ GET /pt/dashboard 200 in 1343ms (next.js: 34ms, proxy.ts: 27ms, application-code: 1283ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt 200 in 44ms (next.js: 15ms, proxy.ts: 3ms, application-code: 26ms)
+ GET /admin 200 in 1057ms (next.js: 735ms, proxy.ts: 2ms, application-code: 320ms)
+ GET /admin/pack/bbed8bec-5e7f-40e8-847a-5aed46d7a29f/edit 200 in 855ms (next.js: 348ms, proxy.ts: 5ms, application-code: 501ms)
+ GET /admin 200 in 60ms (next.js: 1469µs, proxy.ts: 1245µs, application-code: 57ms)
+ POST /admin/pack/bbed8bec-5e7f-40e8-847a-5aed46d7a29f/edit 303 in 307ms (next.js: 9ms, proxy.ts: 4ms, application-code: 294ms)
+  └─ ƒ updatePackAction({}) in 217ms src/app/admin/actions.ts
+ GET /pt/dashboard 200 in 517ms (next.js: 6ms, proxy.ts: 3ms, application-code: 508ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 274ms (next.js: 11ms, proxy.ts: 6ms, application-code: 257ms)
+✓ Compiled in 43ms
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 185ms (next.js: 19ms, proxy.ts: 16ms, application-code: 150ms)
+ GET /pt/dashboard 200 in 184ms (next.js: 79ms, proxy.ts: 17ms, application-code: 87ms)
+✓ Compiled in 0ms
+ GET /pt/dashboard 200 in 483ms (next.js: 189ms, proxy.ts: 85ms, application-code: 209ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 481ms (next.js: 225ms, proxy.ts: 83ms, application-code: 173ms)
+ GET /pt/dashboard 200 in 125ms (next.js: 7ms, proxy.ts: 3ms, application-code: 115ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 123ms (next.js: 30ms, proxy.ts: 1316µs, application-code: 91ms)
+ GET /pt/dashboard 200 in 123ms (next.js: 10ms, proxy.ts: 4ms, application-code: 109ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 120ms (next.js: 28ms, proxy.ts: 3ms, application-code: 89ms)
+ GET /pt/dashboard 200 in 128ms (next.js: 10ms, proxy.ts: 12ms, application-code: 106ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 116ms (next.js: 27ms, proxy.ts: 2ms, application-code: 87ms)
+ GET /pt/dashboard 200 in 124ms (next.js: 11ms, proxy.ts: 11ms, application-code: 102ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 114ms (next.js: 29ms, proxy.ts: 1424µs, application-code: 84ms)
+ GET /pt/dashboard 200 in 115ms (next.js: 10ms, proxy.ts: 13ms, application-code: 93ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 103ms (next.js: 26ms, proxy.ts: 2ms, application-code: 75ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 8ms, proxy.ts: 11ms, application-code: 84ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 109ms (next.js: 24ms, proxy.ts: 1990µs, application-code: 83ms)
+ GET /pt/dashboard 200 in 113ms (next.js: 25ms, proxy.ts: 1876µs, application-code: 87ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 109ms (next.js: 24ms, proxy.ts: 2ms, application-code: 82ms)
+ GET /pt/dashboard 200 in 110ms (next.js: 23ms, proxy.ts: 1926µs, application-code: 85ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 108ms (next.js: 20ms, proxy.ts: 1896µs, application-code: 87ms)
+ GET /pt/dashboard 200 in 114ms (next.js: 29ms, proxy.ts: 2ms, application-code: 84ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 94ms (next.js: 23ms, proxy.ts: 1949µs, application-code: 69ms)
+ GET /pt/dashboard 200 in 215ms (next.js: 26ms, proxy.ts: 2ms, application-code: 187ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 213ms (next.js: 22ms, proxy.ts: 1840µs, application-code: 189ms)
+ GET /pt/dashboard 200 in 218ms (next.js: 32ms, proxy.ts: 2ms, application-code: 184ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 217ms (next.js: 54ms, proxy.ts: 3ms, application-code: 160ms)
+ GET /pt/dashboard 200 in 201ms (next.js: 106ms, proxy.ts: 8ms, application-code: 87ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 115ms (next.js: 26ms, proxy.ts: 5ms, application-code: 83ms)
+ GET /pt/dashboard 200 in 109ms (next.js: 27ms, proxy.ts: 2ms, application-code: 80ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 102ms (next.js: 24ms, proxy.ts: 1798µs, application-code: 76ms)
+ GET /pt/dashboard 200 in 110ms (next.js: 23ms, proxy.ts: 4ms, application-code: 84ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 89ms (next.js: 22ms, proxy.ts: 1706µs, application-code: 66ms)
+ GET /pt/dashboard 200 in 87ms (next.js: 22ms, proxy.ts: 2ms, application-code: 63ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 104ms (next.js: 22ms, proxy.ts: 1675µs, application-code: 80ms)
+ GET /pt/dashboard 200 in 105ms (next.js: 27ms, proxy.ts: 3ms, application-code: 75ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 100ms (next.js: 22ms, proxy.ts: 1821µs, application-code: 76ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 24ms, proxy.ts: 2ms, application-code: 78ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 110ms (next.js: 21ms, proxy.ts: 2ms, application-code: 86ms)
+ GET /pt/dashboard 200 in 109ms (next.js: 23ms, proxy.ts: 1796µs, application-code: 84ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 110ms (next.js: 20ms, proxy.ts: 1956µs, application-code: 88ms)
+ GET /pt/dashboard 200 in 115ms (next.js: 24ms, proxy.ts: 2ms, application-code: 89ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 113ms (next.js: 29ms, proxy.ts: 1527µs, application-code: 83ms)
+ GET /pt/dashboard 200 in 107ms (next.js: 22ms, proxy.ts: 3ms, application-code: 83ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 107ms (next.js: 24ms, proxy.ts: 1537µs, application-code: 81ms)
+ GET /pt/dashboard 200 in 110ms (next.js: 27ms, proxy.ts: 3ms, application-code: 80ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 104ms (next.js: 24ms, proxy.ts: 1837µs, application-code: 78ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 22ms, proxy.ts: 2ms, application-code: 78ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 103ms (next.js: 20ms, proxy.ts: 2ms, application-code: 80ms)
+ GET /pt/dashboard 200 in 104ms (next.js: 26ms, proxy.ts: 2ms, application-code: 76ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 98ms (next.js: 20ms, proxy.ts: 1997µs, application-code: 76ms)
+ GET /pt/dashboard 200 in 100ms (next.js: 20ms, proxy.ts: 2ms, application-code: 77ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 103ms (next.js: 22ms, proxy.ts: 2ms, application-code: 79ms)
+ GET /pt/dashboard 200 in 101ms (next.js: 22ms, proxy.ts: 1721µs, application-code: 78ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 100ms (next.js: 21ms, proxy.ts: 1791µs, application-code: 77ms)
+ GET /pt/dashboard 200 in 99ms (next.js: 22ms, proxy.ts: 2ms, application-code: 76ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 100ms (next.js: 24ms, proxy.ts: 2ms, application-code: 75ms)
+ GET /pt/dashboard 200 in 102ms (next.js: 21ms, proxy.ts: 1996µs, application-code: 79ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 104ms (next.js: 20ms, proxy.ts: 1981µs, application-code: 83ms)
+ GET /pt/dashboard 200 in 113ms (next.js: 19ms, proxy.ts: 3ms, application-code: 91ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 113ms (next.js: 23ms, proxy.ts: 1369µs, application-code: 88ms)
+ GET /pt/dashboard 200 in 114ms (next.js: 28ms, proxy.ts: 4ms, application-code: 82ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 107ms (next.js: 25ms, proxy.ts: 2ms, application-code: 79ms)
+ GET /pt/dashboard 200 in 102ms (next.js: 27ms, proxy.ts: 3ms, application-code: 71ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 94ms (next.js: 21ms, proxy.ts: 1591µs, application-code: 71ms)
+ GET /pt/dashboard 200 in 92ms (next.js: 21ms, proxy.ts: 2ms, application-code: 69ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 100ms (next.js: 19ms, proxy.ts: 1911µs, application-code: 79ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 20ms, proxy.ts: 2ms, application-code: 81ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 102ms (next.js: 18ms, proxy.ts: 1891µs, application-code: 82ms)
+ GET /pt/dashboard 200 in 106ms (next.js: 22ms, proxy.ts: 1795µs, application-code: 83ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 105ms (next.js: 28ms, proxy.ts: 1994µs, application-code: 75ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 23ms, proxy.ts: 3ms, application-code: 77ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 98ms (next.js: 21ms, proxy.ts: 1593µs, application-code: 76ms)
+ GET /pt/dashboard 200 in 126ms (next.js: 22ms, proxy.ts: 2ms, application-code: 101ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 135ms (next.js: 20ms, proxy.ts: 1942µs, application-code: 112ms)
+ GET /pt/dashboard 200 in 147ms (next.js: 23ms, proxy.ts: 2ms, application-code: 122ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 146ms (next.js: 21ms, proxy.ts: 1684µs, application-code: 124ms)
+ GET /pt/dashboard 200 in 165ms (next.js: 52ms, proxy.ts: 2ms, application-code: 111ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 151ms (next.js: 37ms, proxy.ts: 5ms, application-code: 109ms)
+ GET /pt/dashboard 200 in 151ms (next.js: 32ms, proxy.ts: 3ms, application-code: 115ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 140ms (next.js: 26ms, proxy.ts: 1803µs, application-code: 112ms)
+ GET /pt/dashboard 200 in 138ms (next.js: 38ms, proxy.ts: 2ms, application-code: 98ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 127ms (next.js: 35ms, proxy.ts: 3ms, application-code: 90ms)
+ GET /pt/dashboard 200 in 116ms (next.js: 31ms, proxy.ts: 3ms, application-code: 81ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 106ms (next.js: 28ms, proxy.ts: 2ms, application-code: 76ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 23ms, proxy.ts: 3ms, application-code: 77ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 96ms (next.js: 24ms, proxy.ts: 1524µs, application-code: 70ms)
+ GET /pt/dashboard 200 in 104ms (next.js: 23ms, proxy.ts: 2ms, application-code: 78ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 100ms (next.js: 20ms, proxy.ts: 1467µs, application-code: 78ms)
+ GET /pt/dashboard 200 in 104ms (next.js: 20ms, proxy.ts: 3ms, application-code: 82ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 105ms (next.js: 25ms, proxy.ts: 1547µs, application-code: 78ms)
+ GET /pt/dashboard 200 in 102ms (next.js: 21ms, proxy.ts: 3ms, application-code: 79ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 101ms (next.js: 21ms, proxy.ts: 1834µs, application-code: 78ms)
+ GET /pt/dashboard 200 in 106ms (next.js: 23ms, proxy.ts: 4ms, application-code: 80ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 108ms (next.js: 23ms, proxy.ts: 1575µs, application-code: 84ms)
+ GET /pt/dashboard 200 in 113ms (next.js: 23ms, proxy.ts: 2ms, application-code: 88ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 130ms (next.js: 19ms, proxy.ts: 1951µs, application-code: 108ms)
+ GET /pt/dashboard 200 in 135ms (next.js: 26ms, proxy.ts: 3ms, application-code: 106ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 129ms (next.js: 27ms, proxy.ts: 2ms, application-code: 100ms)
+ GET /pt/dashboard 200 in 132ms (next.js: 26ms, proxy.ts: 4ms, application-code: 102ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 138ms (next.js: 41ms, proxy.ts: 2ms, application-code: 95ms)
+ GET /pt/dashboard 200 in 127ms (next.js: 27ms, proxy.ts: 5ms, application-code: 94ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 115ms (next.js: 20ms, proxy.ts: 2ms, application-code: 93ms)
+ GET /pt/dashboard 200 in 115ms (next.js: 29ms, proxy.ts: 1972µs, application-code: 85ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 95ms (next.js: 34ms, proxy.ts: 6ms, application-code: 55ms)
+ GET /pt/dashboard 200 in 63ms (next.js: 25ms, proxy.ts: 2ms, application-code: 36ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 39ms (next.js: 17ms, proxy.ts: 2ms, application-code: 20ms)
+ GET /admin 200 in 1842ms (next.js: 45ms, proxy.ts: 22ms, application-code: 1775ms)
+ GET /admin/categories 200 in 366ms (next.js: 271ms, proxy.ts: 4ms, application-code: 91ms)
+ POST /admin/categories 200 in 185ms (next.js: 5ms, proxy.ts: 4ms, application-code: 175ms)
+  └─ ƒ createCategoryAction({}) in 161ms src/app/admin/actions.ts
+ GET /admin/categories 200 in 115ms (next.js: 3ms, proxy.ts: 4ms, application-code: 108ms)
+ GET /admin 200 in 600ms (next.js: 4ms, proxy.ts: 4ms, application-code: 593ms)
+ GET /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 200 in 553ms (next.js: 11ms, proxy.ts: 4ms, application-code: 539ms)
+ GET /admin 200 in 94ms (next.js: 5ms, proxy.ts: 3ms, application-code: 86ms)
+ POST /admin/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f/edit 303 in 920ms (next.js: 9ms, proxy.ts: 3ms, application-code: 908ms)
+  └─ ƒ updatePackAction({}) in 803ms src/app/admin/actions.ts
+ GET /pt/dashboard 200 in 972ms (next.js: 9ms, proxy.ts: 10ms, application-code: 954ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 796ms (next.js: 30ms, proxy.ts: 6ms, application-code: 759ms)
+ GET /pt/dashboard 200 in 524ms (next.js: 9ms, proxy.ts: 8ms, application-code: 507ms)
+✓ Compiled in 20ms
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 887ms (next.js: 16ms, proxy.ts: 8ms, application-code: 864ms)
+ GET /pt/dashboard 200 in 1265ms (next.js: 75ms, proxy.ts: 24ms, application-code: 1166ms)
+✓ Compiled in 205ms
+✓ Compiled in 189ms
+ GET /admin 200 in 401ms (next.js: 193ms, proxy.ts: 56ms, application-code: 151ms)
+ GET /admin 200 in 156ms (next.js: 4ms, proxy.ts: 1267µs, application-code: 151ms)
+ GET /pt/dashboard 200 in 453ms (next.js: 279ms, proxy.ts: 56ms, application-code: 119ms)
+ GET /admin 200 in 66ms (next.js: 2ms, proxy.ts: 1289µs, application-code: 63ms)
+ GET /admin 200 in 98ms (next.js: 34ms, proxy.ts: 932µs, application-code: 63ms)
+ GET /pt/dashboard 200 in 109ms (next.js: 11ms, proxy.ts: 798µs, application-code: 97ms)
+ GET /admin 200 in 47ms (next.js: 1559µs, proxy.ts: 933µs, application-code: 45ms)
+ GET /pt/dashboard 200 in 66ms (next.js: 14ms, proxy.ts: 2ms, application-code: 49ms)
+ GET /admin 200 in 43ms (next.js: 6ms, proxy.ts: 9ms, application-code: 28ms)
+ GET /pt/dashboard 200 in 65ms (next.js: 2ms, proxy.ts: 1198µs, application-code: 62ms)
+ GET /pt/dashboard 200 in 90ms (next.js: 4ms, proxy.ts: 1850µs, application-code: 85ms)
+ GET /pt/dashboard 200 in 57ms (next.js: 12ms, proxy.ts: 6ms, application-code: 39ms)
+ GET /admin/login 200 in 433ms (next.js: 416ms, proxy.ts: 5ms, application-code: 12ms)
+ GET /admin/login 200 in 8ms (next.js: 1079µs, proxy.ts: 892µs, application-code: 6ms)
+✓ Compiled in 55ms
+ GET /admin/login 200 in 180ms (next.js: 75ms, proxy.ts: 4ms, application-code: 101ms)
+ GET /admin/login 200 in 159ms (next.js: 54ms, proxy.ts: 8ms, application-code: 98ms)
+ GET /pt/dashboard 200 in 257ms (next.js: 118ms, proxy.ts: 4ms, application-code: 136ms)
+ GET /admin/login 200 in 123ms (next.js: 4ms, proxy.ts: 3ms, application-code: 116ms)
+ GET /pt/dashboard 200 in 158ms (next.js: 28ms, proxy.ts: 17ms, application-code: 112ms)
+ GET /admin/login 200 in 115ms (next.js: 7ms, proxy.ts: 43ms, application-code: 66ms)
+ GET /admin/login 200 in 77ms (next.js: 3ms, proxy.ts: 2ms, application-code: 72ms)
+ GET /pt/dashboard 200 in 91ms (next.js: 31ms, proxy.ts: 1988µs, application-code: 57ms)
+ GET /admin/login 200 in 38ms (next.js: 4ms, proxy.ts: 3ms, application-code: 32ms)
+ GET /pt/dashboard 200 in 61ms (next.js: 14ms, proxy.ts: 3ms, application-code: 45ms)
+ GET /pt/dashboard 200 in 52ms (next.js: 4ms, proxy.ts: 2ms, application-code: 46ms)
+ GET /pt/dashboard 200 in 28ms (next.js: 3ms, proxy.ts: 2ms, application-code: 23ms)
+✓ Compiled in 16ms
+✓ Compiled in 30ms
+✓ Compiled in 39ms
+✓ Compiled in 92ms
+ GET /pt/dashboard 200 in 1665ms (next.js: 97ms, proxy.ts: 71ms, application-code: 1498ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+✓ Compiled in 55ms
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 1345ms (next.js: 38ms, proxy.ts: 9ms, application-code: 1298ms)
+✓ Compiled in 46ms
+ GET /pt/dashboard 200 in 796ms (next.js: 16ms, proxy.ts: 7ms, application-code: 774ms)
+✓ Compiled in 19ms
+ GET /pt/dashboard 200 in 582ms (next.js: 9ms, proxy.ts: 3ms, application-code: 571ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+✓ Compiled in 13ms
+✓ Compiled in 29ms
+✓ Compiled in 61ms
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 1289ms (next.js: 8ms, proxy.ts: 8ms, application-code: 1273ms)
+ GET /pt/dashboard 200 in 528ms (next.js: 12ms, proxy.ts: 4ms, application-code: 512ms)
+✓ Compiled in 122ms
+✓ Compiled in 13ms
+✓ Compiled in 38ms
+ GET /admin/login 200 in 456ms (next.js: 13ms, proxy.ts: 5ms, application-code: 438ms)
+ GET /pt/dashboard 200 in 488ms (next.js: 344ms, proxy.ts: 4ms, application-code: 140ms)
+ GET /admin/login 200 in 107ms (next.js: 20ms, proxy.ts: 26ms, application-code: 60ms)
+ GET /pt/dashboard 200 in 112ms (next.js: 28ms, proxy.ts: 1158µs, application-code: 83ms)
+ GET /pt/dashboard 200 in 119ms (next.js: 41ms, proxy.ts: 1504µs, application-code: 76ms)
+ GET /pt/dashboard 200 in 118ms (next.js: 35ms, proxy.ts: 21ms, application-code: 62ms)
+ GET /pt/dashboard 200 in 90ms (next.js: 4ms, proxy.ts: 8ms, application-code: 78ms)
+ GET /admin/login 200 in 53ms (next.js: 4ms, proxy.ts: 3ms, application-code: 46ms)
+ GET /pt/dashboard 200 in 100ms (next.js: 18ms, proxy.ts: 26ms, application-code: 56ms)
+ GET /admin/login 200 in 49ms (next.js: 7ms, proxy.ts: 9ms, application-code: 33ms)
+ GET /admin/login 200 in 63ms (next.js: 3ms, proxy.ts: 3ms, application-code: 57ms)
+ GET /admin/login 200 in 49ms (next.js: 4ms, proxy.ts: 3ms, application-code: 42ms)
+✓ Compiled in 58ms
+ GET /admin/login 200 in 321ms (next.js: 99ms, proxy.ts: 19ms, application-code: 204ms)
+ GET /pt/dashboard 200 in 297ms (next.js: 126ms, proxy.ts: 10ms, application-code: 161ms)
+ GET /pt/dashboard 200 in 220ms (next.js: 91ms, proxy.ts: 3ms, application-code: 126ms)
+ GET /pt/dashboard 200 in 316ms (next.js: 82ms, proxy.ts: 96ms, application-code: 138ms)
+ GET /pt/dashboard 200 in 220ms (next.js: 114ms, proxy.ts: 4ms, application-code: 102ms)
+ GET /pt/dashboard 200 in 221ms (next.js: 134ms, proxy.ts: 3ms, application-code: 85ms)
+ GET /pt/dashboard 200 in 146ms (next.js: 10ms, proxy.ts: 5ms, application-code: 132ms)
+ GET /admin/login 200 in 109ms (next.js: 10ms, proxy.ts: 7ms, application-code: 92ms)
+ GET /pt/dashboard 200 in 138ms (next.js: 45ms, proxy.ts: 4ms, application-code: 89ms)
+ GET /admin/login 200 in 76ms (next.js: 26ms, proxy.ts: 4ms, application-code: 46ms)
+ GET /pt/dashboard 200 in 153ms (next.js: 57ms, proxy.ts: 7ms, application-code: 89ms)
+ GET /admin/login 200 in 70ms (next.js: 5ms, proxy.ts: 3ms, application-code: 63ms)
+ GET /admin/login 200 in 61ms (next.js: 6ms, proxy.ts: 2ms, application-code: 53ms)
+ GET /admin/login 200 in 42ms (next.js: 3ms, proxy.ts: 3ms, application-code: 36ms)
+ GET /admin/login 200 in 24ms (next.js: 1194µs, proxy.ts: 2ms, application-code: 21ms)
+ GET /admin/login 200 in 13ms (next.js: 1014µs, proxy.ts: 1002µs, application-code: 11ms)
+✓ Compiled in 15ms
+ GET /admin/login 200 in 112ms (next.js: 11ms, proxy.ts: 11ms, application-code: 90ms)
+ GET /pt/dashboard 200 in 103ms (next.js: 51ms, proxy.ts: 4ms, application-code: 49ms)
+✓ Compiled in 16ms
+ GET /pt/dashboard 200 in 1127ms (next.js: 5ms, proxy.ts: 38ms, application-code: 1085ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 166ms (next.js: 4ms, proxy.ts: 3ms, application-code: 159ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+✓ Compiled in 25ms
+✓ Compiled in 59ms
+ GET /admin/login 200 in 364ms (next.js: 89ms, proxy.ts: 44ms, application-code: 230ms)
+ GET /pt/dashboard 200 in 318ms (next.js: 130ms, proxy.ts: 1958µs, application-code: 187ms)
+ GET /pt/dashboard 200 in 316ms (next.js: 187ms, proxy.ts: 1470µs, application-code: 127ms)
+ GET /pt/dashboard 200 in 314ms (next.js: 240ms, proxy.ts: 1365µs, application-code: 73ms)
+ GET /pt/dashboard 200 in 205ms (next.js: 168ms, proxy.ts: 2ms, application-code: 35ms)
+ GET /pt/dashboard 200 in 203ms (next.js: 183ms, proxy.ts: 1471µs, application-code: 19ms)
+ GET /admin/login 200 in 93ms (next.js: 14ms, proxy.ts: 9ms, application-code: 71ms)
+ GET /admin/login 200 in 72ms (next.js: 30ms, proxy.ts: 4ms, application-code: 38ms)
+ GET /pt/dashboard 200 in 119ms (next.js: 43ms, proxy.ts: 7ms, application-code: 69ms)
+ GET /admin/login 200 in 94ms (next.js: 6ms, proxy.ts: 4ms, application-code: 84ms)
+ GET /admin/login 200 in 92ms (next.js: 7ms, proxy.ts: 3ms, application-code: 82ms)
+ GET /admin/login 200 in 61ms (next.js: 5ms, proxy.ts: 8ms, application-code: 48ms)
+ GET /admin/login 200 in 53ms (next.js: 6ms, proxy.ts: 3ms, application-code: 44ms)
+ GET /pt/dashboard 200 in 50ms (next.js: 16ms, proxy.ts: 3ms, application-code: 31ms)
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 1335ms (next.js: 45ms, proxy.ts: 14ms, application-code: 1276ms)
+ GET /pt/dashboard 200 in 480ms (next.js: 4ms, proxy.ts: 3ms, application-code: 473ms)
+ GET /admin/login 200 in 35ms (next.js: 6ms, proxy.ts: 8ms, application-code: 22ms)
+ GET /pt/dashboard 200 in 112ms (next.js: 47ms, proxy.ts: 7ms, application-code: 59ms)
+✓ Compiled in 15ms
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 632ms (next.js: 13ms, proxy.ts: 13ms, application-code: 607ms)
+ GET /pt/dashboard 200 in 528ms (next.js: 11ms, proxy.ts: 5ms, application-code: 513ms)
+✓ Compiled in 40ms
+✓ Compiled in 343ms
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+ GET /admin/login 200 in 382ms (next.js: 109ms, proxy.ts: 25ms, application-code: 248ms)
+ GET /pt/dashboard 200 in 363ms (next.js: 209ms, proxy.ts: 1643µs, application-code: 153ms)
+ GET /pt/dashboard 200 in 364ms (next.js: 288ms, proxy.ts: 2ms, application-code: 74ms)
+ GET /pt/dashboard 200 in 363ms (next.js: 305ms, proxy.ts: 1327µs, application-code: 57ms)
+ GET /pt/dashboard 200 in 212ms (next.js: 159ms, proxy.ts: 9ms, application-code: 44ms)
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+ GET /pt/dashboard 200 in 218ms (next.js: 167ms, proxy.ts: 6ms, application-code: 46ms)
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+ GET /pt/dashboard 200 in 109ms (next.js: 11ms, proxy.ts: 3ms, application-code: 94ms)
+ GET /admin/login 200 in 119ms (next.js: 8ms, proxy.ts: 17ms, application-code: 94ms)
+ GET /pt/dashboard 200 in 126ms (next.js: 40ms, proxy.ts: 2ms, application-code: 84ms)
+ GET /pt/dashboard 200 in 124ms (next.js: 59ms, proxy.ts: 1953µs, application-code: 63ms)
+ GET /admin/login 200 in 95ms (next.js: 22ms, proxy.ts: 3ms, application-code: 70ms)
+ GET /admin/login 200 in 160ms (next.js: 5ms, proxy.ts: 3ms, application-code: 153ms)
+[browser] Uncaught ReferenceError: getMemberEmail is not defined
+    at DashboardPage (about://React/Server/file:///Users/pablocastilho/Desktop/NOVA%20AREA%20DE%20MEMBROS%20PACKS/biblioteca-de-packs/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__0d2dkoo._.js?168:145:19)
+    at resolveErrorDev (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:1919:150)
+    at processFullStringRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2434:29)
+    at processFullBinaryRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2393:9)
+    at processBinaryChunk (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2502:221)
+    at progress (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2689:13)
+ GET /admin/login 200 in 204ms (next.js: 6ms, proxy.ts: 3ms, application-code: 195ms)
+ GET /admin/login 200 in 196ms (next.js: 13ms, proxy.ts: 7ms, application-code: 176ms)
+ GET /admin/login 200 in 101ms (next.js: 25ms, proxy.ts: 6ms, application-code: 71ms)
+ GET /admin/login 200 in 27ms (next.js: 4ms, proxy.ts: 3ms, application-code: 20ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 42ms
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+ GET /pt/dashboard 200 in 214ms (next.js: 25ms, proxy.ts: 18ms, application-code: 171ms)
+[browser] Uncaught ReferenceError: getMemberEmail is not defined
+    at DashboardPage (about://React/Server/file:///Users/pablocastilho/Desktop/NOVA%20AREA%20DE%20MEMBROS%20PACKS/biblioteca-de-packs/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__0d2dkoo._.js?0:145:19)
+    at resolveErrorDev (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:1919:105)
+    at processFullStringRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2434:29)
+    at processFullBinaryRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2393:9)
+    at processBinaryChunk (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2502:221)
+    at progress (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2689:13)
+[browser] Uncaught TypeError: Failed to execute 'measure' on 'Performance': '​DashboardPage' cannot have a negative time stamp.
+    at flushComponentPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2184:45)
+    at flushComponentPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2156:31)
+    at flushInitialRenderPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2346:74)
+⨯ ReferenceError: getMemberEmail is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:15:17)
+  13 |   const { lang } = await params
+  14 |   const dict: any = await getDictionary(lang as Locale, 'dashboard')
+> 15 |   const email = await getMemberEmail()
+     |                 ^
+  16 |
+  17 |   if (!email) {
+  18 |     redirect('/') {
+  digest: '2006032827'
+}
+ GET /pt/dashboard 200 in 70ms (next.js: 26ms, proxy.ts: 15ms, application-code: 28ms)
+[browser] Uncaught ReferenceError: getMemberEmail is not defined
+    at DashboardPage (about://React/Server/file:///Users/pablocastilho/Desktop/NOVA%20AREA%20DE%20MEMBROS%20PACKS/biblioteca-de-packs/.next/dev/server/chunks/ssr/%5Broot-of-the-server%5D__0d2dkoo._.js?0:145:19)
+    at resolveErrorDev (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:1919:105)
+    at processFullStringRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2434:29)
+    at processFullBinaryRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2393:9)
+    at processBinaryChunk (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2502:221)
+    at progress (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2689:13)
+[browser] Uncaught TypeError: Failed to execute 'measure' on 'Performance': '​DashboardPage' cannot have a negative time stamp.
+    at flushComponentPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2184:45)
+    at flushComponentPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2156:31)
+    at flushInitialRenderPerformance (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2346:74)
+✓ Compiled in 71ms
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /admin/login 200 in 185ms (next.js: 69ms, proxy.ts: 1637µs, application-code: 115ms)
+ GET /admin/login 200 in 125ms (next.js: 14ms, proxy.ts: 55ms, application-code: 56ms)
+ GET /admin/login 200 in 62ms (next.js: 5ms, proxy.ts: 3ms, application-code: 54ms)
+ GET /admin/login 200 in 52ms (next.js: 4ms, proxy.ts: 2ms, application-code: 46ms)
+ GET /admin/login 200 in 39ms (next.js: 6ms, proxy.ts: 4ms, application-code: 29ms)
+ GET /admin/login 200 in 36ms (next.js: 3ms, proxy.ts: 1767µs, application-code: 31ms)
+ GET /admin/login 200 in 35ms (next.js: 2ms, proxy.ts: 1574µs, application-code: 31ms)
+ GET /admin/login 200 in 19ms (next.js: 4ms, proxy.ts: 2ms, application-code: 12ms)
+ GET /pt/dashboard 200 in 742ms (next.js: 102ms, proxy.ts: 20ms, application-code: 620ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt 200 in 38ms (next.js: 21ms, proxy.ts: 1558µs, application-code: 15ms)
+ POST /pt/dashboard 303 in 68ms (next.js: 8ms, proxy.ts: 7ms, application-code: 53ms)
+  └─ ƒ logoutAction({}) in 3ms src/app/actions.ts
+ GET /pt/dashboard 200 in 262ms (next.js: 17ms, proxy.ts: 3ms, application-code: 242ms)
+ POST /pt 303 in 880ms (next.js: 7ms, proxy.ts: 5ms, application-code: 868ms)
+  └─ ƒ loginAction({}) in 595ms src/app/actions.ts
+✓ Compiled in 9ms
+ GET /admin/login 200 in 44ms (next.js: 3ms, proxy.ts: 3ms, application-code: 38ms)
+ GET /pt/dashboard 200 in 50ms (next.js: 16ms, proxy.ts: 1343µs, application-code: 33ms)
+✓ Compiled in 11ms
+✓ Compiled in 8ms
+✓ Compiled in 8ms
+✓ Compiled in 9ms
+✓ Compiled in 10ms
+✓ Compiled in 10ms
+ GET /admin/login 200 in 65ms (next.js: 4ms, proxy.ts: 2ms, application-code: 59ms)
+ GET /pt/dashboard 200 in 65ms (next.js: 29ms, proxy.ts: 1256µs, application-code: 35ms)
+✓ Compiled in 10ms
+✓ Compiled in 12ms
+⨯ ReferenceError: hasAnyPacks is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:118:12)
+  116 |
+  117 |       <div className="packs-categories-container">
+> 118 |           {hasAnyPacks && (
+      |            ^
+  119 |             <section className="packs-carousel-section" style={{ marginTop: '8px' }}>
+  120 |               <div className="packs-carousel">
+  121 |                 <div className="carousel-spacer">&nbsp;</div> {
+  digest: '608897366'
+}
+ GET /admin/login 200 in 66ms (next.js: 4ms, proxy.ts: 1811µs, application-code: 60ms)
+ GET /pt/dashboard 200 in 66ms (next.js: 22ms, proxy.ts: 1227µs, application-code: 43ms)
+[browser] Uncaught ReferenceError: hasAnyPacks is not defined
+    at DashboardPage (src/app/[lang]/dashboard/page.tsx:118:12)
+    at resolveErrorDev (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:1919:150)
+    at processFullStringRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2434:29)
+    at processFullBinaryRow (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2393:9)
+    at processBinaryChunk (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2502:221)
+    at progress (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_0p3wegg._.js:2689:13)
+  116 |
+  117 |       <div className="packs-categories-container">
+> 118 |           {hasAnyPacks && (
+      |            ^
+  119 |             <section className="packs-carousel-section" style={{ marginTop: '8px' }}>
+  120 |               <div className="packs-carousel">
+  121 |                 <div className="carousel-spacer">&nbsp;</div>
+ GET /admin/login 200 in 55ms (next.js: 5ms, proxy.ts: 5ms, application-code: 45ms)
+ GET /pt/dashboard 200 in 1002ms (next.js: 5ms, proxy.ts: 1975µs, application-code: 995ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin 200 in 712ms (next.js: 27ms, proxy.ts: 3ms, application-code: 682ms)
+ POST /admin/login 303 in 734ms (next.js: 4ms, proxy.ts: 4ms, application-code: 727ms)
+  └─ ƒ adminLoginAction({}) in 3ms src/app/admin/actions.ts
+ GET /admin/pack/new 200 in 524ms (next.js: 341ms, proxy.ts: 8ms, application-code: 175ms)
+ GET /admin 200 in 104ms (next.js: 6ms, proxy.ts: 4ms, application-code: 94ms)
+ POST /admin/pack/new 303 in 297ms (next.js: 4ms, proxy.ts: 4ms, application-code: 289ms)
+  └─ ƒ createPackAction({}) in 173ms src/app/admin/actions.ts
+ GET /admin/members/search 200 in 302ms (next.js: 158ms, proxy.ts: 4ms, application-code: 141ms)
+ GET /pt 200 in 20ms (next.js: 5ms, proxy.ts: 2ms, application-code: 13ms)
+ POST /pt/dashboard 303 in 44ms (next.js: 8ms, proxy.ts: 5ms, application-code: 31ms)
+  └─ ƒ logoutAction({}) in 3ms src/app/actions.ts
+ POST /admin/members/search 200 in 210ms (next.js: 4ms, proxy.ts: 4ms, application-code: 202ms)
+  └─ ƒ searchMemberByEmail("mar@mary.com") in 195ms src/app/admin/actions.ts
+ POST /admin/members/search 200 in 227ms (next.js: 3ms, proxy.ts: 4ms, application-code: 219ms)
+  └─ ƒ assignPackToMemberAction({}) in 210ms src/app/admin/actions.ts
+ POST /admin/members/search 200 in 98ms (next.js: 3ms, proxy.ts: 4ms, application-code: 92ms)
+  └─ ƒ searchMemberByEmail("mar@mary.com") in 86ms src/app/admin/actions.ts
+ GET /pt/dashboard 200 in 431ms (next.js: 2ms, proxy.ts: 1093µs, application-code: 427ms)
+ POST /pt 303 in 497ms (next.js: 8ms, proxy.ts: 4ms, application-code: 485ms)
+  └─ ƒ loginAction({}) in 46ms src/app/actions.ts
+ GET /pt/dashboard 200 in 163ms (next.js: 7ms, proxy.ts: 3ms, application-code: 153ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/pack/1ae3b8c4-23ef-4321-8e22-73e43dd3ae17 200 in 485ms (next.js: 25ms, proxy.ts: 3ms, application-code: 456ms)
+ GET /pt/dashboard 200 in 195ms (next.js: 8ms, proxy.ts: 4ms, application-code: 183ms)
+ GET /admin 200 in 512ms (next.js: 4ms, proxy.ts: 4ms, application-code: 504ms)
+ GET /admin/pack/1ae3b8c4-23ef-4321-8e22-73e43dd3ae17/edit 200 in 574ms (next.js: 28ms, proxy.ts: 4ms, application-code: 542ms)
+ GET /admin 200 in 255ms (next.js: 3ms, proxy.ts: 4ms, application-code: 248ms)
+ GET /admin/categories 200 in 120ms (next.js: 26ms, proxy.ts: 3ms, application-code: 91ms)
+ GET /admin 200 in 988ms (next.js: 3ms, proxy.ts: 4ms, application-code: 982ms)
+ GET /admin/members/search 200 in 121ms (next.js: 4ms, proxy.ts: 4ms, application-code: 113ms)
+ POST /admin/members/search 200 in 168ms (next.js: 4ms, proxy.ts: 4ms, application-code: 161ms)
+  └─ ƒ searchMemberByEmail("mar@mary.com") in 153ms src/app/admin/actions.ts
+ POST /admin/members/search 200 in 184ms (next.js: 3ms, proxy.ts: 5ms, application-code: 176ms)
+  └─ ƒ removePackFromMemberAction({}) in 168ms src/app/admin/actions.ts
+ GET /pt/dashboard 200 in 533ms (next.js: 7ms, proxy.ts: 3ms, application-code: 523ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin/members/search 200 in 58ms (next.js: 2ms, proxy.ts: 3ms, application-code: 53ms)
+ GET /pt/dashboard 200 in 60ms (next.js: 21ms, proxy.ts: 2ms, application-code: 37ms)
+ GET /pt/dashboard 200 in 831ms (next.js: 8ms, proxy.ts: 3ms, application-code: 819ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin/members/search 200 in 63ms (next.js: 6ms, proxy.ts: 3ms, application-code: 54ms)
+ GET /pt/dashboard 200 in 61ms (next.js: 36ms, proxy.ts: 3ms, application-code: 22ms)
+ GET /admin/members/search 200 in 61ms (next.js: 4ms, proxy.ts: 2ms, application-code: 55ms)
+ GET /pt/dashboard 200 in 62ms (next.js: 28ms, proxy.ts: 2ms, application-code: 31ms)
+ GET /admin/members/search 200 in 47ms (next.js: 4ms, proxy.ts: 1861µs, application-code: 41ms)
+ GET /pt/dashboard 200 in 48ms (next.js: 22ms, proxy.ts: 2ms, application-code: 24ms)
+ GET /admin/members/search 200 in 51ms (next.js: 3ms, proxy.ts: 3ms, application-code: 45ms)
+ GET /pt/dashboard 200 in 52ms (next.js: 21ms, proxy.ts: 4ms, application-code: 28ms)
+✓ Compiled in 12ms
+ GET /pt/dashboard 200 in 1186ms (next.js: 7ms, proxy.ts: 2ms, application-code: 1177ms)
+ GET /pt/dashboard 200 in 242ms (next.js: 7ms, proxy.ts: 4ms, application-code: 231ms)
+ GET /pt/dashboard 200 in 164ms (next.js: 8ms, proxy.ts: 4ms, application-code: 152ms)
+ GET /pt/dashboard 200 in 185ms (next.js: 8ms, proxy.ts: 3ms, application-code: 174ms)
+ GET /admin/members/search 200 in 27ms (next.js: 3ms, proxy.ts: 1945µs, application-code: 22ms)
+ GET /pt/dashboard 200 in 66ms (next.js: 9ms, proxy.ts: 21ms, application-code: 36ms)
+✓ Compiled in 12ms
+ GET /pt/dashboard 200 in 549ms (next.js: 6ms, proxy.ts: 2ms, application-code: 541ms)
+ GET /pt/dashboard 200 in 184ms (next.js: 8ms, proxy.ts: 4ms, application-code: 173ms)
+ GET /admin/members/search 200 in 64ms (next.js: 5ms, proxy.ts: 3ms, application-code: 56ms)
+ GET /pt/dashboard 200 in 62ms (next.js: 27ms, proxy.ts: 1044µs, application-code: 34ms)
+✓ Compiled in 10ms
+ GET /pt/dashboard 200 in 774ms (next.js: 10ms, proxy.ts: 3ms, application-code: 761ms)
+✓ Compiled in 13ms
+ GET /admin/members/search 200 in 63ms (next.js: 3ms, proxy.ts: 2ms, application-code: 58ms)
+ GET /pt/dashboard 200 in 62ms (next.js: 18ms, proxy.ts: 20ms, application-code: 24ms)
+ GET /admin/members/search 200 in 51ms (next.js: 3ms, proxy.ts: 1295µs, application-code: 47ms)
+ GET /pt/dashboard 200 in 51ms (next.js: 9ms, proxy.ts: 15ms, application-code: 27ms)
+✓ Compiled in 14ms
+ GET /pt/dashboard 200 in 549ms (next.js: 6ms, proxy.ts: 3ms, application-code: 540ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /admin/members/search 200 in 67ms (next.js: 8ms, proxy.ts: 6ms, application-code: 54ms)
+ GET /pt/dashboard 200 in 65ms (next.js: 34ms, proxy.ts: 6ms, application-code: 25ms)
+ GET /pt 200 in 64ms (next.js: 20ms, proxy.ts: 2ms, application-code: 42ms)
+⚠ Blocked cross-origin request to Next.js dev resource /_next/webpack-hmr from "192.168.0.101".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['192.168.0.101'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET /pt 200 in 26ms (next.js: 6ms, proxy.ts: 1380µs, application-code: 19ms)
+ POST /pt/dashboard 303 in 62ms (next.js: 12ms, proxy.ts: 6ms, application-code: 45ms)
+  └─ ƒ logoutAction({}) in 2ms src/app/actions.ts
+ GET /pt 200 in 43ms (next.js: 12ms, proxy.ts: 5ms, application-code: 26ms)
+ GET /pt 200 in 36ms (next.js: 5ms, proxy.ts: 1630µs, application-code: 29ms)
+ GET /pt 200 in 38ms (next.js: 8ms, proxy.ts: 5ms, application-code: 25ms)
+ GET /pt/dashboard 200 in 487ms (next.js: 9ms, proxy.ts: 3ms, application-code: 474ms)
+ POST /pt 303 in 1123ms (next.js: 14ms, proxy.ts: 8ms, application-code: 1101ms)
+  └─ ƒ loginAction({}) in 602ms src/app/actions.ts
+ GET /pt 200 in 39ms (next.js: 10ms, proxy.ts: 4ms, application-code: 26ms)
+ GET /pt 200 in 45ms (next.js: 12ms, proxy.ts: 5ms, application-code: 28ms)
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 608ms (next.js: 8ms, proxy.ts: 2ms, application-code: 598ms)
+ GET /pt/dashboard 200 in 215ms (next.js: 10ms, proxy.ts: 6ms, application-code: 198ms)
+ GET /pt 200 in 42ms (next.js: 14ms, proxy.ts: 4ms, application-code: 24ms)
+✓ Compiled in 20ms
+ GET /pt 200 in 45ms (next.js: 16ms, proxy.ts: 6ms, application-code: 24ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 39ms (next.js: 9ms, proxy.ts: 5ms, application-code: 25ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 40ms (next.js: 9ms, proxy.ts: 4ms, application-code: 26ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 59ms (next.js: 17ms, proxy.ts: 8ms, application-code: 34ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 49ms (next.js: 10ms, proxy.ts: 5ms, application-code: 34ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 49ms (next.js: 13ms, proxy.ts: 5ms, application-code: 31ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 46ms (next.js: 9ms, proxy.ts: 6ms, application-code: 31ms)
+ GET /pt/dashboard 200 in 783ms (next.js: 11ms, proxy.ts: 3ms, application-code: 768ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 272ms (next.js: 6ms, proxy.ts: 3ms, application-code: 262ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 157ms (next.js: 7ms, proxy.ts: 4ms, application-code: 147ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 153ms (next.js: 13ms, proxy.ts: 3ms, application-code: 137ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 158ms (next.js: 10ms, proxy.ts: 5ms, application-code: 143ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 146ms (next.js: 9ms, proxy.ts: 3ms, application-code: 133ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt/dashboard 200 in 176ms (next.js: 8ms, proxy.ts: 3ms, application-code: 165ms)
+[browser] Image with src "https://ozikfukrfnvccrzqyknj.supabase.co/storage/v1/object/public/pack-images/covers/1777403288391-sbw6m5jzu0k.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading (file:///Users/pablocastilho/Desktop/NOVA AREA DE MEMBROS PACKS/biblioteca-de-packs/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2431:13)
+ GET /pt?email=pabloccard%40gmail.com 200 in 45ms (next.js: 7ms, proxy.ts: 4ms, application-code: 34ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 44ms (next.js: 9ms, proxy.ts: 5ms, application-code: 30ms)
+ GET /pt?email=pabloccard%40gmail.com 200 in 42ms (next.js: 9ms, proxy.ts: 5ms, application-code: 29ms)
+ GET /pt/dashboard 200 in 60ms (next.js: 20ms, proxy.ts: 5ms, application-code: 35ms)
+ GET /pt 200 in 44ms (next.js: 8ms, proxy.ts: 2ms, application-code: 34ms)
+ GET /pt 200 in 24ms (next.js: 6ms, proxy.ts: 3ms, application-code: 16ms)
+ POST /pt/dashboard 303 in 50ms (next.js: 8ms, proxy.ts: 4ms, application-code: 37ms)
+  └─ ƒ logoutAction({}) in 3ms src/app/actions.ts
+ GET /pt/dashboard 200 in 7ms (next.js: 3ms, proxy.ts: 1580µs, application-code: 3ms)
+ GET /pt/dashboard 200 in 313ms (next.js: 8ms, proxy.ts: 3ms, application-code: 302ms)
+ POST /pt 303 in 1043ms (next.js: 7ms, proxy.ts: 3ms, application-code: 1032ms)
+  └─ ƒ loginAction({}) in 709ms src/app/actions.ts
+ GET /pt/dashboard 200 in 319ms (next.js: 2ms, proxy.ts: 2ms, application-code: 314ms)
+ GET /pt 200 in 26ms (next.js: 6ms, proxy.ts: 2ms, application-code: 17ms)
+ POST /pt/dashboard 303 in 54ms (next.js: 10ms, proxy.ts: 8ms, application-code: 36ms)
+  └─ ƒ logoutAction({}) in 3ms src/app/actions.ts
+ GET /pt/dashboard 200 in 6ms (next.js: 1874µs, proxy.ts: 1635µs, application-code: 2ms)
+ GET /pt/dashboard 200 in 127ms (next.js: 3ms, proxy.ts: 1190µs, application-code: 123ms)
+ POST /pt 303 in 197ms (next.js: 8ms, proxy.ts: 4ms, application-code: 186ms)
+  └─ ƒ loginAction({}) in 52ms src/app/actions.ts
+ GET /pt/dashboard 200 in 118ms (next.js: 1625µs, proxy.ts: 1271µs, application-code: 115ms)
+ GET /pt 200 in 50ms (next.js: 9ms, proxy.ts: 7ms, application-code: 35ms)
+ GET /pt 200 in 48ms (next.js: 10ms, proxy.ts: 8ms, application-code: 31ms)
+ GET /pt 200 in 48ms (next.js: 10ms, proxy.ts: 5ms, application-code: 33ms)
+ GET /pt 200 in 46ms (next.js: 9ms, proxy.ts: 5ms, application-code: 32ms)
+ GET /pt/pack/ac40fe96-5642-4c9d-a07a-5d3c297b610f 200 in 882ms (next.js: 11ms, proxy.ts: 4ms, application-code: 868ms)
+ GET /pt 200 in 47ms (next.js: 10ms, proxy.ts: 5ms, application-code: 32ms)
+ GET /pt 200 in 50ms (next.js: 14ms, proxy.ts: 3ms, application-code: 33ms)
+ GET /pt/dashboard 200 in 735ms (next.js: 7ms, proxy.ts: 4ms, application-code: 724ms)
+ GET /pt 200 in 22ms (next.js: 5ms, proxy.ts: 3ms, application-code: 14ms)
+ POST /pt/dashboard 303 in 52ms (next.js: 10ms, proxy.ts: 4ms, application-code: 38ms)
+  └─ ƒ logoutAction({}) in 3ms src/app/actions.ts
+ GET /pt 200 in 46ms (next.js: 9ms, proxy.ts: 4ms, application-code: 32ms)
+ GET /pt 200 in 48ms (next.js: 10ms, proxy.ts: 5ms, application-code: 34ms)
+[?25h

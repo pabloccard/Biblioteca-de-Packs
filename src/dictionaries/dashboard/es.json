@@ -1,0 +1,9 @@
+{
+  "greeting": "¡Hola, {name}!",
+  "visitor": "Visitante",
+  "packsUnlocked": "Tienes {count} pack desbloqueado",
+  "packsUnlockedPlural": "Tienes {count} packs desbloqueados",
+  "noPacksUnlocked": "Ningún pack desbloqueado todavía.",
+  "noPacksAvailable": "Ningún pack disponible en este momento.",
+  "comeBackSoon": "¡Vuelve pronto para novedades!"
+}

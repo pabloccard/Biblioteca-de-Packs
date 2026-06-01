@@ -1,0 +1,81 @@
+/* ===================== */
+/* WHATSAPP FLOAT BUTTON */
+/* ===================== */
+
+.wpp-float {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  height: 46px;
+  width: 46px;
+  border-radius: 50px;
+  background: rgba(18, 18, 20, 0.4);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  transition: width 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.wpp-float:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-color: rgba(37, 211, 102, 0.25);
+}
+
+.wpp-float:active {
+  transform: scale(0.97);
+}
+
+.wpp-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.wpp-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  opacity: 0;
+  padding-right: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Expanded */
+.wpp-float.wpp-expanded {
+  width: 210px;
+}
+
+.wpp-float.wpp-expanded .wpp-text {
+  opacity: 1;
+  padding-right: 18px;
+  transition: opacity 0.4s ease 0.15s;
+}
+
+/* ===================== */
+/* MOBILE ACTION ISLAND  */
+/* ===================== */
+
+.mobile-action-island {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wpp-float {
+    right: 24px;
+    bottom: 24px;
+  }
+}

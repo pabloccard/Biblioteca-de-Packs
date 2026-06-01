@@ -1,0 +1,15 @@
+{
+  "title": "Acesse seus <span>packs</span>",
+  "subtitle": "Entre com o email utilizado<br/>no momento da compra",
+  "emailLabel": "E-mail",
+  "emailPlaceholder": "Seu e-mail de compra",
+  "submit": "Continuar",
+  "loading": "Verificando...",
+  "helpText": "Precisa de ajuda? <a href=\"https://wa.me/5564993237320\" target=\"_blank\">Falar com suporte &gt;</a>",
+  "footer": "© 2026 Pablo Castilho<br/>Todos os direitos reservados.",
+  "errors": {
+    "invalid_email": "Por favor, digite um e-mail válido.",
+    "member_not_found": "Membro não encontrado com esse e-mail.",
+    "default": "Ocorreu um erro ao fazer login. Tente novamente."
+  }
+}

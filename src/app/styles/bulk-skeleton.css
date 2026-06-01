@@ -1,0 +1,155 @@
+/* Live progress section */
+.bulk-live-section {
+  margin-top: var(--space-xl);
+}
+
+.bulk-progress-bar-container {
+  margin-bottom: var(--space-lg);
+}
+
+.bulk-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.bulk-progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.bulk-progress-fill {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+/* Live log terminal */
+.bulk-log {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: var(--space-lg);
+}
+
+.bulk-log-header {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.bulk-log-body {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: 'Inter', monospace;
+  font-size: 0.8rem;
+}
+
+.bulk-log-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.bulk-log-entry:last-of-type {
+  animation: logFlash 0.5s ease;
+}
+
+@keyframes logFlash {
+  0% {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
+.bulk-log-index {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  min-width: 28px;
+}
+
+.bulk-log-indicator {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.bulk-log-email {
+  color: var(--text-primary);
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.bulk-log-msg {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.bulk-log-created {}
+
+.bulk-log-existing {}
+
+.bulk-log-error .bulk-log-email {
+  color: var(--error);
+}
+
+/* ======================== */
+/* SKELETON LOADING         */
+/* ======================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+.skeleton-title {
+  height: 28px;
+  border-radius: 8px;
+}
+
+.skeleton-text {
+  height: 16px;
+  border-radius: 6px;
+}
+
+.skeleton-card {
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-xl);
+}
+
