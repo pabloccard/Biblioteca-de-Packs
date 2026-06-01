@@ -11,5 +11,9 @@
     "invalid_email": "Por favor, digite um e-mail válido.",
     "member_not_found": "Membro não encontrado com esse e-mail.",
     "default": "Ocorreu um erro ao fazer login. Tente novamente."
+  },
+  "updateNotice": {
+    "title": "Aviso de Atualização ⚠️",
+    "message": "Nossa plataforma está passando por melhorias pelas próximas <strong>36 horas</strong>. Se você enfrentar alguma instabilidade no login ou não encontrar o seu pack, fique tranquilo, é temporário. Agradecemos a compreensão!"
   }
 }

@@ -22,6 +22,34 @@ export default async function LoginPage({ params }: { params: Promise<{ lang: st
           </svg>
         </div>
 
+        {dict.updateNotice && (
+          <div style={{
+            background: 'rgba(234, 179, 8, 0.1)',
+            border: '1px solid rgba(234, 179, 8, 0.2)',
+            borderRadius: '12px',
+            padding: '16px',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            <h3 style={{
+              color: '#eab308',
+              margin: '0 0 8px 0',
+              fontSize: '0.95rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              {dict.updateNotice.title}
+            </h3>
+            <p style={{
+              color: 'rgba(255, 255, 255, 0.8)',
+              margin: 0,
+              fontSize: '0.85rem',
+              lineHeight: '1.5'
+            }} dangerouslySetInnerHTML={{ __html: dict.updateNotice.message }} />
+          </div>
+        )}
+
         <h1 className="login-title" dangerouslySetInnerHTML={{ __html: dict.title }} />
         <p className="login-subtitle" dangerouslySetInnerHTML={{ __html: dict.subtitle }} />
 

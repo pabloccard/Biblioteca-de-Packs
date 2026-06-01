@@ -48,7 +48,7 @@ export default async function CampaignDetailPage({ params }: CampaignDetailProps
             <span className="mkt-campaign-badge" style={{ background: `${s.color}20`, color: s.color }}>{s.label}</span>
           </div>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-            Criada em {new Date(campaign.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+            Criada em {new Date(campaign.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}
           </p>
         </header>
 
@@ -117,14 +117,14 @@ export default async function CampaignDetailPage({ params }: CampaignDetailProps
                       <td><span style={{ color: sendStatus.color, fontSize: '0.85rem' }}>{sendStatus.label}</span></td>
                       <td>
                         {send.opened ? (
-                          <span style={{ color: '#3b82f6', fontSize: '0.85rem' }}>👁️ {send.opened_at ? new Date(send.opened_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'Sim'}</span>
+                          <span style={{ color: '#3b82f6', fontSize: '0.85rem' }}>👁️ {send.opened_at ? new Date(send.opened_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }) : 'Sim'}</span>
                         ) : (
                           <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>—</span>
                         )}
                       </td>
                       <td>
                         {send.clicked ? (
-                          <span style={{ color: '#a78bfa', fontSize: '0.85rem' }}>🔗 {send.clicked_at ? new Date(send.clicked_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'Sim'}</span>
+                          <span style={{ color: '#a78bfa', fontSize: '0.85rem' }}>🔗 {send.clicked_at ? new Date(send.clicked_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }) : 'Sim'}</span>
                         ) : (
                           <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>—</span>
                         )}
