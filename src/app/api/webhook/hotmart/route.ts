@@ -155,8 +155,8 @@ export async function POST(request: Request) {
           pt: {
             subject: `Versão para Stories Liberada!`,
             greeting: buyerName ? `Olá, ${buyerName}!` : 'Olá!',
-            title: 'Conteúdo extra desbloqueado!',
-            body: `Os arquivos das artes na versão para stories do pack <strong>"${parentPackName}"</strong> foram liberados com sucesso! Acesse sua biblioteca e confira na aba de arquivos.`,
+            title: 'Conteúdo extra Liberado!',
+            body: `As artes para stories do pack para <strong>${parentPackName}</strong> foram liberadas com sucesso! Acesse sua biblioteca e confira na aba de arquivos.`,
             btn: 'Acessar →',
             fallback: 'Se o botão não funcionar, copie e cole o link no navegador:',
             footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
@@ -175,10 +175,10 @@ export async function POST(request: Request) {
         // E-mail para pack PRINCIPAL
         emailContent = {
           pt: {
-            subject: `Pack "${pack.name}" Liberado!`,
+            subject: `Pack para ${pack.name} Liberado!`,
             greeting: buyerName ? `Olá, ${buyerName}!` : 'Olá!',
             title: 'Seu pack foi liberado!',
-            body: `O pack de artes para <strong>"${pack.name}"</strong> já está disponível na sua biblioteca. Para acessar, basta clicar no botão abaixo e inserir o e-mail utilizado no momento da compra.`,
+            body: `O pack de artes para <strong>${pack.name}</strong> já está disponível na sua biblioteca. Para acessar, basta clicar no botão abaixo e inserir o e-mail utilizado no momento da compra.`,
             btn: 'Acessar →',
             fallback: 'Se o botão não funcionar, copie e cole o link no navegador:',
             footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
