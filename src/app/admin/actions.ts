@@ -82,9 +82,9 @@ export async function createPackAction(formData: FormData) {
     version: (formData.get('version') as string) || '1.0',
   }
 
-  // Capa: usar capa.webp local da pasta
-  if (artsFolder && hasLocalCover(artsFolder)) {
-    packData.cover_image_url = `/${artsFolder}/capa.webp`
+  // Capa: usar card.webp local da pasta (apenas se cover_image_url não foi preenchida com URL externa)
+  if (artsFolder && !packData.cover_image_url && hasLocalCover(artsFolder)) {
+    packData.cover_image_url = `/${artsFolder}/card.webp`
   }
 
   const { data: pack, error } = await supabase.from('packs').insert(packData).select('id').single()
@@ -186,9 +186,9 @@ export async function updatePackAction(formData: FormData) {
     updates.section_order = JSON.parse(sectionOrderRaw)
   }
 
-  // Capa: usar capa.webp da pasta
-  if (artsFolder && hasLocalCover(artsFolder)) {
-    updates.cover_image_url = `/${artsFolder}/capa.webp`
+  // Capa: usar card.webp da pasta, a menos que cover_image_url já esteja na string
+  if (artsFolder && !updates.cover_image_url && hasLocalCover(artsFolder)) {
+    updates.cover_image_url = `/${artsFolder}/card.webp`
   }
 
   const { error } = await supabase.from('packs').update(updates).eq('id', packId)

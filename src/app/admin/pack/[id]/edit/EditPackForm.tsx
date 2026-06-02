@@ -512,9 +512,9 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                         {scanLoading ? 'Escaneando...' : '🔍 Escanear'}
                       </button>
                     </div>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>Caminho relativo a <code>public/</code>. As imagens devem ser: <code>capa.webp</code>, <code>1.webp</code>, <code>2.webp</code>, etc. Se preenchido, a capa será <code>capa.webp</code> da pasta.</p>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>Caminho relativo a <code>public/</code>. As imagens devem ser: <code>card.webp</code> (card quadrado), <code>cover.webp</code> (capa horizontal 16:9), <code>1.webp</code>, <code>2.webp</code>, etc. Se preenchido, a capa do card será <code>card.webp</code> da pasta e a capa 16:9 será <code>cover.webp</code>.</p>
                     {scanError && <p style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '4px' }}>{scanError}</p>}
-                    {hasCover && <p style={{ fontSize: '0.8rem', color: '#4ade80', marginTop: '4px' }}>✅ Capa encontrada (capa.webp)</p>}
+                    {hasCover && <p style={{ fontSize: '0.8rem', color: '#4ade80', margin: '4px 0 0 0' }}>✅ Imagem do card encontrada (card.webp)</p>}
                     {localArts.length > 0 && <p style={{ fontSize: '0.8rem', color: '#4ade80', marginTop: '2px' }}>✅ {localArts.length} arte(s) encontrada(s)</p>}
                   </div>
                 </>

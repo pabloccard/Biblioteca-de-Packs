@@ -50,6 +50,6 @@ export function getLocalArtCount(artsFolder: string | null): number {
  */
 export function hasLocalCover(artsFolder: string | null): boolean {
   if (!artsFolder) return false
-  const capaPath = path.join(process.cwd(), 'public', artsFolder, 'capa.webp')
+  const capaPath = path.join(process.cwd(), 'public', artsFolder, 'card.webp')
   return fs.existsSync(capaPath)
 }

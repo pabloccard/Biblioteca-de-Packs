@@ -21,6 +21,7 @@ interface Pack {
   name: string
   version: string
   cover_image_url?: string | null
+  arts_folder?: string | null
 }
 
 interface PackLink {
@@ -222,7 +223,9 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
       {/* Pack Page Header Hero (Edge to Edge) */}
       <header 
         className="pack-page-header-edge" 
-        style={pack.cover_image_url ? { backgroundImage: `url(${pack.cover_image_url})` } : {}}
+        style={(pack.arts_folder || pack.cover_image_url) ? { 
+          backgroundImage: `url(${pack.arts_folder ? `/${pack.arts_folder}/cover.webp` : pack.cover_image_url})` 
+        } : {}}
       >
         <div className="pack-header-overlay" />
         

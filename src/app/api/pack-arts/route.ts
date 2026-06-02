@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     for (const file of files) {
       const lower = file.toLowerCase()
-      if (lower === 'capa.webp') {
+      if (lower === 'card.webp' || lower === 'cover.webp') {
         hasCover = true
         continue
       }
