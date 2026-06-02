@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { loginAction } from '../../actions'
 
 interface Props {
@@ -11,16 +11,23 @@ interface Props {
 
 export default function LoginForm({ dict, lang }: Props) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem('last_login_email')
-    if (savedEmail) {
-      setEmail(savedEmail)
+    // Prioridade: email da URL > email salvo no localStorage
+    const urlEmail = searchParams.get('email')
+    if (urlEmail) {
+      setEmail(urlEmail)
+    } else {
+      const savedEmail = localStorage.getItem('last_login_email')
+      if (savedEmail) {
+        setEmail(savedEmail)
+      }
     }
-  }, [])
+  }, [searchParams])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault() // Impede 100% o recarregamento/GET nativo da página

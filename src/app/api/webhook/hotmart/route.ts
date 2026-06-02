@@ -144,7 +144,8 @@ export async function POST(request: Request) {
       console.log(`✅ Acesso liberado: ${email} → Pack "${pack.name}"${isChildPack ? ` (filho de "${parentPackName}")` : ''}`)
 
       // 6. Enviar e-mail de boas-vindas
-      const loginUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://seuprojeto.com'
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://seuprojeto.com'
+      const loginUrl = `${baseUrl}/${packLanguage}/login?email=${encodeURIComponent(email)}`
 
       let emailContent: Record<string, { subject: string; greeting: string; title: string; body: string; btn: string; fallback: string; footer: string }>
 
