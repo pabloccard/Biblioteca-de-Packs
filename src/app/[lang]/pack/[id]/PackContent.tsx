@@ -421,7 +421,11 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                           )}
                         </div>
                         <div className="accordion-title-text">
-                          <span>{lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
+                          <span>
+                            {(lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt)
+                              .replace(/^Story$/i, lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')
+                              .replace(/^Stories$/i, lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')}
+                          </span>
                           <span className="accordion-count">{subLinks.length} {subLinks.length === 1 ? 'link' : 'links'}</span>
                         </div>
                       </div>
