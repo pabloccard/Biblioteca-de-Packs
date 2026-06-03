@@ -508,7 +508,7 @@ const defaultTemplate = `<!DOCTYPE html>
     </div>
 
     <!-- Imagem de Capa (Sem cortes) -->
-    <img src="https://pablocastilho.com/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="https://www.pablocastilho.com.br/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Texto de Apoio -->
     <div style="padding:20px 20px 30px 20px; text-align:center;">
