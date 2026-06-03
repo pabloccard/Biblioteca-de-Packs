@@ -522,7 +522,7 @@ const defaultTemplate = `<!DOCTYPE html>
 
     <!-- Botão de Ação -->
     <div style="text-align:center; padding:0 20px 40px 20px;">
-      <a href="https://seulink.com" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#0052FF; background:linear-gradient(90deg, #0052FF 0%, #00B2FF 100%); color:#ffffff; font-size:18px; font-weight:700; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase;">GARANTIR PACK</a>
+      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#0052FF; background:linear-gradient(90deg, #0052FF 0%, #00B2FF 100%); color:#ffffff; font-size:18px; font-weight:700; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase;">GARANTIR PACK</a>
     </div>
 
     <!-- Rodapé: Unsubscribe e WhatsApp -->
