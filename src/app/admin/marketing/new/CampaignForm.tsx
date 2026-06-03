@@ -418,9 +418,22 @@ export default function CampaignForm({ packs }: CampaignFormProps) {
         </p>
 
         {/* Editor Tabs */}
-        <div className="mkt-editor-tabs">
-          <button type="button" className={`mkt-editor-tab ${activeTab === 'editor' ? 'active' : ''}`} onClick={() => setActiveTab('editor')}>Código HTML</button>
-          <button type="button" className={`mkt-editor-tab ${activeTab === 'preview' ? 'active' : ''}`} onClick={() => setActiveTab('preview')}>Preview</button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '-1px' }}>
+          <div className="mkt-editor-tabs" style={{ marginBottom: 0 }}>
+            <button type="button" className={`mkt-editor-tab ${activeTab === 'editor' ? 'active' : ''}`} onClick={() => setActiveTab('editor')}>Código HTML</button>
+            <button type="button" className={`mkt-editor-tab ${activeTab === 'preview' ? 'active' : ''}`} onClick={() => setActiveTab('preview')}>Preview</button>
+          </div>
+          <button 
+            type="button" 
+            onClick={() => {
+              if(window.confirm('Tem certeza que deseja resetar para o novo template padrão? Isso vai apagar suas edições.')) {
+                setHtmlContent(defaultTemplate)
+              }
+            }} 
+            style={{ fontSize: '0.8rem', color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', paddingBottom: '8px' }}
+          >
+            Resetar Template
+          </button>
         </div>
 
         {activeTab === 'editor' ? (
@@ -498,10 +511,12 @@ const defaultTemplate = `<!DOCTYPE html>
     <img src="https://pablocastilho.com/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Texto de Apoio -->
-    <div style="padding:20px 20px 30px 20px;">
-      <p style="color:#cccccc; font-size:16px; line-height:1.5; margin:0;">
-        Olá, {{nome}}! A espera acabou... Acabamos de lançar um novo pack para provedores de internet!<br><br>
-        Clique no botão abaixo e aproveite agora mesmo.
+    <div style="padding:20px 20px 30px 20px; text-align:center;">
+      <p style="color:#cccccc; font-size:16px; line-height:1.5; margin:0 auto; width:80%; max-width:400px;">
+        Olá, {{nome}}!<br><br>
+        Chegou a hora de renovar suas campanhas.<br><br>
+        Acabamos de lançar um novo pack repleto de artes inéditas para provedores de internet, pensado para economizar seu tempo e elevar o nível da sua comunicação.<br><br>
+        Clique no botão abaixo e garanta acesso agora mesmo.
       </p>
     </div>
 
