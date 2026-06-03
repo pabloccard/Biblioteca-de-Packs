@@ -475,89 +475,38 @@ const defaultTemplate = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   /* Fallback styles in case inline is ignored */
-  body { margin: 0; padding: 0; background-color: #050505; }
+  body { margin: 0; padding: 0; background-color: #030303; }
   
   /* Media queries for Mobile responsiveness */
   @media only screen and (max-width: 480px) {
     .mkt-banner-text { display: inline-block !important; margin-right: 4px !important; margin-bottom: 0 !important; font-size: 11px !important; }
     .mkt-banner-date { font-size: 11px !important; padding: 4px 8px !important; }
-    .mkt-main-title { font-size: 24px !important; }
     .mkt-btn { width: 100% !important; padding: 16px 20px !important; font-size: 16px !important; box-sizing: border-box !important; }
-    .mkt-benefits-text { font-size: 15px !important; }
   }
 </style>
 </head>
-<body style="margin:0; padding:0; background-color:#050505;">
-  <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#050505; color:#ffffff;">
+<body style="margin:0; padding:0; background-color:#030303;">
+  <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#030303; color:#ffffff;">
     
     <!-- Banner Topo Verde -->
     <div style="background-color:#00e676; padding:12px; text-align:center;">
       <span class="mkt-banner-text" style="color:#000000; font-size:14px; font-weight:800; letter-spacing:1px; vertical-align:middle; margin-right:8px;">PACK LANÇADO EM:</span>
-      <span class="mkt-banner-date" style="display:inline-block; background-color:#000000; color:#00e676; font-size:14px; font-weight:700; padding:4px 16px; border-radius:20px; vertical-align:middle;">01 - JUNHO - 2026</span>
+      <span class="mkt-banner-date" style="display:inline-block; background-color:#000000; color:#00e676; font-size:14px; font-weight:700; padding:4px 16px; border-radius:20px; vertical-align:middle;">03 - JUNHO - 2026</span>
     </div>
 
-    <!-- Area da Capa com Imagem de Fundo (Substitua a URL da imagem) -->
-    <div style="background-color:#111111; background-image:url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop'); background-size:cover; background-position:center; text-align:center;">
-      <!-- Overlay Escuro para dar leitura ao texto -->
-      <div style="background-color:rgba(0,0,0,0.7); padding:50px 20px;">
-        <h1 class="mkt-main-title" style="margin:0; font-size:28px; font-weight:800; line-height:1.2; color:#ffffff;">
-          Pack de Artes para<br>Provedores de<br>Internet Lançado!
-        </h1>
-        <p style="color:#cccccc; font-size:15px; margin-top:16px;">Olá, {{nome}}! A espera acabou.</p>
-      </div>
-    </div>
+    <!-- Imagem de Capa (Sem cortes) -->
+    <img src="https://pablocastilho.com/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
-    <!-- Lista de Benefícios -->
-    <div style="padding:40px 20px;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">40 artes profissionais</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">Artes para Copa do Mundo</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">Cores editáveis</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">Editável no Canva e Photoshop</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">Alta resolução 2160x2700</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">Vídeo aula ensinando como editar</td>
-        </tr>
-        <tr>
-          <td width="40" valign="top" style="padding-bottom:20px;">
-            <div style="color:#888888; font-size:18px; font-weight:bold; line-height:20px;">✓</div>
-          </td>
-          <td class="mkt-benefits-text" valign="middle" style="padding-bottom:20px; font-size:16px; color:#888888;">E muito mais!</td>
-        </tr>
-      </table>
+    <!-- Texto de Apoio -->
+    <div style="padding:20px 20px 30px 20px;">
+      <p style="color:#cccccc; font-size:16px; line-height:1.5; margin:0;">
+        Olá, {{nome}}! A espera acabou... Acabamos de lançar um novo pack para provedores de internet!<br><br>
+        Clique no botão abaixo e aproveite agora mesmo.
+      </p>
     </div>
 
     <!-- Botão de Ação -->
     <div style="text-align:center; padding:0 20px 40px 20px;">
-      <!-- Usamos o gradiente padrão de botões e fallback color sólido -->
       <a href="https://seulink.com" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#0052FF; background:linear-gradient(90deg, #0052FF 0%, #00B2FF 100%); color:#ffffff; font-size:18px; font-weight:700; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase;">GARANTIR PACK</a>
     </div>
 
