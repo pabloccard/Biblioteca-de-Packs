@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 
 // ===== FILTROS DE DESTINATÁRIOS =====
 interface FilterRules {
-  include_packs: string[] // Comprou ESTES packs (AND)
+  include_packs: string[] // Comprou PELO MENOS UM destes packs (OR)
   exclude_packs: string[] // NÃO comprou estes packs
 }
 
@@ -44,10 +44,10 @@ export async function getMarketingRecipients(filterRules: FilterRules) {
   return members.filter(member => {
     const memberPacks = purchaseMap.get(member.id) || new Set()
 
-    // Filtro de inclusão: membro DEVE ter TODOS estes packs
+    // Filtro de inclusão: membro DEVE ter PELO MENOS UM destes packs (OR)
     if (filterRules.include_packs.length > 0) {
-      const hasAll = filterRules.include_packs.every(packId => memberPacks.has(packId))
-      if (!hasAll) return false
+      const hasAny = filterRules.include_packs.some(packId => memberPacks.has(packId))
+      if (!hasAny) return false
     }
 
     // Filtro de exclusão: membro NÃO DEVE ter NENHUM destes packs
