@@ -532,7 +532,7 @@ const defaultTemplate = `<!DOCTYPE html>
         <a href="https://wa.me/5564993237320" data-no-track style="color:#888888; text-decoration:underline;">WhatsApp</a>
       </p>
       <p style="margin:0 0 8px 0; font-size:11px; color:#555555;">
-        &copy; 2026 Sua Empresa. Todos os direitos reservados.
+        &copy; 2026 Pablo Castilho. Todos os direitos reservados.
       </p>
       <p style="margin:0; font-size:11px; color:#555555;">
         <a href="{{unsubscribe_link}}" data-no-track style="color:#555555; text-decoration:underline;">Unsubscribe</a>

@@ -4,8 +4,8 @@ import { cookies } from 'next/headers'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_MARKETING_API_KEY)
-const BATCH_SIZE = 8
-const BATCH_DELAY_MS = 1200
+const BATCH_SIZE = 3
+const BATCH_DELAY_MS = 1500
 
 export async function POST(request: NextRequest) {
   // Verificar admin
