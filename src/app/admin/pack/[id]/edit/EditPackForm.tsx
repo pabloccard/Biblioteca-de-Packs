@@ -425,13 +425,12 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
               <div className="admin-art-card-info">
                 <div className="input-group" style={{ marginBottom: '8px' }}>
                   <label style={{ fontSize: '0.7rem' }}>{num}.webp</label>
-                  <input
-                    type="text"
+                  <textarea
                     className="input-field"
                     value={localArtCaptions[num] || ''}
                     onChange={e => setLocalArtCaptions(prev => ({ ...prev, [num]: e.target.value }))}
-                    placeholder="Legenda da arte..."
-                    style={{ padding: '6px 8px', fontSize: '0.85rem' }}
+                    placeholder="Legenda da arte... (permite quebras de linha)"
+                    style={{ padding: '6px 8px', fontSize: '0.85rem', minHeight: '60px', resize: 'vertical' }}
                   />
                 </div>
               </div>
