@@ -501,11 +501,7 @@ const defaultTemplate = `<!DOCTYPE html>
 <body style="margin:0; padding:0; background-color:#030303;">
   <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#030303; color:#ffffff;">
     
-    <!-- Banner Topo Verde -->
-    <div style="background-color:#00e676; padding:12px; text-align:center;">
-      <span class="mkt-banner-text" style="color:#000000; font-size:14px; font-weight:800; letter-spacing:1px; vertical-align:middle; margin-right:8px;">PACK LANÇADO EM:</span>
-      <span class="mkt-banner-date" style="display:inline-block; background-color:#000000; color:#00e676; font-size:14px; font-weight:700; padding:4px 16px; border-radius:20px; vertical-align:middle;">03 - JUNHO - 2026</span>
-    </div>
+
 
     <!-- Imagem de Capa (Sem cortes) -->
     <img src="https://www.pablocastilho.com.br/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
