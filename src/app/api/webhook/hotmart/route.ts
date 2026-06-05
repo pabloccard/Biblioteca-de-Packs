@@ -21,26 +21,46 @@ export async function POST(request: Request) {
     const productId = payload.product?.id?.toString() || payload.productId?.toString()
     const status = (payload.purchase?.status || payload.status)?.toUpperCase()
     const buyerName = payload.buyer?.name || payload.buyer?.first_name || ''
+    const event = body.event || 'UNKNOWN'
+
+    // Log detalhado para debug
+    console.log(`📥 Webhook recebido: event=${event} | productId=${productId} | email=${email} | status=${status} | buyer=${buyerName}`)
 
     if (!email) {
       return NextResponse.json({ error: 'Email não encontrado no payload' }, { status: 400 })
     }
 
-    // 3. Mapear hotmart_id → pack no banco
-    if (productId === '0') {
-      return NextResponse.json({ success: true, message: 'Teste ID 0 ignorado' })
+    // 3. Validar productId
+    if (!productId || productId === '0' || productId === 'undefined' || productId === 'null') {
+      console.warn(`⚠️ Webhook: productId inválido "${productId}" para email=${email}`)
+      return NextResponse.json({ success: true, message: `productId "${productId}" ignorado` })
     }
 
-    const { data: pack } = await supabaseAdmin
+    // Rejeitar productId que não é numérico (ex: "--", "-", "test", etc.)
+    if (!/^\d+$/.test(productId)) {
+      console.warn(`⚠️ Webhook: productId não-numérico "${productId}" para email=${email}`)
+      return NextResponse.json({ error: `productId "${productId}" inválido` }, { status: 400 })
+    }
+
+    // 4. Mapear hotmart_id → pack no banco
+    const { data: pack, error: packError } = await supabaseAdmin
       .from('packs')
-      .select('id, name, language, parent_pack_id')
+      .select('id, name, language, parent_pack_id, hotmart_id')
       .eq('hotmart_id', productId)
       .single()
 
-    if (!pack) {
-      console.warn(`⚠️ Webhook: Produto ${productId} não mapeado a nenhum pack`)
+    if (packError || !pack) {
+      console.warn(`⚠️ Webhook: Produto ${productId} não mapeado a nenhum pack (err: ${packError?.message || 'not found'})`)
       return NextResponse.json({ error: `Produto ${productId} não mapeado` }, { status: 400 })
     }
+
+    // Segurança extra: verificar se o hotmart_id do pack retornado realmente bate
+    if (pack.hotmart_id !== productId) {
+      console.error(`🚨 ALERTA: pack retornado tem hotmart_id="${pack.hotmart_id}" mas productId="${productId}" - BLOQUEANDO`)
+      return NextResponse.json({ error: 'Inconsistência de mapeamento detectada' }, { status: 500 })
+    }
+
+    console.log(`🔗 Webhook: productId=${productId} → pack_id=${pack.id} (${pack.name})`)
 
     // 4. Lógica de REMOÇÃO (reembolso, chargeback, etc.)
     const statusParaRemover = ['DISPUTE', 'REFUNDED', 'CHARGEBACK', 'CANCELLED', 'EXPIRED']
