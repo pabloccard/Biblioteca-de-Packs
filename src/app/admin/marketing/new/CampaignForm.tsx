@@ -502,8 +502,8 @@ const defaultTemplate = `<!DOCTYPE html>
   <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#020202; color:#ffffff;">
     
     <!-- 2 Imagens Sequenciais -->
-    <img src="http://localhost:3000/mail/01/hero.jpg" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
-    <img src="http://localhost:3000/mail/01/oferta.jpg" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="https://www.pablocastilho.com.br/mail/01/hero.jpg" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="https://www.pablocastilho.com.br/mail/01/oferta.jpg" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Botão de Ação -->
     <div style="text-align:center; padding:20px 20px 40px 20px;">
