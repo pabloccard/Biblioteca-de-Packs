@@ -508,7 +508,7 @@ const defaultTemplate = `<!DOCTYPE html>
 
     <!-- Botão de Ação -->
     <div style="text-align:center; padding:0 20px 40px 20px; margin-top:-90px; position:relative; z-index:10;">
-      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:16px 24px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:300px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
+      <a href="https://pay.hotmart.com/W106093316A?off=hvjcesjr&checkoutMode=10&offDiscount=CLIENTE" class="mkt-btn" style="display:inline-block; padding:16px 24px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:300px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
     </div>
 
     <!-- Rodapé: Unsubscribe e WhatsApp -->
