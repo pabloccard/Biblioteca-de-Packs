@@ -501,13 +501,12 @@ const defaultTemplate = `<!DOCTYPE html>
 <body style="margin:0; padding:0; background-color:#020202;">
   <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#020202; color:#ffffff;">
     
-    <!-- 3 Imagens Sequenciais -->
-    <img src="https://www.pablocastilho.com.br/mail/01/hero.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
-    <img src="https://www.pablocastilho.com.br/mail/01/color.webp" alt="Paleta de Cores" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
-    <img src="https://www.pablocastilho.com.br/mail/01/oferta.webp" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <!-- 2 Imagens Sequenciais -->
+    <img src="http://localhost:3000/mail/01/hero.jpg" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="http://localhost:3000/mail/01/oferta.jpg" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Botão de Ação -->
-    <div style="text-align:center; padding:0 20px 40px 20px; margin-top:-90px; position:relative; z-index:10;">
+    <div style="text-align:center; padding:20px 20px 40px 20px;">
       <a href="https://pay.hotmart.com/W106093316A?off=hvjcesjr&checkoutMode=10&offDiscount=CLIENTE" class="mkt-btn" style="display:inline-block; padding:16px 24px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:300px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
     </div>
 
