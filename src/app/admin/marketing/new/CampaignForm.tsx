@@ -507,12 +507,12 @@ const defaultTemplate = `<!DOCTYPE html>
     <img src="https://www.pablocastilho.com.br/mail/01/oferta.webp" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Botão de Ação -->
-    <div style="text-align:center; padding:0 20px 40px 20px; margin-top:-30px; position:relative; z-index:10;">
-      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
+    <div style="text-align:center; padding:0 20px 40px 20px; margin-top:-90px; position:relative; z-index:10;">
+      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:16px 24px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:300px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
     </div>
 
     <!-- Rodapé: Unsubscribe e WhatsApp -->
-    <div style="text-align:center; padding:20px 20px 60px 20px; border-top:1px solid #222222;">
+    <div style="text-align:center; padding:50px 20px 60px 20px; margin-top:50px; border-top:1px solid #222222;">
       <p style="margin:0 0 16px 0; font-size:13px; color:#888888;">
         Ficou com alguma dúvida? 
         <a href="https://wa.me/5564993237320" data-no-track style="color:#888888; text-decoration:underline;">WhatsApp</a>
