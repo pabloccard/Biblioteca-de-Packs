@@ -488,7 +488,7 @@ const defaultTemplate = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   /* Fallback styles in case inline is ignored */
-  body { margin: 0; padding: 0; background-color: #030303; }
+  body { margin: 0; padding: 0; background-color: #020202; }
   
   /* Media queries for Mobile responsiveness */
   @media only screen and (max-width: 480px) {
@@ -498,27 +498,17 @@ const defaultTemplate = `<!DOCTYPE html>
   }
 </style>
 </head>
-<body style="margin:0; padding:0; background-color:#030303;">
-  <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#030303; color:#ffffff;">
+<body style="margin:0; padding:0; background-color:#020202;">
+  <div style="max-width:600px; margin:0 auto; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#020202; color:#ffffff;">
     
-
-
-    <!-- Imagem de Capa (Sem cortes) -->
-    <img src="https://www.pablocastilho.com.br/cover-mail.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
-
-    <!-- Texto de Apoio -->
-    <div style="padding:20px 20px 30px 20px; text-align:center;">
-      <p style="color:#cccccc; font-size:16px; line-height:1.5; margin:0 auto; width:80%; max-width:400px;">
-        Olá, {{nome}}!<br><br>
-        Chegou a hora de renovar suas campanhas.<br><br>
-        Acabamos de lançar um novo pack repleto de artes inéditas para provedores de internet, pensado para economizar seu tempo e elevar o nível da sua comunicação.<br><br>
-        Clique no botão abaixo e garanta acesso agora mesmo.
-      </p>
-    </div>
+    <!-- 3 Imagens Sequenciais -->
+    <img src="https://www.pablocastilho.com.br/mail/01/hero.webp" alt="Lançamento" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="https://www.pablocastilho.com.br/mail/01/color.webp" alt="Paleta de Cores" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
+    <img src="https://www.pablocastilho.com.br/mail/01/oferta.webp" alt="Oferta Especial" style="display:block; width:100%; max-width:600px; height:auto; margin:0;" />
 
     <!-- Botão de Ação -->
-    <div style="text-align:center; padding:0 20px 40px 20px;">
-      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#0052FF; background:linear-gradient(90deg, #0052FF 0%, #00B2FF 100%); color:#ffffff; font-size:18px; font-weight:700; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase;">GARANTIR PACK</a>
+    <div style="text-align:center; padding:0 20px 40px 20px; margin-top:-30px; position:relative; z-index:10;">
+      <a href="https://pay.hotmart.com/W106093316A?checkoutMode=10" class="mkt-btn" style="display:inline-block; padding:18px 40px; background-color:#00FF6F; color:#000000; font-size:18px; font-weight:800; text-decoration:none; border-radius:8px; letter-spacing:1px; width:80%; max-width:400px; text-transform:uppercase; box-shadow: 0px 4px 15px rgba(0,255,111,0.3);">GARANTIR PACK</a>
     </div>
 
     <!-- Rodapé: Unsubscribe e WhatsApp -->
