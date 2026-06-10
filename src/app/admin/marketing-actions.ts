@@ -164,13 +164,17 @@ export async function sendTestEmailAction(formData: FormData) {
   // Substituir variáveis pendentes no HTML de teste (como unsubscribe)
   const mktUrl = process.env.NEXT_PUBLIC_MARKETING_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
   let finalHtml = htmlContent
-  finalHtml = finalHtml.replace(/\{\{nome\}\}/g, 'Usuário Teste')
-  finalHtml = finalHtml.replace(/\{\{email\}\}/g, testEmail)
-  finalHtml = finalHtml.replace(/\{\{unsubscribe_link\}\}/g, `${mktUrl}/unsubscribe?test=true`)
+  finalHtml = finalHtml.replace(/\{\{\s*nome\s*\}\}/gi, 'Usuário Teste')
+  finalHtml = finalHtml.replace(/\{\{\s*email\s*\}\}/gi, testEmail)
+  finalHtml = finalHtml.replace(/\{\{\s*unsubscribe_link\s*\}\}/gi, `${mktUrl}/unsubscribe?test=true`)
+
+  const finalSubject = subject.replace(/\{\{\s*nome\s*\}\}/gi, 'Usuário Teste')
+  const finalFromName = fromName.replace(/\{\{\s*nome\s*\}\}/gi, 'Usuário Teste')
+  const finalPreviewText = previewText.replace(/\{\{\s*nome\s*\}\}/gi, 'Usuário Teste')
 
   // Injetar preview text no HTML (texto invisível que clientes de email mostram na preview)
-  if (previewText) {
-    const previewHtml = `<div style="display:none;max-height:0px;overflow:hidden;">${previewText}</div>`
+  if (finalPreviewText) {
+    const previewHtml = `<div style="display:none;max-height:0px;overflow:hidden;">${finalPreviewText}</div>`
     // Tentar inserir após <body>
     if (finalHtml.includes('<body')) {
       finalHtml = finalHtml.replace(/(<body[^>]*>)/i, `$1${previewHtml}`)
@@ -194,9 +198,9 @@ export async function sendTestEmailAction(formData: FormData) {
 
   try {
     await resend.emails.send({
-      from: `${fromName} <${fromEmail}>`,
+      from: `${finalFromName} <${fromEmail}>`,
       to: testEmail,
-      subject: `[TESTE] ${subject}`,
+      subject: `[TESTE] ${finalSubject}`,
       html: finalHtml + '<div style="text-align:center;margin-top:32px;padding:12px;background:rgba(249,115,22,0.1);border-radius:8px;"><p style="color:#f97316;font-size:12px;margin:0;">⚠️ Este é um email de teste. O link de desinscrição e tracking não estão ativos.</p></div>',
     })
     return { success: true }
