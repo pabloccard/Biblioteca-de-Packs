@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
               .trim()
               .toLowerCase()
               .split(' ')
-              .map(word => {
+              .map((word: string) => {
                 if (!word) return ''
                 const prep = ['de', 'da', 'do', 'das', 'dos', 'e']
                 if (prep.includes(word)) return word
