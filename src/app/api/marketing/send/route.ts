@@ -100,13 +100,13 @@ export async function POST(request: NextRequest) {
 
           // Substituir variáveis no conteúdo
           let html = campaign.html_content
-          html = html.replace(/\{\{nome\}\}/gi, formattedName || '')
-          html = html.replace(/\{\{email\}\}/gi, send.email)
-          html = html.replace(/\{\{unsubscribe_link\}\}/gi, unsubscribeUrl)
+          html = html.replace(/\{\{\s*nome\s*\}\}/gi, formattedName || '')
+          html = html.replace(/\{\{\s*email\s*\}\}/gi, send.email)
+          html = html.replace(/\{\{\s*unsubscribe_link\s*\}\}/gi, unsubscribeUrl)
 
           // Injetar preview text
           if (campaign.preview_text) {
-            const previewTextProcessed = campaign.preview_text.replace(/\{\{nome\}\}/gi, formattedName || '')
+            const previewTextProcessed = campaign.preview_text.replace(/\{\{\s*nome\s*\}\}/gi, formattedName || '')
             const previewHtml = `<div style="display:none;max-height:0px;overflow:hidden;">${previewTextProcessed}</div>`
             if (html.includes('<body')) {
               html = html.replace(/(<body[^>]*>)/i, `$1${previewHtml}`)
@@ -131,8 +131,8 @@ export async function POST(request: NextRequest) {
           const fullHtml = html + unsubscribeFooter + trackingPixel
 
           // Processar from_name e subject para aceitarem a variável {{nome}}
-          const finalFromName = campaign.from_name.replace(/\{\{nome\}\}/gi, fallbackName)
-          const finalSubject = campaign.subject.replace(/\{\{nome\}\}/gi, fallbackName)
+          const finalFromName = campaign.from_name.replace(/\{\{\s*nome\s*\}\}/gi, fallbackName)
+          const finalSubject = campaign.subject.replace(/\{\{\s*nome\s*\}\}/gi, fallbackName)
           const toAddress = formattedName ? `Para ${formattedName} <${send.email}>` : send.email
 
           await resend.emails.send({
