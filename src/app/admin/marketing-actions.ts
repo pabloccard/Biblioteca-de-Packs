@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { supabaseAdmin } from '@/lib/supabase/admin'
 import { isAdminAuthenticated } from './actions'
 import { redirect } from 'next/navigation'
 
@@ -14,7 +14,7 @@ export async function getMarketingRecipients(filterRules: FilterRules) {
   const isAdmin = await isAdminAuthenticated()
   if (!isAdmin) return []
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin
 
   // Buscar todos os membros opt-in (usando paginação para passar do limite de 1000 do Supabase)
   let members: any[] = []
@@ -83,7 +83,7 @@ export async function createCampaignAction(formData: FormData) {
   const isAdmin = await isAdminAuthenticated()
   if (!isAdmin) return { error: 'Não autorizado' }
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin
 
   const campaignName = (formData.get('campaign_name') as string) || ''
   const fromName = (formData.get('from_name') as string) || 'Pablo Castilho'
@@ -233,7 +233,7 @@ export async function getCampaigns() {
   const isAdmin = await isAdminAuthenticated()
   if (!isAdmin) return []
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin
   const { data } = await supabase
     .from('email_campaigns')
     .select('*')
@@ -247,7 +247,7 @@ export async function getCampaignDetails(campaignId: string) {
   const isAdmin = await isAdminAuthenticated()
   if (!isAdmin) return null
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin
 
   const [campaignResult, sendsResult] = await Promise.all([
     supabase.from('email_campaigns').select('*').eq('id', campaignId).single(),
@@ -267,7 +267,7 @@ export async function getMarketingStats() {
   const isAdmin = await isAdminAuthenticated()
   if (!isAdmin) return null
 
-  const supabase = await createClient()
+  const supabase = supabaseAdmin
 
   const [membersResult, optOutResult, campaignsResult] = await Promise.all([
     supabase.from('members').select('id', { count: 'exact', head: true }),
