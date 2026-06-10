@@ -68,29 +68,46 @@ export async function POST(request: NextRequest) {
     await Promise.allSettled(
       batch.map(async (send) => {
         try {
-          // Construir HTML com tracking pixel (usando domínio de marketing)
+          // Formatar o nome do membro em Title Case
+          let formattedName = ''
+          if (send.member_name) {
+            formattedName = send.member_name
+              .trim()
+              .toLowerCase()
+              .split(' ')
+              .map(word => {
+                if (!word) return ''
+                const prep = ['de', 'da', 'do', 'das', 'dos', 'e']
+                if (prep.includes(word)) return word
+                return word.charAt(0).toUpperCase() + word.slice(1)
+              })
+              .join(' ')
+          }
+          const fallbackName = formattedName || 'Cliente'
+
+          // Construir HTML com tracking pixel
           const trackingPixel = `<img src="${mktUrl}/api/marketing/track/open?id=${send.id}" width="1" height="1" style="display:none;width:1px;height:1px;" alt="" />`
 
-          // Buscar token de unsubscribe do membro
+          // Buscar token de unsubscribe
           const { data: member } = await supabaseAdmin
             .from('members')
             .select('unsubscribe_token')
             .eq('id', send.member_id)
             .single()
 
-          // Link de unsubscribe usando o domínio de marketing
           const unsubscribeUrl = `${mktUrl}/unsubscribe?token=${member?.unsubscribe_token || ''}`
           const unsubscribeFooter = `<div style="text-align:center;margin-top:32px;padding-top:16px;border-top:1px solid #333;"><a href="${unsubscribeUrl}" data-no-track style="color:#888;font-size:12px;text-decoration:underline;">Não deseja mais receber nossos emails? Clique aqui para se desinscrever</a></div>`
 
           // Substituir variáveis no conteúdo
           let html = campaign.html_content
-          html = html.replace(/\{\{nome\}\}/g, send.member_name || '')
-          html = html.replace(/\{\{email\}\}/g, send.email)
-          html = html.replace(/\{\{unsubscribe_link\}\}/g, unsubscribeUrl)
+          html = html.replace(/\{\{nome\}\}/gi, formattedName || '')
+          html = html.replace(/\{\{email\}\}/gi, send.email)
+          html = html.replace(/\{\{unsubscribe_link\}\}/gi, unsubscribeUrl)
 
           // Injetar preview text
           if (campaign.preview_text) {
-            const previewHtml = `<div style="display:none;max-height:0px;overflow:hidden;">${campaign.preview_text}</div>`
+            const previewTextProcessed = campaign.preview_text.replace(/\{\{nome\}\}/gi, formattedName || '')
+            const previewHtml = `<div style="display:none;max-height:0px;overflow:hidden;">${previewTextProcessed}</div>`
             if (html.includes('<body')) {
               html = html.replace(/(<body[^>]*>)/i, `$1${previewHtml}`)
             } else {
@@ -98,8 +115,7 @@ export async function POST(request: NextRequest) {
             }
           }
 
-          // Interceptar TODAS as URLs externas para passarem pelo domínio de marketing.
-          // Se tiver data-no-track, adiciona &ignore=true para não somar estatísticas.
+          // Interceptar URLs
           html = html.replace(
             /(<a\s[^>]*?)href="(https?:\/\/[^"]+)"([^>]*?>)/g,
             (match: string, before: string, url: string, after: string) => {
@@ -112,31 +128,17 @@ export async function POST(request: NextRequest) {
             }
           )
 
-          // Montar email completo
           const fullHtml = html + unsubscribeFooter + trackingPixel
 
-          // Formatar o destinatário como "Para Nome Completo <email>" se tiver nome
-          let formattedName = ''
-          if (send.member_name) {
-            formattedName = send.member_name
-              .trim()
-              .toLowerCase()
-              .split(' ')
-              .map(word => {
-                if (!word) return ''
-                // Preposições comuns que devem ficar em minúsculas
-                const prep = ['de', 'da', 'do', 'das', 'dos', 'e']
-                if (prep.includes(word)) return word
-                return word.charAt(0).toUpperCase() + word.slice(1)
-              })
-              .join(' ')
-          }
+          // Processar from_name e subject para aceitarem a variável {{nome}}
+          const finalFromName = campaign.from_name.replace(/\{\{nome\}\}/gi, fallbackName)
+          const finalSubject = campaign.subject.replace(/\{\{nome\}\}/gi, fallbackName)
           const toAddress = formattedName ? `Para ${formattedName} <${send.email}>` : send.email
 
           await resend.emails.send({
-            from: `${campaign.from_name} <${campaign.from_email}>`,
+            from: `${finalFromName} <${campaign.from_email}>`,
             to: toAddress,
-            subject: campaign.subject,
+            subject: finalSubject,
             html: fullHtml,
           })
 
