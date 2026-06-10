@@ -16,20 +16,38 @@ export async function getMarketingRecipients(filterRules: FilterRules) {
 
   const supabase = await createClient()
 
-  // Buscar todos os membros opt-in
-  const { data: members } = await supabase
-    .from('members')
-    .select('id, email, name')
-    .eq('marketing_opt_out', false)
+  // Buscar todos os membros opt-in (usando paginação para passar do limite de 1000 do Supabase)
+  let members: any[] = []
+  let page = 0
+  while (true) {
+    const { data } = await supabase
+      .from('members')
+      .select('id, email, name')
+      .eq('marketing_opt_out', false)
+      .range(page * 1000, (page + 1) * 1000 - 1)
+    
+    if (!data || data.length === 0) break
+    members = members.concat(data)
+    if (data.length < 1000) break
+    page++
+  }
 
-  if (!members || members.length === 0) return []
+  if (members.length === 0) return []
 
-  // Buscar todas as compras
-  const { data: allPurchases } = await supabase
-    .from('member_purchases')
-    .select('member_id, pack_id')
-
-  const purchases = allPurchases || []
+  // Buscar todas as compras (com paginação)
+  let purchases: any[] = []
+  page = 0
+  while (true) {
+    const { data } = await supabase
+      .from('member_purchases')
+      .select('member_id, pack_id')
+      .range(page * 1000, (page + 1) * 1000 - 1)
+      
+    if (!data || data.length === 0) break
+    purchases = purchases.concat(data)
+    if (data.length < 1000) break
+    page++
+  }
 
   // Criar mapa de compras por membro
   const purchaseMap = new Map<string, Set<string>>()
