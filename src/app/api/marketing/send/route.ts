@@ -115,9 +115,27 @@ export async function POST(request: NextRequest) {
           // Montar email completo
           const fullHtml = html + unsubscribeFooter + trackingPixel
 
+          // Formatar o destinatário como "Para Nome Completo <email>" se tiver nome
+          let formattedName = ''
+          if (send.member_name) {
+            formattedName = send.member_name
+              .trim()
+              .toLowerCase()
+              .split(' ')
+              .map(word => {
+                if (!word) return ''
+                // Preposições comuns que devem ficar em minúsculas
+                const prep = ['de', 'da', 'do', 'das', 'dos', 'e']
+                if (prep.includes(word)) return word
+                return word.charAt(0).toUpperCase() + word.slice(1)
+              })
+              .join(' ')
+          }
+          const toAddress = formattedName ? `Para ${formattedName} <${send.email}>` : send.email
+
           await resend.emails.send({
             from: `${campaign.from_name} <${campaign.from_email}>`,
-            to: send.email,
+            to: toAddress,
             subject: campaign.subject,
             html: fullHtml,
           })
