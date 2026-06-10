@@ -96,7 +96,6 @@ export async function POST(request: NextRequest) {
             .single()
 
           const unsubscribeUrl = `${mktUrl}/unsubscribe?token=${member?.unsubscribe_token || ''}`
-          const unsubscribeFooter = `<div style="text-align:center;margin-top:32px;padding-top:16px;border-top:1px solid #333;"><a href="${unsubscribeUrl}" data-no-track style="color:#888;font-size:12px;text-decoration:underline;">Não deseja mais receber nossos emails? Clique aqui para se desinscrever</a></div>`
 
           // Substituir variáveis no conteúdo
           let html = campaign.html_content
@@ -128,7 +127,7 @@ export async function POST(request: NextRequest) {
             }
           )
 
-          const fullHtml = html + unsubscribeFooter + trackingPixel
+          const fullHtml = html + trackingPixel
 
           // Processar from_name e subject para aceitarem a variável {{nome}}
           const finalFromName = campaign.from_name.replace(/\{\{\s*nome\s*\}\}/gi, fallbackName)
