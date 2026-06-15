@@ -152,21 +152,34 @@ export function SectionOffer() {
               transform-origin: 1000px 3683px; 
             }
           `}</style>
-          <a href="https://pay.hotmart.com/W106093316A?off=k6nw06sg&checkoutMode=10&offDiscount=NOVOPACK" style={{ cursor: 'pointer' }} className="btn-offer">
-            {/* Glow sutil atrás do botão */}
-            <rect x="357.5" y="3544" width="1285" height="278" rx="40" fill="#00FF6F" style={{ filter: 'blur(45px)', opacity: 0.4 }} />
-            
-            {/* Corpo do botão */}
-            <rect x="357.5" y="3544" width="1285" height="278" rx="40" fill="#00FF6F" />
-            
-            <text 
-              x="1000" y="3691" 
-              fill="#002E14" fontFamily='"Inter", sans-serif' fontSize="90" fontWeight="700" 
-              textAnchor="middle" dominantBaseline="middle"
+          {/* Glow sutil atrás do botão (mantido em SVG) */}
+          <rect x="357.5" y="3544" width="1285" height="278" rx="40" fill="#00FF6F" style={{ filter: 'blur(45px)', opacity: 0.4 }} className="btn-offer" />
+          
+          {/* Botão de Compra em HTML NATIVO para compatibilidade perfeita com o GTM */}
+          <foreignObject x="357.5" y="3544" width="1285" height="278" className="btn-offer">
+            <a 
+              href="https://pay.hotmart.com/W106093316A?off=k6nw06sg&checkoutMode=10&offDiscount=NOVOPACK" 
+              id="btn-checkout-offer" 
+              className="checkout-link"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+                backgroundColor: '#00FF6F',
+                borderRadius: '40px',
+                color: '#002E14',
+                fontFamily: '"Inter", sans-serif',
+                fontSize: '90px',
+                fontWeight: '700',
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
             >
               GARANTIR DESCONTO
-            </text>
-          </a>
+            </a>
+          </foreignObject>
         </g>
         </g>
       </svg>
