@@ -138,3 +138,20 @@ input {
   display: flex;
   flex-direction: column;
 }
+
+/* ===================== */
+/* CARD GRID ANIMATIONS  */
+/* ===================== */
+
+/* Ciclo de 5 imagens por slot (cada imagem ocupa 20% do ciclo) */
+@keyframes c5_0 { 0%,18%{opacity:1} 20%,98%{opacity:0} 100%{opacity:1} }
+@keyframes c5_1 { 0%,18%{opacity:0} 20%,38%{opacity:1} 40%,100%{opacity:0} }
+@keyframes c5_2 { 0%,38%{opacity:0} 40%,58%{opacity:1} 60%,100%{opacity:0} }
+@keyframes c5_3 { 0%,58%{opacity:0} 60%,78%{opacity:1} 80%,100%{opacity:0} }
+@keyframes c5_4 { 0%,78%{opacity:0} 80%,98%{opacity:1} 100%{opacity:0} }
+
+/* Ciclo de 4 imagens por slot (cada imagem ocupa 25% do ciclo) */
+@keyframes c4_0 { 0%,23%{opacity:1} 25%,98%{opacity:0} 100%{opacity:1} }
+@keyframes c4_1 { 0%,23%{opacity:0} 25%,48%{opacity:1} 50%,100%{opacity:0} }
+@keyframes c4_2 { 0%,48%{opacity:0} 50%,73%{opacity:1} 75%,100%{opacity:0} }
+@keyframes c4_3 { 0%,73%{opacity:0} 75%,98%{opacity:1} 100%{opacity:0} }
