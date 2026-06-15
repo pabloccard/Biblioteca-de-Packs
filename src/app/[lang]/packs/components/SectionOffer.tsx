@@ -152,7 +152,7 @@ export function SectionOffer() {
               transform-origin: 1000px 3683px; 
             }
           `}</style>
-          <a href="#" style={{ cursor: 'pointer' }} className="btn-offer">
+          <a href="https://pay.hotmart.com/W106093316A?off=k6nw06sg&checkoutMode=10&offDiscount=NOVOPACK" style={{ cursor: 'pointer' }} className="btn-offer">
             {/* Glow sutil atrás do botão */}
             <rect x="357.5" y="3544" width="1285" height="278" rx="40" fill="#00FF6F" style={{ filter: 'blur(45px)', opacity: 0.4 }} />
             
