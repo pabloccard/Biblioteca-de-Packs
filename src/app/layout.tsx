@@ -5,6 +5,22 @@ export const metadata: Metadata = {
   title: "Biblioteca de Packs — Artes Editáveis",
   description: "Acesse seus packs de artes editáveis para Canva e Photoshop. Designs profissionais prontos para personalizar.",
   keywords: ["packs", "artes editáveis", "canva", "photoshop", "design", "social media"],
+  openGraph: {
+    title: "Biblioteca de Packs — Artes Editáveis",
+    description: "Acesse seus packs de artes editáveis para Canva e Photoshop. Designs profissionais prontos para personalizar.",
+    images: [
+      {
+        url: '/herocover.png',
+        width: 1200,
+        height: 630,
+        alt: 'Preview Biblioteca de Packs',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/herocover.png'],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
