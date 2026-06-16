@@ -32,6 +32,9 @@ export default function PackCard({ id, name, coverImageUrl, artCount, isUnlocked
       {showDiscountTag && !isUnlocked && (
         <div className="promo-tag">PROMOÇÃO</div>
       )}
+      {isUnlocked && version && (
+        <div className="version-tag">{version}</div>
+      )}
       <div className="pack-card-image">
         {coverImageUrl ? (
           <Image

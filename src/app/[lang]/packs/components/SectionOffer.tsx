@@ -6,7 +6,7 @@ export function SectionOffer() {
         overflow: 'hidden', 
         position: 'relative',
         backgroundColor: '#000',
-        paddingBottom: '202.55%' // 4051 / 2000 = 202.55% (Aspect Ratio ajustado com a remoção do gap)
+        paddingBottom: '184.5%' // 3690 / 2000 = 184.5%
       }}
     >
       {/* Imagem de Fundo (Aguardando offerbg.webp) */}
@@ -22,86 +22,32 @@ export function SectionOffer() {
       />
 
       <svg 
-        viewBox="0 0 2000 4051" 
+        viewBox="0 0 2000 3690" 
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* BLOCO 1: TÍTULO PADRONIZADO */}
         <g>
           <text 
-            x="1000" y="337" 
-            fill="rgba(255, 255, 255, 0.5)" fontFamily='"Inter", sans-serif' fontSize="74" fontWeight="400" 
-            textAnchor="middle" dominantBaseline="middle"
-          >
-            DESCONTO DE LANÇAMENTO
-          </text>
-          
-          <text 
-            x="1000" y="509" 
+            x="1000" y="479" 
             fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
             textAnchor="middle" dominantBaseline="middle"
           >
-            USE O CUPOM
+            <tspan fill="#00FF6F">DESCONTO DE</tspan>
           </text>
           <text 
-            x="1000" y="700" 
+            x="1000" y="670" 
             fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
             textAnchor="middle" dominantBaseline="middle"
           >
-            <tspan fill="#00FF6F">"NOVOPACK"</tspan> E
-          </text>
-          <text 
-            x="1000" y="891" 
-            fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
-            textAnchor="middle" dominantBaseline="middle"
-          >
-            GARANTA O SEU
+            LANÇAMENTO
           </text>
         </g>
 
-        {/* CONTEÚDO INFERIOR (DESLOCADO 149PX PARA CIMA PARA REDUZIR O GAP PELA METADE) */}
-        <g transform="translate(0, -149)">
-          {/* BLOCO 2: PREÇO */}
+        {/* CONTEÚDO INFERIOR (ESPAÇAMENTO RESTAURADO PARA DESENCOSTAR DO TÍTULO) */}
         <g>
-          {/* Tarja */}
-          <rect x="408" y="1189" width="1184" height="127" fill="rgba(255, 255, 255, 0.08)" />
-          <text 
-            x="1000" y="1252.5" 
-            dy="6"
-            textAnchor="middle" dominantBaseline="middle" 
-            fill="rgba(255, 255, 255, 0.7)" fontFamily='"Inter", sans-serif' fontSize="80" fontWeight="400"
-          >
-            <tspan>DE </tspan>
-            <tspan fontFamily='"Sora", sans-serif'>R$ </tspan>
-            <tspan textDecoration="line-through">79,80</tspan>
-            <tspan> POR</tspan>
-          </text>
-
-          {/* Valor Principal Verde */}
-          <text 
-            x="1000" y="1686" 
-            textAnchor="middle" dominantBaseline="alphabetic" 
-            fill="#00FF6F"
-          >
-            <tspan fontFamily='"Sora", sans-serif' fontSize="180" dy="-75">R$</tspan>
-            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="75">39</tspan>
-            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="280" dx="0" dy="-84">,90</tspan>
-          </text>
-
-          {/* Pagamento Único ajustado e perfeitamente centralizado usando letterSpacing compensado no Eixo X */}
-          <text 
-            x="1000" y="1806" 
-            dx="9"
-            fill="rgba(255, 255, 255, 0.7)" fontFamily='"Montserrat", sans-serif' fontSize="80" fontWeight="400"
-            textAnchor="middle" dominantBaseline="middle"
-            style={{ letterSpacing: '18px' }}
-          >
-            PAGAMENTO ÚNICO
-          </text>
-        </g>
-
-        {/* BLOCO 3: LISTA DE BENEFÍCIOS */}
-        <g>
+        {/* BLOCO 3: LISTA DE BENEFÍCIOS (MOVIDO PARA CIMA) */}
+        <g transform="translate(0, -1213)">
           {[
             { y: 2148, text: "40 artes profissionais" },
             { y: 2290, text: "Legendas prontas" },
@@ -138,8 +84,47 @@ export function SectionOffer() {
           ))}
         </g>
 
+        {/* BLOCO 2: PREÇO (MOVIDO PARA BAIXO) */}
+        <g transform="translate(0, 1026)">
+          {/* Tarja */}
+          <rect x="408" y="1189" width="1184" height="127" fill="rgba(255, 255, 255, 0.08)" />
+          <text 
+            x="1000" y="1252.5" 
+            dy="6"
+            textAnchor="middle" dominantBaseline="middle" 
+            fill="rgba(255, 255, 255, 0.7)" fontFamily='"Inter", sans-serif' fontSize="80" fontWeight="400"
+          >
+            <tspan>DE </tspan>
+            <tspan fontFamily='"Sora", sans-serif'>R$ </tspan>
+            <tspan textDecoration="line-through">46,00</tspan>
+            <tspan> POR</tspan>
+          </text>
+
+          {/* Valor Principal Verde */}
+          <text 
+            x="1000" y="1686" 
+            textAnchor="middle" dominantBaseline="alphabetic" 
+            fill="#00FF6F"
+          >
+            <tspan fontFamily='"Sora", sans-serif' fontSize="180" dy="-75">R$</tspan>
+            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="75">29</tspan>
+            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="280" dx="0" dy="-84">,90</tspan>
+          </text>
+
+          {/* Pagamento Único ajustado e perfeitamente centralizado usando letterSpacing compensado no Eixo X */}
+          <text 
+            x="1000" y="1806" 
+            dx="9"
+            fill="rgba(255, 255, 255, 0.7)" fontFamily='"Montserrat", sans-serif' fontSize="80" fontWeight="400"
+            textAnchor="middle" dominantBaseline="middle"
+            style={{ letterSpacing: '18px' }}
+          >
+            PAGAMENTO ÚNICO
+          </text>
+        </g>
+
         {/* BLOCO 4: BOTÃO */}
-        <g>
+        <g transform="translate(0, -532)">
           <style>{`
             @keyframes pulse-offer {
               0% { transform: scale(1); }

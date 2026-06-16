@@ -145,3 +145,22 @@
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
+
+/* Version Tag (Unlocked Cards) */
+.version-tag {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: #222222;
+  color: #888888;
+  font-weight: 500;
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  border: 6px solid var(--bg-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
