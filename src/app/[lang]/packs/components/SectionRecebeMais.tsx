@@ -45,7 +45,7 @@ export function SectionRecebeMais() {
           fill="rgba(255, 255, 255, 0.5)" fontFamily='"Inter", sans-serif' fontSize="74" fontWeight="400"
           textAnchor="middle" dominantBaseline="middle"
         >
-          O QUE VC RECEBE
+          O QUE VOCÊ RECEBE
         </text>
 
         {/* TÍTULO PRINCIPAL PADRONIZADO (Tamanho 158) */}
