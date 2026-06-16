@@ -73,7 +73,7 @@ export function SectionOffer() {
           >
             <tspan>DE </tspan>
             <tspan fontFamily='"Sora", sans-serif'>R$ </tspan>
-            <tspan textDecoration="line-through">69,90</tspan>
+            <tspan textDecoration="line-through">79,80</tspan>
             <tspan> POR</tspan>
           </text>
 
@@ -84,7 +84,7 @@ export function SectionOffer() {
             fill="#00FF6F"
           >
             <tspan fontFamily='"Sora", sans-serif' fontSize="180" dy="-75">R$</tspan>
-            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="75">37</tspan>
+            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="75">39</tspan>
             <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="280" dx="0" dy="-84">,90</tspan>
           </text>
 

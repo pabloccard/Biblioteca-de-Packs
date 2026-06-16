@@ -24,7 +24,7 @@ export function SectionFaq() {
     // Z-index 50 na seção inteira garante estabilidade visual
     <div style={{ backgroundColor: '#010101', width: '100%', position: 'relative', zIndex: 50 }}>
       {/* TÍTULO EM SVG PARA MANTER A MATEMÁTICA DA TIPOGRAFIA */}
-      <svg viewBox="0 0 2000 989" style={{ width: '100%', height: 'auto', display: 'block' }}>
+      <svg viewBox="0 0 2000 4400" style={{ width: '100%', height: 'auto', display: 'block' }}>
         <text 
           x="150" y="509" 
           fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
@@ -39,18 +39,18 @@ export function SectionFaq() {
         >
           FREQUENTES
         </text>
-      </svg>
 
-      {/* LISTA DE FAQ (TOTALMENTE ABERTA E ESTÁTICA) */}
-      <div style={{ width: '85vw', margin: '0 auto', paddingBottom: '6.5vw' }}>
+        {/* LISTA DE FAQ (TOTALMENTE ABERTA E ESTÁTICA DENTRO DO SVG) */}
+        <foreignObject x="150" y="1000" width="1700" height="3400">
+          <div style={{ width: '100%', height: '100%' }}>
         {faqs.map((faq, i) => {
           return (
-            <div 
-              key={i} 
-              style={{ 
-                marginBottom: '10vw', // Gap generoso entre cada bloco de pergunta/resposta
-              }}
-            >
+              <div 
+                key={i} 
+                style={{ 
+                  marginBottom: '150px', // Gap controlado em pixels absolutos virtuais
+                }}
+              >
               {/* CABEÇALHO DA PERGUNTA */}
               <div 
                 style={{ 
@@ -61,7 +61,7 @@ export function SectionFaq() {
               >
                 <h3 style={{ 
                   fontFamily: '"Inter", sans-serif', 
-                  fontSize: '4.75vw', // Equivalente a 95px em 2000px
+                  fontSize: '95px', // Tamanho absoluto protegido pelo viewBox
                   fontWeight: '500', 
                   color: 'rgba(255, 255, 255, 0.85)', // Opacidade sutilmente reduzida
                   margin: 0,
@@ -76,12 +76,12 @@ export function SectionFaq() {
               <div>
                 <p style={{
                   fontFamily: '"Inter", sans-serif',
-                  fontSize: '4vw', // Equivalente a 80px em 2000px
+                  fontSize: '80px', // Tamanho absoluto protegido pelo viewBox
                   fontWeight: '400',
                   color: 'rgba(255, 255, 255, 0.5)',
                   margin: 0,
-                  paddingTop: '3vw',
-                  paddingBottom: '2vw', // Um respiro na base
+                  paddingTop: '50px',
+                  paddingBottom: '30px', 
                   lineHeight: '1.4'
                 }}>
                   {faq.a}
@@ -90,7 +90,9 @@ export function SectionFaq() {
             </div>
           )
         })}
-      </div>
+          </div>
+        </foreignObject>
+      </svg>
     </div>
   )
 }

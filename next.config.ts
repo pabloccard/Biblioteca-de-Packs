@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   // Permite que o celular carregue o Javascript do servidor local
   allowedDevOrigins: ['192.168.0.101', '192.168.0.104', '192.168.0.108'],
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

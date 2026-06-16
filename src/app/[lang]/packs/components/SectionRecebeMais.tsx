@@ -1,13 +1,4 @@
 export function SectionRecebeMais() {
-  // Distribui as 40 imagens entre os 9 slots (round-robin)
-  const slots: number[][] = Array.from({ length: 9 }, (_, s) => {
-    const cards: number[] = []
-    for (let id = s + 1; id <= 40; id += 9) cards.push(id)
-    return cards
-  })
-  // Slots 0-3: 5 imagens | Slots 4-8: 4 imagens
-  // Keyframes c5_0..c5_4 e c4_0..c4_3 estão definidos em globals.css
-
   const displayTime = 3.5
   const stagger = 0.2
 
@@ -41,10 +32,11 @@ export function SectionRecebeMais() {
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* ClipPath para cortar as imagens com as bordas arredondadas exatas */}
-          <clipPath id="imgClip">
-            <rect x="0" y="0" width={itemWidth} height={itemHeight} rx="40" />
-          </clipPath>
+          {Array.from({ length: 9 }).map((_, i) => (
+            <clipPath key={i} id={`cardClip_${i}`}>
+              <rect x="0" y="0" width={itemWidth} height={itemHeight} rx="40" />
+            </clipPath>
+          ))}
         </defs>
 
         {/* CHAPÉU PADRONIZADO (Tamanho 74) */}
@@ -53,7 +45,7 @@ export function SectionRecebeMais() {
           fill="rgba(255, 255, 255, 0.5)" fontFamily='"Inter", sans-serif' fontSize="74" fontWeight="400"
           textAnchor="middle" dominantBaseline="middle"
         >
-          VOCÊ RECEBE MUITO MAIS
+          O QUE VC RECEBE
         </text>
 
         {/* TÍTULO PRINCIPAL PADRONIZADO (Tamanho 158) */}
@@ -62,7 +54,7 @@ export function SectionRecebeMais() {
           fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600"
           textAnchor="middle" dominantBaseline="middle"
         >
-          TUDO O QUE
+          CONFIRA O QUE
         </text>
         <text 
           x="1000" y="700" 
@@ -74,31 +66,30 @@ export function SectionRecebeMais() {
 
         {/* GRID ANIMADO (3x3 nativo no SVG com animação CSS) */}
         <g>
-          {slots.map((cards, i) => {
-            const row = Math.floor(i / 3)
-            const col = i % 3
+          {Array.from({ length: 9 }).map((_, slotIdx) => {
+            const i = slotIdx + 1 // Arte 1 a 9
+            const grids = ['grid1', 'grid2', 'grid3', 'grid4']
+            
+            const row = Math.floor(slotIdx / 3)
+            const col = slotIdx % 3
             const xPos = 200 + col * (itemWidth + gap)
             // Título termina no Y=779. Gap de 260px igual ao Hero = Grid começa no Y=1039
             const yPos = 1039 + row * (itemHeight + gap)
 
-            const numImages = cards.length
-            const prefix = numImages === 5 ? 'c5' : 'c4'
-            const totalDuration = numImages * displayTime
-            const slotDelay = i * stagger
-
             return (
-              <g key={i} transform={`translate(${xPos}, ${yPos})`}>
+              <g key={slotIdx} transform={`translate(${xPos}, ${yPos})`}>
                 <rect width={itemWidth} height={itemHeight} rx="40" fill="#111" />
-                {cards.map((cardId, idx) => (
+                {grids.map((gridFolder, idx) => (
                   <image 
-                    key={cardId}
-                    href={`/sales-pages/provider-v03/locales/pt/cards/${cardId}.webp`}
+                    key={gridFolder}
+                    href={`/sales-pages/provider-v03/locales/pt/cards/${gridFolder}/${i}.webp`}
                     width={itemWidth} 
                     height={itemHeight} 
                     preserveAspectRatio="xMidYMid slice" 
-                    clipPath="url(#imgClip)" 
-                    style={{
-                      animation: `${prefix}_${idx} ${totalDuration}s ${slotDelay}s infinite ease-in-out`,
+                    clipPath={`url(#cardClip_${slotIdx})`}
+                    style={{ 
+                      // Animação c4 restaurada para 14s. Stagger (escadinha) rápido de 0.1s.
+                      animation: `c4_${idx} 14s ${slotIdx * 0.1}s infinite` 
                     }}
                   />
                 ))}

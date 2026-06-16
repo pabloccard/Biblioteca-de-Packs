@@ -20,40 +20,40 @@ export function HeroMain() {
         {/* LINHA 1: PACK LANÇADO EM + BADGE */}
         <g>
           <text 
-            x="984" 
+            x="944" 
             y="369.5" 
             dy="4"
             fill="#FFFFFF" 
             fontFamily='"Inter", sans-serif'
-            fontSize="49"
+            fontSize="58"
             fontWeight="400"
             textAnchor="end"
             dominantBaseline="middle"
           >
-            PACK LANÇADO EM
+            PACK
           </text>
 
           <rect 
-            x="1016" 
-            y="329" 
-            width="416" 
-            height="81" 
-            rx="40.5" 
+            x="980" 
+            y="321.5" 
+            width="240" 
+            height="96" 
+            rx="48" 
             fill="#FFFFFF" 
           />
 
           <text 
-            x="1224" 
+            x="1100" 
             y="369.5" 
             dy="4"
             fill="#000000" 
             fontFamily='"Inter", sans-serif'
-            fontSize="49"
+            fontSize="58"
             fontWeight="400"
             textAnchor="middle"
             dominantBaseline="middle"
           >
-            JUNHO - 2026
+            Vol.03
           </text>
         </g>
 
