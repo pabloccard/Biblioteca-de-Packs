@@ -162,7 +162,7 @@ export function SectionOffer() {
                 cursor: 'pointer'
               }}
             >
-              GARANTIZAR DESCUENTO
+              OBTENER DESCUENTO
             </a>
           </foreignObject>
         </g>
