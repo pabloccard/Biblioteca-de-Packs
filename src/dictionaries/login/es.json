@@ -11,9 +11,5 @@
     "invalid_email": "Por favor, introduce un correo válido.",
     "member_not_found": "No se encontró ningún miembro con este correo.",
     "default": "Hubo un error al iniciar sesión. Inténtalo de nuevo."
-  },
-  "updateNotice": {
-    "title": "Aviso de Actualización ⚠️",
-    "message": "Nuestra plataforma está pasando por mejoras durante las próximas <strong>36 horas</strong>. Si experimentas alguna inestabilidad al iniciar sesión o no encuentras tu pack, no te preocupes, es temporal. ¡Agradecemos tu comprensión!"
   }
 }
