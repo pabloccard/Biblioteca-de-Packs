@@ -68,12 +68,12 @@ export function SectionRecebeMais() {
               }
             `}</style>
             {[
-              // Array da Linha 1 (1 a 40) - Movimenta para a Esquerda
-              { speed: '180s', dir: 'normal', seq: Array.from({length: 40}, (_, i) => i + 1) },
-              // Array da Linha 2 (10 a 40, depois 1 a 9) - Movimenta para a Direita
-              { speed: '180s', dir: 'reverse', seq: [...Array.from({length: 31}, (_, i) => i + 10), ...Array.from({length: 9}, (_, i) => i + 1)] },
-              // Array da Linha 3 (21 a 40, depois 1 a 20) - Movimenta para a Esquerda
-              { speed: '180s', dir: 'normal', seq: [...Array.from({length: 20}, (_, i) => i + 21), ...Array.from({length: 20}, (_, i) => i + 1)] }
+              // Array da Linha 1 (1 a 40) - Movimenta para a Direita
+              { speed: '180s', dir: 'reverse', seq: Array.from({length: 40}, (_, i) => i + 1) },
+              // Array da Linha 2 (40 diminuindo até 1) - Movimenta para a Esquerda
+              { speed: '180s', dir: 'normal', seq: Array.from({length: 40}, (_, i) => 40 - i) },
+              // Array da Linha 3 (21 a 40, depois 1 a 20) - Movimenta para a Direita
+              { speed: '180s', dir: 'reverse', seq: [...Array.from({length: 20}, (_, i) => i + 21), ...Array.from({length: 20}, (_, i) => i + 1)] }
             ].map((row, rowIdx) => (
               <div 
                 key={rowIdx}
