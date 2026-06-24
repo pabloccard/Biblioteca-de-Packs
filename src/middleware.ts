@@ -25,7 +25,8 @@ export function middleware(request: NextRequest) {
   if (pathnameHasLocale) {
     // Se o usuário acessou uma rota com idioma X, mas o idioma registrado no banco/cookie é Y,
     // e ele ESTÁ logado (tem o cookie member_lang), nós o redirecionamos para o idioma correto dele.
-    if (memberLangCookie) {
+    // EXCETO para as páginas de vendas (/packs/), onde a pessoa deve poder navegar livremente em qualquer idioma.
+    if (memberLangCookie && !pathname.includes('/packs/')) {
       const currentLocale = locales.find((locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)
       if (currentLocale && currentLocale !== memberLangCookie) {
         // Troca o locale incorreto pelo correto na URL
