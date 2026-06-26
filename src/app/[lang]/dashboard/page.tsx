@@ -48,15 +48,34 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
   const allSpecs = specsResult.data || []
   const allCategories = categoriesResult.data || []
 
+  // Buscar packs filhos para verificar se o membro comprou algum filho
+  // (nesse caso, o pack pai correspondente deve aparecer como desbloqueado)
+  const { data: childPacks } = await supabase
+    .from('packs')
+    .select('id, parent_pack_id')
+    .not('parent_pack_id', 'is', null)
+
+  const parentIdsUnlockedViaChild = new Set<string>()
+  if (childPacks) {
+    for (const child of childPacks) {
+      if (purchasedPackIds.includes(child.id) && child.parent_pack_id) {
+        parentIdsUnlockedViaChild.add(child.parent_pack_id)
+      }
+    }
+  }
+
+  // Um pack é considerado "desbloqueado" se o membro comprou ele OU comprou um filho dele
+  const isPackAccessible = (packId: string) => purchasedPackIds.includes(packId) || parentIdsUnlockedViaChild.has(packId)
+
   // Filtrar e Ordenar todos os packs (bloqueados primeiro, depois por data)
   const sortedPacks = [...allPacks].filter(p => {
-    const isUnlocked = purchasedPackIds.includes(p.id)
+    const isUnlocked = isPackAccessible(p.id)
     if (!isUnlocked && p.language !== memberLanguage) return false // não mostra pack bloqueado de outro idioma
     if (!isUnlocked && p.hide_when_locked) return false
     return true
   }).sort((a, b) => {
-    const aUnlocked = purchasedPackIds.includes(a.id) ? 1 : 0
-    const bUnlocked = purchasedPackIds.includes(b.id) ? 1 : 0
+    const aUnlocked = isPackAccessible(a.id) ? 1 : 0
+    const bUnlocked = isPackAccessible(b.id) ? 1 : 0
     if (aUnlocked !== bUnlocked) {
       return aUnlocked - bUnlocked // 0 (bloqueado) vem antes de 1 (liberado)
     }
@@ -142,7 +161,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                         name={pack.name}
                         coverImageUrl={pack.cover_image_url}
                         artCount={artCount}
-                        isUnlocked={purchasedPackIds.includes(pack.id)}
+                        isUnlocked={isPackAccessible(pack.id)}
                         specs={packSpecs}
                         arts={packArts}
                         buyLink={pack.buy_link || ''}

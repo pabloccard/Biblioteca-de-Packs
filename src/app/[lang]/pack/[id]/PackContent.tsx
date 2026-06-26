@@ -139,12 +139,14 @@ interface FullProps {
   subsections: PackSubsection[]
   sectionOrder: string[]
   storyPack: StoryPackData | null
+  isParentUnlocked: boolean
+  parentBuyLink: string
   memberEmail: string
   lang: string
   dict: any
 }
 
-export default function PackContent({ pack, links, arts, subsections, sectionOrder, storyPack, memberEmail, lang, dict }: FullProps) {
+export default function PackContent({ pack, links, arts, subsections, sectionOrder, storyPack, isParentUnlocked, parentBuyLink, memberEmail, lang, dict }: FullProps) {
   const youtubeLinks = useMemo(() => links.filter(l => l.category === 'youtube'), [links])
   const hasFiles = subsections.length > 0
 
@@ -154,6 +156,13 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
     const separator = storyPack.buyLink.includes('?') ? '&' : '?'
     return `${storyPack.buyLink}${separator}email=${encodeURIComponent(memberEmail)}`
   }, [storyPack?.buyLink, memberEmail])
+
+  // Construir buyLink do pack pai com email pré-preenchido
+  const feedBuyLink = useMemo(() => {
+    if (!parentBuyLink) return ''
+    const separator = parentBuyLink.includes('?') ? '&' : '?'
+    return `${parentBuyLink}${separator}email=${encodeURIComponent(memberEmail)}`
+  }, [parentBuyLink, memberEmail])
 
   // Build available tabs based on section_order
   const availableTabs = useMemo(() => {
@@ -362,32 +371,69 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                 .map((sub) => {
                   const subLinks = links.filter(l => l.subsection_id === sub.id)
                   if (subLinks.length === 0) return null
+                  const isFeedLocked = !isParentUnlocked
                   return (
-                    <div key={sub.id} className={`accordion-card ${expandedAccordion === sub.id ? 'expanded' : ''}`}>
-                      <button className="accordion-header" onClick={() => toggleAccordion(sub.id)}>
+                    <div key={sub.id} className={`accordion-card ${expandedAccordion === sub.id ? 'expanded' : ''} ${isFeedLocked ? 'story-locked' : ''}`}>
+                      <button
+                        className="accordion-header"
+                        onClick={() => toggleAccordion(sub.id)}
+                      >
                         <div className="accordion-title">
-                          <div className="accordion-icon icon-files-glow">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                              <path d="M7 11V7a5 5 0 0 1 9.9-1" />
-                            </svg>
+                          <div className={`accordion-icon ${isFeedLocked ? 'icon-locked-glow' : 'icon-files-glow'}`}>
+                            {isFeedLocked ? (
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                              </svg>
+                            ) : (
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                              </svg>
+                            )}
                           </div>
                           <div className="accordion-title-text">
                             <span>{lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
                             <span className="accordion-count">{subLinks.length} {subLinks.length === 1 ? 'link' : 'links'}</span>
                           </div>
                         </div>
-                        <div className="accordion-chevron">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                          </svg>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {isFeedLocked && feedBuyLink && (
+                            <a
+                              href={feedBuyLink}
+                              className="unlock-story-btn"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                              </svg>
+                              {dict.unlockNow || 'Desbloqueie agora'}
+                            </a>
+                          )}
+                          <div className="accordion-chevron">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </div>
                         </div>
                       </button>
                       <div className="accordion-wrapper">
                         <div className="accordion-content">
-                          {subLinks.map(link => (
-                            <LinkButton key={link.id} href={link.url} label={lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
-                          ))}
+                          {isFeedLocked ? (
+                            <div className="locked-message">
+                              <p>{lang === 'es' 
+                                ? 'Aún no has desbloqueado los archivos en la versión Feed. Haz clic en "Liberar Ahora" y adquiérelos con descuento exclusivo.' 
+                                : 'Você ainda não liberou os arquivos na versão Feed. Clique no botão "Liberar Agora" e adquira com desconto exclusivo.'
+                              }</p>
+                            </div>
+                          ) : (
+                            subLinks.map(link => (
+                              <LinkButton key={link.id} href={link.url} label={lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
+                            ))
+                          )}
                         </div>
                       </div>
                     </div>

@@ -33,6 +33,7 @@ export default async function PackPage({ params }: PackPageProps) {
 
   if (!member) redirect('/')
 
+  // Verificar se o membro comprou o pack pai (controle por seção, não por pack)
   const { data: purchase } = await supabase
     .from('member_purchases')
     .select('id')
@@ -40,7 +41,7 @@ export default async function PackPage({ params }: PackPageProps) {
     .eq('pack_id', id)
     .single()
 
-  if (!purchase) redirect(`/${lang}/dashboard`)
+  const isParentUnlocked = !!purchase
 
   const { data: pack } = await supabase
     .from('packs')
@@ -75,6 +76,7 @@ export default async function PackPage({ params }: PackPageProps) {
   const allLinks = links || []
   const packSubsections = subsections || []
 
+  // Verificar se o membro comprou ao menos um dos packs (pai ou filho) para poder acessar
   // Fetch story packs (complementares) vinculados a este pack
   const { data: storyPacks } = await supabase
     .from('packs')
@@ -82,6 +84,7 @@ export default async function PackPage({ params }: PackPageProps) {
     .eq('parent_pack_id', id)
 
   let storyPackData = null
+  let hasAnyPurchase = isParentUnlocked
 
   if (storyPacks && storyPacks.length > 0) {
     const storyPack = storyPacks[0]
@@ -93,6 +96,8 @@ export default async function PackPage({ params }: PackPageProps) {
       .eq('member_id', member.id)
       .eq('pack_id', storyPack.id)
       .single()
+
+    if (storyPurchase) hasAnyPurchase = true
 
     // Buscar subsections e links do story pack
     const [{ data: storySubs }, { data: storyLinks }] = await Promise.all([
@@ -117,6 +122,9 @@ export default async function PackPage({ params }: PackPageProps) {
     }
   }
 
+  // Se o membro não comprou NENHUM dos packs (nem pai nem filho), redireciona
+  if (!hasAnyPurchase) redirect(`/${lang}/dashboard`)
+
   return (
     <div className="page-wrapper">
       <PackContent
@@ -126,6 +134,8 @@ export default async function PackPage({ params }: PackPageProps) {
         subsections={packSubsections}
         sectionOrder={pack.section_order || ['files', 'tutorial', 'legends']}
         storyPack={storyPackData}
+        isParentUnlocked={isParentUnlocked}
+        parentBuyLink={pack.buy_link || ''}
         memberEmail={email}
         lang={lang}
         dict={dict}
