@@ -102,12 +102,12 @@ export function SectionOffer() {
 
           {/* Valor Principal Verde */}
           <text 
-            x="1000" y="1686" 
+            x="1000" y="1670" 
             textAnchor="middle" dominantBaseline="alphabetic" 
             fill="#00FF6F"
           >
-            <tspan fontFamily='"Sora", sans-serif' fontSize="180" dy="-75">R$</tspan>
-            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="75">29</tspan>
+            <tspan fontFamily='"Sora", sans-serif' fontSize="90" dy="-110">R$</tspan>
+            <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="400" dx="57" dy="110">29</tspan>
             <tspan fontFamily='"Inter", sans-serif' fontWeight="500" fontSize="280" dx="0" dy="-84">,90</tspan>
           </text>
 
