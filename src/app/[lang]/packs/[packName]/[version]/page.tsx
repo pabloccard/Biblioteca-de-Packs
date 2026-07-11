@@ -18,8 +18,29 @@ import { SectionSupport as SectionSupportEs } from '../../components-es/SectionS
 import { SectionFaq as SectionFaqEs } from '../../components-es/SectionFaq'
 import { SectionFooter as SectionFooterEs } from '../../components-es/SectionFooter'
 
+import { redirect, notFound } from 'next/navigation'
+
 export default async function PackSalesPage({ params }: { params: Promise<{ lang: string, packName: string, version: string }> }) {
-  const { lang, packName } = await params;
+  const { lang, packName, version } = await params;
+
+  // Versões válidas e seus aliases (redirect)
+  const versionAliases: Record<string, string> = {
+    'v3': 'vol3',
+    'v03': 'vol3',
+    'vol03': 'vol3',
+  }
+
+  // Se a versão é um alias, redireciona para a canônica
+  if (versionAliases[version]) {
+    redirect(`/${lang}/packs/${packName}/${versionAliases[version]}`)
+  }
+
+  // Versões canônicas aceitas
+  const validVersions = ['vol3']
+  if (!validVersions.includes(version)) {
+    notFound()
+  }
+
   const isSpanish = lang === 'es' || packName === 'proveedor';
 
   if (isSpanish) {
