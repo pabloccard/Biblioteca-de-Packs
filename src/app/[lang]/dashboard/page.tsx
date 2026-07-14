@@ -82,32 +82,11 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     return new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
   })
 
-  const targetCategoryTag = lang === 'pt' ? 'provedor' : 'proveedor'
-  const targetCategory = allCategories.find((c: any) => c.tag === targetCategoryTag)
-  
-  let totalProviderPacks = 0
-  let unlockedProviderPacks = 0
-
-  if (targetCategory) {
-    const providerPacks = allPacks.filter(p => p.category_id === targetCategory.id && p.language === memberLanguage)
-    totalProviderPacks = providerPacks.length
-    unlockedProviderPacks = providerPacks.filter(p => purchasedPackIds.includes(p.id)).length
-  }
-  
   const hasAnyPacks = sortedPacks.length > 0
 
-  let subtitleText = ''
-  let progressPercent = 0
-  if (totalProviderPacks > 0) {
-    subtitleText = lang === 'pt'
-      ? `Você já desbloqueou ${unlockedProviderPacks} de ${totalProviderPacks} packs disponíveis.`
-      : `Ya has desbloqueado ${unlockedProviderPacks} de ${totalProviderPacks} packs disponibles.`
-    progressPercent = Math.round((unlockedProviderPacks / totalProviderPacks) * 100)
-  } else {
-    subtitleText = purchasedPackIds.length > 0
-      ? (purchasedPackIds.length === 1 ? dict.packsUnlocked : dict.packsUnlockedPlural).replace('{count}', purchasedPackIds.length.toString())
-      : dict.noPacksUnlocked
-  }
+  const subtitleText = lang === 'pt'
+    ? "Acesse seus packs abaixo."
+    : "Accede a tus packs a continuación."
 
   return (
     <div className="page-wrapper">
@@ -147,33 +126,77 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
       <div className="packs-categories-container">
           {hasAnyPacks && (
-            <section className="packs-grid-section" style={{ marginTop: '8px', padding: '0 var(--space-lg)' }}>
-              <div className="packs-grid">
-                {sortedPacks.map(pack => {
-                  const artCount = getLocalArtCount(pack.arts_folder)
-                  const packSpecs = allSpecs.filter(s => s.pack_id === pack.id).map(s => s.label)
-                  const localArts = getLocalArts(pack.arts_folder, pack.art_captions)
-                  const packArts = localArts.map(a => ({ id: String(a.number), image_url: a.imageUrl }))
-                  return (
-                    <div key={pack.id} className="packs-grid-item">
-                      <PackCard
-                        id={pack.id}
-                        name={pack.name}
-                        coverImageUrl={pack.cover_image_url}
-                        artCount={artCount}
-                        isUnlocked={isPackAccessible(pack.id)}
-                        specs={packSpecs}
-                        arts={packArts}
-                        buyLink={pack.buy_link || ''}
-                        showDiscountTag={pack.show_discount_tag ?? true}
-                        version={pack.version || '1.0'}
-                        lang={lang}
-                      />
+            <div className="container" style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '48px', paddingBottom: '48px' }}>
+              {allCategories.filter(cat => sortedPacks.some(p => p.category_id === cat.id)).map(category => {
+                const categoryPacks = sortedPacks.filter(p => p.category_id === category.id)
+                return (
+                  <section key={category.id} className="packs-category-section">
+                    <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', paddingLeft: '8px', borderLeft: '4px solid #4ade80' }}>
+                      {category.name}
+                    </h2>
+                    <div className="packs-grid">
+                      {categoryPacks.map(pack => {
+                        const artCount = getLocalArtCount(pack.arts_folder)
+                        const packSpecs = allSpecs.filter(s => s.pack_id === pack.id).map(s => s.label)
+                        const localArts = getLocalArts(pack.arts_folder, pack.art_captions)
+                        const packArts = localArts.map(a => ({ id: String(a.number), image_url: a.imageUrl }))
+                        return (
+                          <div key={pack.id} className="packs-grid-item">
+                            <PackCard
+                              id={pack.id}
+                              name={pack.name}
+                              coverImageUrl={pack.cover_image_url}
+                              artCount={artCount}
+                              isUnlocked={isPackAccessible(pack.id)}
+                              specs={packSpecs}
+                              arts={packArts}
+                              buyLink={pack.buy_link || ''}
+                              showDiscountTag={pack.show_discount_tag ?? true}
+                              version={pack.version || '1.0'}
+                              lang={lang}
+                            />
+                          </div>
+                        )
+                      })}
                     </div>
-                  )
-                })}
-              </div>
-            </section>
+                  </section>
+                )
+              })}
+              
+              {/* Renderizar packs sem categoria, se houver */}
+              {sortedPacks.filter(p => !p.category_id).length > 0 && (
+                <section className="packs-category-section">
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#FFFFFF', marginBottom: '20px', paddingLeft: '8px', borderLeft: '4px solid #4ade80' }}>
+                    {lang === 'es' ? 'Otros Packs' : 'Outros Packs'}
+                  </h2>
+                  <div className="packs-grid">
+                    {sortedPacks.filter(p => !p.category_id).map(pack => {
+                      const artCount = getLocalArtCount(pack.arts_folder)
+                      const packSpecs = allSpecs.filter(s => s.pack_id === pack.id).map(s => s.label)
+                      const localArts = getLocalArts(pack.arts_folder, pack.art_captions)
+                      const packArts = localArts.map(a => ({ id: String(a.number), image_url: a.imageUrl }))
+                      return (
+                        <div key={pack.id} className="packs-grid-item">
+                          <PackCard
+                            id={pack.id}
+                            name={pack.name}
+                            coverImageUrl={pack.cover_image_url}
+                            artCount={artCount}
+                            isUnlocked={isPackAccessible(pack.id)}
+                            specs={packSpecs}
+                            arts={packArts}
+                            buyLink={pack.buy_link || ''}
+                            showDiscountTag={pack.show_discount_tag ?? true}
+                            version={pack.version || '1.0'}
+                            lang={lang}
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+              )}
+            </div>
           )}
 
           {!hasAnyPacks && (
