@@ -136,7 +136,7 @@ export function SectionOffer() {
           
           <foreignObject x="357.5" y="3544" width="1285" height="278" className="btn-offer-burger">
             <a 
-              href="#" 
+              href="https://pay.hotmart.com/S106732020D?off=dfb9ykdq&checkoutMode=10&offDiscount=NOVOPACK" 
               id="btn-checkout-offer-burger" 
               className="checkout-link"
               style={{
