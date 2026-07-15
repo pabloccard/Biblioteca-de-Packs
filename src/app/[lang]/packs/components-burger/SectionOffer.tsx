@@ -6,7 +6,7 @@ export function SectionOffer() {
         overflow: 'hidden', 
         position: 'relative',
         backgroundColor: '#000',
-        paddingBottom: '184.5%'
+        paddingBottom: '195.55%'
       }}
     >
       <div 
@@ -21,45 +21,59 @@ export function SectionOffer() {
       />
 
       <svg 
-        viewBox="0 0 2000 3690" 
+        viewBox="0 0 2000 3911" 
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* BLOCO 1: TÍTULO */}
         <g>
           <text 
-            x="1000" y="479" 
+            x="1000" y="337" 
+            fill="rgba(255, 255, 255, 0.5)" fontFamily='"Inter", sans-serif' fontSize="74" fontWeight="400" 
+            textAnchor="middle" dominantBaseline="middle"
+          >
+            PACK PARA HAMBURGUERIA
+          </text>
+
+          <text 
+            x="1000" y="509" 
             fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
             textAnchor="middle" dominantBaseline="middle"
           >
-            <tspan fill="#00FF6F">DESCONTO DE</tspan>
+            LEVE O PACK
           </text>
           <text 
-            x="1000" y="670" 
+            x="1000" y="700" 
             fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
             textAnchor="middle" dominantBaseline="middle"
           >
-            LANÇAMENTO
+            COMPLETO COM
+          </text>
+          <text 
+            x="1000" y="891" 
+            fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
+            textAnchor="middle" dominantBaseline="middle"
+          >
+            DESCONTO
           </text>
         </g>
 
-        <g>
+        <g transform="translate(0, 221)">
         {/* BLOCO 3: LISTA DE BENEFÍCIOS */}
         <g transform="translate(0, -1213)">
           {[
             { y: 2148, text: "40 artes profissionais" },
-            { y: 2290, text: "Legendas prontas" },
-            { y: 2432, text: "Canva e Photoshop" },
-            { y: 2574, text: "Alta resolução", sub: " 2160x2700" },
-            { y: 2716, text: "Vídeo aula ensinando", line2: "como editar" },
-            { y: 2958, text: "Suporte via WhatsApp" },
-            { y: 3100, text: "Acesso imediato" },
-            { y: 3242, text: "7 dias de garantia" }
+            { y: 2290, text: "40 legendas prontas" },
+            { y: 2432, text: "Editável no Canva", line2: "ou photoshop" },
+            { y: 2674, text: "Vídeo aula ensinando", line2: "como editar" },
+            { y: 2916, text: "Suporte via WhatsApp" },
+            { y: 3058, text: "Acesso imediato" },
+            { y: 3200, text: "7 dias de garantia" }
           ].map((item, i) => (
             <g key={i}>
               <g transform={`translate(550, ${item.y - 46})`}>
-                <circle cx="46" cy="46" r="46" fill="#0084FF" />
-                <path d="M28 46 L40 58 L64 34" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <circle cx="46" cy="46" r="46" fill="#00FF6F" />
+                <path d="M28 46 L40 58 L64 34" stroke="#002E14" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
               </g>
               <text 
                 x="692" y={item.y} 
@@ -155,7 +169,7 @@ export function SectionOffer() {
                 cursor: 'pointer'
               }}
             >
-              GARANTIR DESCONTO
+              GARANTIR PACK
             </a>
           </foreignObject>
         </g>

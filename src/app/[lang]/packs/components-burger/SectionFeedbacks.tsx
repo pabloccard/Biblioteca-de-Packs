@@ -31,8 +31,8 @@ export function SectionFeedbacks() {
             fill="#0F0F0F" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600" 
             textAnchor="middle" dominantBaseline="middle"
           >
-            <tspan x="1000" y="509">QUEM USA,</tspan>
-            <tspan x="1000" y="700">APROVA</tspan>
+            <tspan x="1000" y="509">QUEM COMPROU,</tspan>
+            <tspan x="1000" y="700">APROVOU</tspan>
           </text>
         </svg>
       </div>
@@ -51,9 +51,12 @@ export function SectionFeedbacks() {
             <div 
               key={i} 
               style={{ 
-                width: 'min(44.2vw, 350px)',
-                marginLeft: 'min(3vw, 24px)',
-                flexShrink: 0 
+                width: '250px',
+                marginLeft: '24px',
+                flexShrink: 0,
+                backgroundColor: '#111111',
+                padding: '24px',
+                borderRadius: '32px'
               }}
             >
               <img 
@@ -62,7 +65,7 @@ export function SectionFeedbacks() {
                   width: '100%', 
                   height: 'auto', 
                   display: 'block', 
-                  borderRadius: 'min(2vw, 16px)'
+                  borderRadius: '8px'
                 }} 
                 alt={`Feedback ${i}`} 
               />

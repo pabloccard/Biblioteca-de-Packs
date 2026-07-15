@@ -8,7 +8,7 @@ export function SectionPersonalize() {
       }}
     >
       <svg 
-        viewBox="0 0 2000 2593" 
+        viewBox="0 0 2000 2467" 
         style={{ width: '100%', height: 'auto', display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -35,33 +35,33 @@ export function SectionPersonalize() {
           textAnchor="middle"
           dominantBaseline="middle"
         >
-          <tspan x="1000" y="509">PERSONALIZE</tspan>
-          <tspan x="1000" y="700">COM SUAS CORES</tspan>
+          <tspan x="1000" y="509">EDITE NO CANVA</tspan>
+          <tspan x="1000" y="700">OU PHOTOSHOP</tspan>
         </text>
 
-        {/* IMAGEM */}
+        {/* IMAGEM (Gap de ~120px do título) */}
         <image 
           href="/sales-pages/burger-v01/locales/pt/mockups/personalize.webp" 
           x="290" 
-          y="967" 
+          y="900" 
           width="1420" 
           height="737.71" 
           preserveAspectRatio="xMidYMid meet"
         />
 
-        {/* TEXTO DE APOIO */}
+        {/* TEXTO DE APOIO (Gap de ~120px da imagem) */}
         <text 
           fill="#0F0F0F" 
           fontFamily='"Inter", sans-serif'
-          fontSize="75"
+          fontSize="80"
           fontWeight="300"
           textAnchor="middle"
           dominantBaseline="middle"
         >
-          <tspan x="1000" y="1943">Não importa a cor que sua empresa</tspan>
-          <tspan x="1000" y="2043">usa, com poucos clicks você deixa</tspan>
-          <tspan x="1000" y="2143">qualquer arte com a cara da sua</tspan>
-          <tspan x="1000" y="2243">empresa!</tspan>
+          <tspan x="1000" y="1800">Deixe sua marca com aparência</tspan>
+          <tspan x="1000" y="1910">profissional e o impacto visual das</tspan>
+          <tspan x="1000" y="2020">grandes redes de fast-food, usando</tspan>
+          <tspan x="1000" y="2130">artes prontas e fáceis de editar.</tspan>
         </text>
       </svg>
     </div>

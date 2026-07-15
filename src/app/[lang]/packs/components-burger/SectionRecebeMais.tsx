@@ -19,7 +19,7 @@ export function SectionRecebeMais() {
       }} />
 
       <svg 
-        viewBox="0 0 2000 3965" 
+        viewBox="0 0 2000 4656" 
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -29,7 +29,7 @@ export function SectionRecebeMais() {
           fill="rgba(255, 255, 255, 0.5)" fontFamily='"Inter", sans-serif' fontSize="74" fontWeight="400"
           textAnchor="middle" dominantBaseline="middle"
         >
-          O QUE VOCÊ RECEBE
+          UM PACK COMPLETO
         </text>
 
         {/* TÍTULO PRINCIPAL */}
@@ -38,18 +38,25 @@ export function SectionRecebeMais() {
           fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600"
           textAnchor="middle" dominantBaseline="middle"
         >
-          CONFIRA O QUE
+          TUDO PRONTO
         </text>
         <text 
           x="1000" y="700" 
           fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600"
           textAnchor="middle" dominantBaseline="middle"
         >
-          VOCÊ VAI RECEBER
+          PARA VOCÊ EDITAR
+        </text>
+        <text 
+          x="1000" y="891" 
+          fill="#FFFFFF" fontFamily='"Inter", sans-serif' fontSize="158" fontWeight="600"
+          textAnchor="middle" dominantBaseline="middle"
+        >
+          E POSTAR
         </text>
 
         {/* CARROSSEL INFINITO */}
-        <foreignObject x="0" y="1039" width="2000" height="1980">
+        <foreignObject x="0" y="1230" width="2000" height="2480">
           <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: '40px' }}>
             <style>{`
               @keyframes marqueeRowBurger {
@@ -74,8 +81,8 @@ export function SectionRecebeMais() {
                   <div 
                     key={idx} 
                     style={{ 
-                      width: '506.6px', 
-                      height: '633.3px', 
+                      width: '640px', 
+                      height: '800px', 
                       marginRight: '40px', 
                       flexShrink: 0,
                       borderRadius: '40px',
@@ -98,19 +105,20 @@ export function SectionRecebeMais() {
 
         {/* INFORMAÇÕES DE RODAPÉ */}
         <g>
-          <text x="500" y="3378" fill="#00FF6F" fontFamily='"Montserrat", sans-serif' fontSize="198" fontWeight="500" textAnchor="middle" dominantBaseline="middle">40</text>
-          <text x="500" y="3566" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">ARTES</text>
-          <text x="500" y="3626" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">EDITÁVEIS</text>
-          <rect x="750" y="3347" width="1" height="236" fill="#FFFFFF" />
-
-          <text x="1000" y="3378" fill="#00FF6F" fontFamily='"Montserrat", sans-serif' fontSize="198" fontWeight="500" textAnchor="middle" dominantBaseline="middle">40</text>
-          <text x="1000" y="3566" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">LEGENDAS</text>
-          <text x="1000" y="3626" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">PRONTAS</text>
-          <rect x="1250" y="3347" width="1" height="236" fill="#FFFFFF" />
-
-          <text x="1500" y="3378" fill="#00FF6F" fontFamily='"Montserrat", sans-serif' fontSize="198" fontWeight="500" textAnchor="middle" dominantBaseline="middle">01</text>
-          <text x="1500" y="3566" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">VÍDEO</text>
-          <text x="1500" y="3626" fill="rgba(255, 255, 255, 0.8)" fontFamily='"Inter", sans-serif' fontSize="50" fontWeight="400" textAnchor="middle" dominantBaseline="middle">TUTORIAL</text>
+          <text 
+            x="1000" 
+            y="4050" 
+            fill="rgba(255, 255, 255, 0.7)" 
+            fontFamily='"Inter", sans-serif'
+            fontSize="80"
+            fontWeight="300"
+            textAnchor="middle"
+            dominantBaseline="middle"
+          >
+            <tspan x="1000" dy="0">Além de 40 artes profissionais, você recebe</tspan>
+            <tspan x="1000" dy="110">legendas prontas e um vídeo tutorial com o</tspan>
+            <tspan x="1000" dy="110">passo a passo para editar suas artes.</tspan>
+          </text>
         </g>
       </svg>
     </div>
