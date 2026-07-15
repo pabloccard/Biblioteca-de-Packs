@@ -81,7 +81,6 @@ export function SectionOffer() {
                 dominantBaseline="middle"
               >
                 {item.text}
-                {item.sub && <tspan fontSize="50">{item.sub}</tspan>}
               </text>
               {item.line2 && (
                 <text 
