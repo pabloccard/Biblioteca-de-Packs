@@ -5,7 +5,7 @@ export function SectionRecebeMais() {
         width: '100%', 
         overflow: 'hidden', 
         position: 'relative',
-        paddingBottom: '195.5%',
+        paddingBottom: '232.8%',
         backgroundColor: '#000'
       }}
     >
@@ -81,7 +81,7 @@ export function SectionRecebeMais() {
                   <div 
                     key={idx} 
                     style={{ 
-                      width: '640px', 
+                      width: '626.66px', 
                       height: '800px', 
                       marginRight: '40px', 
                       flexShrink: 0,

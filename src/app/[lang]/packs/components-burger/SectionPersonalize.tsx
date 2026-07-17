@@ -58,10 +58,10 @@ export function SectionPersonalize() {
           textAnchor="middle"
           dominantBaseline="middle"
         >
-          <tspan x="1000" y="1800">Deixe sua marca com aparência</tspan>
-          <tspan x="1000" y="1910">profissional e o impacto visual das</tspan>
-          <tspan x="1000" y="2020">grandes redes de fast-food, usando</tspan>
-          <tspan x="1000" y="2130">artes prontas e fáceis de editar.</tspan>
+          <tspan x="1000" y="1800">Personalize textos, cores, fotos, preços e</tspan>
+          <tspan x="1000" y="1910">informações em poucos minutos pelo</tspan>
+          <tspan x="1000" y="2020">Canva gratuito ou Photoshop, mesmo sem</tspan>
+          <tspan x="1000" y="2130">experiência em design.</tspan>
         </text>
       </svg>
     </div>
