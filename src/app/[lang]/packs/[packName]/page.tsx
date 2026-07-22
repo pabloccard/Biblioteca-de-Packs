@@ -88,6 +88,15 @@ export default function BurgerEsSalesPage() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #000; }
         html { scroll-behavior: smooth; }
+
+        /* Bloqueia clique direito, seleção e drag nas imagens */
+        img {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          -webkit-user-drag: none;
+          pointer-events: none;
+        }
       `}</style>
 
       {/* Container principal: simula mobile no desktop */}
@@ -99,49 +108,54 @@ export default function BurgerEsSalesPage() {
           minHeight: '100vh',
         }}
       >
-        {/* 1. Hero — sem botão */}
+        {/* 1. Hero — alta prioridade, carrega primeiro */}
         <div style={{ position: 'relative', width: '100%', display: 'block' }}>
           <img
             src="/sales-pages/burguer-es/hero.webp"
             alt="Hero"
+            fetchPriority="high"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
 
-        {/* 2. Personaliza — botão rola para a oferta */}
+        {/* 2. Personaliza — lazy */}
         <div style={{ position: 'relative', width: '100%', display: 'block' }}>
           <img
             src="/sales-pages/burguer-es/personalize.webp"
             alt="Personaliza"
+            loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
           <ScrollButton bottom={290} id="btn-personalize" />
         </div>
 
-        {/* 3. Feedbacks — sem botão */}
+        {/* 3. Feedbacks — lazy */}
         <div style={{ position: 'relative', width: '100%', display: 'block' }}>
           <img
             src="/sales-pages/burguer-es/feedbacks.webp"
             alt="Feedbacks"
+            loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
 
-        {/* 4. Oferta — botão vai pro checkout */}
+        {/* 4. Oferta — lazy */}
         <div id="secao-oferta" style={{ position: 'relative', width: '100%', display: 'block' }}>
           <img
             src="/sales-pages/burguer-es/oferta.webp"
             alt="Oferta"
+            loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
           <CheckoutButton bottom={570} id="btn-oferta" />
         </div>
 
-        {/* 5. Garantia — botão vai pro checkout */}
+        {/* 5. Garantia — lazy */}
         <div style={{ position: 'relative', width: '100%', display: 'block' }}>
           <img
             src="/sales-pages/burguer-es/garantia.webp"
             alt="Garantia"
+            loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
           <CheckoutButton bottom={222} id="btn-garantia" />
