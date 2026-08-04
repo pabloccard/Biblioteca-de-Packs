@@ -11,6 +11,11 @@ const dictionaries = {
     dashboard: () => import('@/dictionaries/dashboard/es.json').then((module) => module.default),
     pack: () => import('@/dictionaries/pack/es.json').then((module) => module.default),
   },
+  en: {
+    login: () => import('@/dictionaries/login/en.json').then((module) => module.default),
+    dashboard: () => import('@/dictionaries/dashboard/en.json').then((module) => module.default),
+    pack: () => import('@/dictionaries/pack/en.json').then((module) => module.default),
+  },
 }
 
 export type Locale = keyof typeof dictionaries

@@ -6,7 +6,11 @@ import SuggestionModal from '@/components/SuggestionModal'
 export default function SuggestionButton({ lang = 'pt' }: { lang?: string }) {
   const [open, setOpen] = useState(false)
 
-  const text = lang === 'es' ? 'Enviar sugerencia' : 'Enviar sugestão'
+  const text = lang === 'en' 
+    ? 'Send feedback'
+    : lang === 'es' 
+      ? 'Enviar sugerencia' 
+      : 'Enviar sugestão'
 
   return (
     <>

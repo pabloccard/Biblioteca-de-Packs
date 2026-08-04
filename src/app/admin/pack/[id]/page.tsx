@@ -34,10 +34,9 @@ export default async function AdminPackViewPage({ params }: Props) {
           <Link href={`/admin/pack/${id}/edit`} className="btn-admin-primary">Editar Pack</Link>
         </header>
 
-        {/* Stats: apenas artes e vendas */}
+        {/* Stats: apenas artes */}
         <div className="admin-stats-grid">
           <div className="admin-stat-card"><span className="admin-stat-value">{packArts.length}</span><span className="admin-stat-label">Artes Cadastradas</span></div>
-          <div className="admin-stat-card"><span className="admin-stat-value">{packPurchases.length}</span><span className="admin-stat-label">Vendas</span></div>
         </div>
 
         {pack.cover_image_url && (

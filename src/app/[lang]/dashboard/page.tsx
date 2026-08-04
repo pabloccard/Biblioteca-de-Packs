@@ -84,9 +84,11 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   const hasAnyPacks = sortedPacks.length > 0
 
-  const subtitleText = lang === 'pt'
-    ? "Acesse seus packs abaixo."
-    : "Accede a tus packs a continuación."
+  const subtitleText = lang === 'en'
+    ? "Access your templates below."
+    : lang === 'es'
+      ? "Accede a tus packs a continuación."
+      : "Acesse seus packs abaixo."
 
   return (
     <div className="page-wrapper">
@@ -109,8 +111,8 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
               <div className="header-right-actions" style={{ display: 'flex', alignItems: 'center' }}>
                 <form action={logoutAction} style={{ display: 'flex', alignItems: 'center' }}>
                   <input type="hidden" name="lang" value={lang} />
-                  <button type="submit" className="btn-logout" aria-label="Sair" style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto', padding: '0 0 0 8px' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>Sair</span>
+                  <button type="submit" className="btn-logout" aria-label={lang === 'en' ? 'Log out' : lang === 'es' ? 'Salir' : 'Sair'} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: 'auto', padding: '0 0 0 8px' }}>
+                    <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>{lang === 'en' ? 'Log out' : lang === 'es' ? 'Salir' : 'Sair'}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                       <polyline points="16 17 21 12 16 7"></polyline>
@@ -135,7 +137,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                       {category.name}
                     </h2>
                     <div className="packs-grid">
-                      {categoryPacks.map(pack => {
+                      {categoryPacks.map((pack, index) => {
                         const artCount = getLocalArtCount(pack.arts_folder)
                         const packSpecs = allSpecs.filter(s => s.pack_id === pack.id).map(s => s.label)
                         const localArts = getLocalArts(pack.arts_folder, pack.art_captions)
@@ -154,6 +156,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                               showDiscountTag={pack.show_discount_tag ?? true}
                               version={pack.version || '1.0'}
                               lang={lang}
+                              priority={index < 4}
                             />
                           </div>
                         )
@@ -170,7 +173,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                     {lang === 'es' ? 'Otros Packs' : 'Outros Packs'}
                   </h2>
                   <div className="packs-grid">
-                    {sortedPacks.filter(p => !p.category_id).map(pack => {
+                    {sortedPacks.filter(p => !p.category_id).map((pack, index) => {
                       const artCount = getLocalArtCount(pack.arts_folder)
                       const packSpecs = allSpecs.filter(s => s.pack_id === pack.id).map(s => s.label)
                       const localArts = getLocalArts(pack.arts_folder, pack.art_captions)
@@ -189,6 +192,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
                             showDiscountTag={pack.show_discount_tag ?? true}
                             version={pack.version || '1.0'}
                             lang={lang}
+                            priority={index < 4}
                           />
                         </div>
                       )

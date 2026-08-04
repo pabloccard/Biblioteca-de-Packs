@@ -190,6 +190,15 @@ export async function POST(request: Request) {
             fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
             footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
           },
+          en: {
+            subject: `Extra Content Unlocked!`,
+            greeting: buyerName ? `Hello, ${buyerName}!` : 'Hello!',
+            title: 'Extra content unlocked!',
+            body: `The files <strong>"${pack.name}"</strong> from the <strong>"${parentPackName}"</strong> pack have been successfully unlocked! Access your library and check the new content available in the files tab.`,
+            btn: 'Access →',
+            fallback: 'If the button doesn\'t work, copy and paste the link below into your browser:',
+            footer: 'This is an automated email. If you need help, please contact support.',
+          },
         }
       } else {
         // E-mail para pack PRINCIPAL
@@ -211,6 +220,15 @@ export async function POST(request: Request) {
             btn: 'Acceder →',
             fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
             footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
+          },
+          en: {
+            subject: `Your "${pack.name}" Pack is Ready!`,
+            greeting: buyerName ? `Hello, ${buyerName}!` : 'Hello!',
+            title: 'Your pack has been unlocked!',
+            body: `The <strong>"${pack.name}"</strong> pack is now available in your library. To access it, click the button below and enter the email used at checkout.`,
+            btn: 'Access →',
+            fallback: 'If the button doesn\'t work, copy and paste the link below into your browser:',
+            footer: 'This is an automated email. If you need help, please contact support.',
           },
         }
       }

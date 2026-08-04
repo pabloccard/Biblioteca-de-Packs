@@ -30,6 +30,7 @@ interface PackLink {
   url: string
   label_pt: string
   label_es?: string
+  label_en?: string
   subsection_id: string | null
 }
 
@@ -120,6 +121,7 @@ interface PackSubsection {
   id: string
   name_pt: string
   name_es: string
+  name_en?: string
   icon: string
   display_order: number
 }
@@ -393,7 +395,7 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                             )}
                           </div>
                           <div className="accordion-title-text">
-                            <span>{lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
+                            <span>{lang === 'en' ? (sub.name_en || sub.name_pt) : lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
                             <span className="accordion-count">{subLinks.length} {subLinks.length === 1 ? 'link' : 'links'}</span>
                           </div>
                         </div>
@@ -424,14 +426,16 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                         <div className="accordion-content">
                           {isFeedLocked ? (
                             <div className="locked-message">
-                              <p>{lang === 'es' 
+                              <p>{lang === 'en' 
+                                ? 'You haven\'t unlocked the Feed files yet. Click "Unlock Now" to get them at an exclusive discount.'
+                              : lang === 'es' 
                                 ? 'Aún no has desbloqueado los archivos en la versión Feed. Haz clic en "Liberar Ahora" y adquiérelos con descuento exclusivo.' 
                                 : 'Você ainda não liberou os arquivos na versão Feed. Clique no botão "Liberar Agora" e adquira com desconto exclusivo.'
                               }</p>
                             </div>
                           ) : (
                             subLinks.map(link => (
-                              <LinkButton key={link.id} href={link.url} label={lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
+                              <LinkButton key={link.id} href={link.url} label={lang === 'en' ? (link.label_en || link.label_pt) : lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
                             ))
                           )}
                         </div>
@@ -468,9 +472,9 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                         </div>
                         <div className="accordion-title-text">
                           <span>
-                            {(lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt)
-                              .replace(/^Story$/i, lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')
-                              .replace(/^Stories$/i, lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')}
+                            {(lang === 'en' ? (sub.name_en || sub.name_pt) : lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt)
+                              .replace(/^Story$/i, lang === 'en' ? 'Story Files' : lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')
+                              .replace(/^Stories$/i, lang === 'en' ? 'Story Files' : lang === 'es' ? 'Archivos Stories' : 'Arquivos Stories')}
                           </span>
                           <span className="accordion-count">{subLinks.length} {subLinks.length === 1 ? 'link' : 'links'}</span>
                         </div>
@@ -502,14 +506,16 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                       <div className="accordion-content">
                         {isLocked ? (
                           <div className="locked-message">
-                            <p>{lang === 'es' 
-                              ? 'Aún no has desbloqueado los archivos en la versión Story. Haz clic en "Liberar Ahora" y adquiérelos con descuento exclusivo.' 
-                              : 'Você ainda não liberou os arquivos na versão Story. Clique no botão "Liberar Agora" e adquira com desconto exclusivo.'
+                            <p>{lang === 'en'
+                              ? 'You haven\'t unlocked the Story files yet. Click "Unlock Now" to get them at an exclusive discount.'
+                              : lang === 'es' 
+                                ? 'Aún no has desbloqueado los archivos en la versión Story. Haz clic en "Liberar Ahora" y adquiérelos con descuento exclusivo.' 
+                                : 'Você ainda não liberou os arquivos na versão Story. Clique no botão "Liberar Agora" e adquira com desconto exclusivo.'
                             }</p>
                           </div>
                         ) : (
                           subLinks.map(link => (
-                            <LinkButton key={link.id} href={link.url} label={lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} locked={isLocked} />
+                            <LinkButton key={link.id} href={link.url} label={lang === 'en' ? (link.label_en || link.label_pt) : lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} locked={isLocked} />
                           ))
                         )}
                       </div>
@@ -538,7 +544,7 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                             </svg>
                           </div>
                           <div className="accordion-title-text">
-                            <span>{lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
+                            <span>{lang === 'en' ? (sub.name_en || sub.name_pt) : lang === 'es' ? (sub.name_es || sub.name_pt) : sub.name_pt}</span>
                             <span className="accordion-count">{subLinks.length} {subLinks.length === 1 ? 'link' : 'links'}</span>
                           </div>
                         </div>
@@ -551,7 +557,7 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                       <div className="accordion-wrapper">
                         <div className="accordion-content">
                           {subLinks.map(link => (
-                            <LinkButton key={link.id} href={link.url} label={lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
+                            <LinkButton key={link.id} href={link.url} label={lang === 'en' ? (link.label_en || link.label_pt) : lang === 'es' ? (link.label_es || link.label_pt) : link.label_pt} />
                           ))}
                         </div>
                       </div>

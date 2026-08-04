@@ -94,8 +94,8 @@ export async function createPackAction(formData: FormData) {
   const sectionsRaw = formData.get('sections_data') as string
   if (sectionsRaw) {
     const sections = JSON.parse(sectionsRaw) as {
-      tutorials: { url: string; label_pt: string; label_es: string; order: number }[]
-      subsections: { name_pt: string; name_es: string; icon: string; order: number; links: { url: string; label_pt: string; label_es: string; order: number }[] }[]
+      tutorials: { url: string; label_pt: string; label_es: string; label_en: string; order: number }[]
+      subsections: { name_pt: string; name_es: string; name_en: string; icon: string; order: number; links: { url: string; label_pt: string; label_es: string; label_en: string; order: number }[] }[]
     }
 
     for (const t of sections.tutorials) {
@@ -104,6 +104,7 @@ export async function createPackAction(formData: FormData) {
         pack_id: pack.id,
         label_pt: t.label_pt,
         label_es: t.label_es || t.label_pt,
+        label_en: t.label_en || '',
         url: t.url,
         display_order: t.order,
         category: 'youtube',
@@ -115,6 +116,7 @@ export async function createPackAction(formData: FormData) {
         pack_id: pack.id,
         name_pt: sub.name_pt,
         name_es: sub.name_es || sub.name_pt,
+        name_en: sub.name_en || '',
         icon: sub.icon || 'folder',
         display_order: sub.order,
       }).select('id').single()
@@ -126,6 +128,7 @@ export async function createPackAction(formData: FormData) {
             pack_id: pack.id,
             label_pt: link.label_pt,
             label_es: link.label_es || link.label_pt,
+            label_en: link.label_en || '',
             url: link.url,
             display_order: link.order,
             category: sub.icon || 'canva',
@@ -198,10 +201,10 @@ export async function updatePackAction(formData: FormData) {
   const sectionsRaw = formData.get('sections_data') as string
   if (sectionsRaw) {
     const sections = JSON.parse(sectionsRaw) as {
-      tutorials: { id?: string; url: string; label_pt: string; label_es: string; order: number; _delete?: boolean }[]
+      tutorials: { id?: string; url: string; label_pt: string; label_es: string; label_en: string; order: number; _delete?: boolean }[]
       subsections: {
-        id?: string; name_pt: string; name_es: string; icon: string; order: number; _delete?: boolean;
-        links: { id?: string; url: string; label_pt: string; label_es: string; order: number; _delete?: boolean }[]
+        id?: string; name_pt: string; name_es: string; name_en: string; icon: string; order: number; _delete?: boolean;
+        links: { id?: string; url: string; label_pt: string; label_es: string; label_en: string; order: number; _delete?: boolean }[]
       }[]
     }
 
@@ -215,6 +218,7 @@ export async function updatePackAction(formData: FormData) {
         await supabase.from('pack_links').update({
           label_pt: t.label_pt,
           label_es: t.label_es || t.label_pt,
+          label_en: t.label_en || '',
           url: t.url,
           display_order: t.order,
         }).eq('id', t.id)
@@ -223,6 +227,7 @@ export async function updatePackAction(formData: FormData) {
           pack_id: packId,
           label_pt: t.label_pt,
           label_es: t.label_es || t.label_pt,
+          label_en: t.label_en || '',
           url: t.url,
           display_order: t.order,
           category: 'youtube',
@@ -242,6 +247,7 @@ export async function updatePackAction(formData: FormData) {
         await supabase.from('pack_subsections').update({
           name_pt: sub.name_pt,
           name_es: sub.name_es || sub.name_pt,
+          name_en: sub.name_en || '',
           icon: sub.icon || 'folder',
           display_order: sub.order,
         }).eq('id', sub.id)
@@ -250,6 +256,7 @@ export async function updatePackAction(formData: FormData) {
           pack_id: packId,
           name_pt: sub.name_pt,
           name_es: sub.name_es || sub.name_pt,
+          name_en: sub.name_en || '',
           icon: sub.icon || 'folder',
           display_order: sub.order,
         }).select('id').single()
@@ -268,6 +275,7 @@ export async function updatePackAction(formData: FormData) {
           await supabase.from('pack_links').update({
             label_pt: link.label_pt,
             label_es: link.label_es || link.label_pt,
+            label_en: link.label_en || '',
             url: link.url,
             display_order: link.order,
             subsection_id: subsectionId,
@@ -277,6 +285,7 @@ export async function updatePackAction(formData: FormData) {
             pack_id: packId,
             label_pt: link.label_pt,
             label_es: link.label_es || link.label_pt,
+            label_en: link.label_en || '',
             url: link.url,
             display_order: link.order,
             category: sub.icon || 'canva',

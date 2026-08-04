@@ -141,28 +141,28 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
     if (packType === 'parent') {
       if (feedLinks.length > 0) {
         subsectionsData.push({
-          name_pt: 'Feed', name_es: 'Feed', icon: '', order: 1,
-          links: feedLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.order })),
+          name_pt: 'Feed', name_es: 'Feed', name_en: 'Feed', icon: '', order: 1,
+          links: feedLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: '', order: l.order })),
         })
       }
       if (utilitiesLinks.length > 0) {
         subsectionsData.push({
-          name_pt: 'Utilitários', name_es: 'Utilidades', icon: '', order: 3,
-          links: utilitiesLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.order })),
+          name_pt: 'Utilitários', name_es: 'Utilidades', name_en: 'Utilities', icon: '', order: 3,
+          links: utilitiesLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: '', order: l.order })),
         })
       }
     } else {
       if (storyLinks.length > 0) {
         subsectionsData.push({
-          name_pt: 'Story', name_es: 'Story', icon: '', order: 1,
-          links: storyLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.order })),
+          name_pt: 'Story', name_es: 'Story', name_en: 'Story', icon: '', order: 1,
+          links: storyLinks.map(l => ({ url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: '', order: l.order })),
         })
       }
     }
 
     const sectionsJson = JSON.stringify({
       tutorials: packType === 'parent'
-        ? tutorials.map(t => ({ url: t.url, label_pt: t.label_pt, label_es: t.label_es, order: t.order }))
+        ? tutorials.map(t => ({ url: t.url, label_pt: t.label_pt, label_es: t.label_es, label_en: '', order: t.order }))
         : [],
       subsections: subsectionsData,
     })
@@ -351,6 +351,7 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
                     <select name="language" className="input-field">
                       <option value="pt">Português (PT-BR)</option>
                       <option value="es">Español</option>
+                      <option value="en">English</option>
                     </select>
                   </div>
                   <div className="input-group">
@@ -469,6 +470,7 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
                     <div className="input-group"><label>URL *</label><input type="url" className="input-field" value={link.url} onChange={e => updateLinkIn(setStoryLinks, storyLinks, link._key, 'url', e.target.value)} placeholder="https://..." /></div>
                     <div className="input-group"><label>Texto (PT-BR) *</label><input type="text" className="input-field" value={link.label_pt} onChange={e => updateLinkIn(setStoryLinks, storyLinks, link._key, 'label_pt', e.target.value)} placeholder="Ex: Story Canva" /></div>
                     <div className="input-group"><label>Texto (Espanhol)</label><input type="text" className="input-field" value={link.label_es} onChange={e => updateLinkIn(setStoryLinks, storyLinks, link._key, 'label_es', e.target.value)} /></div>
+                    <div className="input-group"><label>Texto (English)</label><input type="text" className="input-field" value={link.label_en} onChange={e => updateLinkIn(setStoryLinks, storyLinks, link._key, 'label_en', e.target.value)} /></div>
                     <div className="input-group"><label>Posição</label><input type="number" className="input-field" value={link.order} onChange={e => updateLinkIn(setStoryLinks, storyLinks, link._key, 'order', parseInt(e.target.value) || 1)} min={1} /></div>
                   </div>
                 </div>

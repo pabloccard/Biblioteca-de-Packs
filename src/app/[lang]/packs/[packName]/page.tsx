@@ -1,5 +1,8 @@
 'use client'
 
+import { use } from 'react'
+import BurgerEnSalesPage from '../components-burger-en/BurgerEnSalesPage'
+
 /**
  * Página de vendas: es/packs/burger
  *
@@ -78,7 +81,15 @@ function ScrollButton({ bottom, id }: { bottom: number; id: string }) {
   )
 }
 
-export default function BurgerEsSalesPage() {
+export default function BurgerSalesPage({ params }: { params: Promise<{ lang: string, packName: string }> }) {
+  const { packName } = use(params)
+
+  // Se for a página em inglês, renderiza o componente completamente isolado
+  if (packName === 'burger-restaurants') {
+    return <BurgerEnSalesPage />
+  }
+
+  // Fallback original para espanhol (burger)
   return (
     <>
       {/* Importa Clash Display via Fontshare */}

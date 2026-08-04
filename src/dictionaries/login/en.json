@@ -1,0 +1,15 @@
+{
+  "title": "Access your <span>packs</span>",
+  "subtitle": "Enter the email address you used<br/>at checkout",
+  "emailLabel": "Email used at checkout",
+  "emailPlaceholder": "Email used at checkout",
+  "submit": "Continue",
+  "loading": "Checking...",
+  "helpText": "Need help? <a href=\"https://wa.me/5564993237320\" target=\"_blank\">Contact support &gt;</a>",
+  "footer": "© 2026 Pablo Castilho<br/>All rights reserved.",
+  "errors": {
+    "invalid_email": "Please enter a valid email.",
+    "member_not_found": "Member not found with this email.",
+    "default": "An error occurred while logging in. Please try again."
+  }
+}

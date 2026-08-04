@@ -37,7 +37,7 @@ export default function SuggestionModal({ isOpen, onClose, lang = 'pt' }: Props)
 
   const handleSubmit = useCallback(async () => {
     if (!message.trim()) {
-      setError(lang === 'es' ? 'Escribe tu sugerencia antes de enviar.' : 'Escreva sua sugestão antes de enviar.')
+      setError(lang === 'en' ? 'Write your suggestion before sending.' : lang === 'es' ? 'Escribe tu sugerencia antes de enviar.' : 'Escreva sua sugestão antes de enviar.')
       return
     }
     setLoading(true)
@@ -53,7 +53,21 @@ export default function SuggestionModal({ isOpen, onClose, lang = 'pt' }: Props)
 
   if (!isOpen) return null
 
-  const t = lang === 'es' ? {
+  const t = lang === 'en' ? {
+    emptyError: 'Write your suggestion before sending.',
+    successTitle: 'Feedback sent!',
+    successDesc: 'Thank you for your feedback. We will gladly analyze your suggestion. 💙',
+    close: 'Close',
+    title: 'Send feedback',
+    desc: 'Suggest a new template pack, a specific template, or any improvement.',
+    nicheLabel: 'Niche / Category',
+    optional: '(optional)',
+    nichePlaceholder: 'e.g. Barbershop, Beauty, Fitness...',
+    suggestionLabel: 'Your suggestion *',
+    suggestionPlaceholder: 'Tell us what you’d like to see. A new template pack? A specific template? An improvement?',
+    sending: 'Sending...',
+    sendBtn: 'Send feedback'
+  } : lang === 'es' ? {
     emptyError: 'Escribe tu sugerencia antes de enviar.',
     successTitle: '¡Sugerencia enviada!',
     successDesc: 'Gracias por tus comentarios. Analizaremos tu sugerencia con mucho gusto. 💙',

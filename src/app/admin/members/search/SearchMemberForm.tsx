@@ -156,6 +156,7 @@ export default function SearchMemberForm({ allPacks }: { allPacks: Pack[] }) {
                     <select className="input-field" value={editLanguage} onChange={(e) => setEditLanguage(e.target.value)}>
                       <option value="pt">Português (PT-BR)</option>
                       <option value="es">Español</option>
+                      <option value="en">English</option>
                     </select>
                   </div>
                 </div>

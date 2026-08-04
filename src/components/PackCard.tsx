@@ -22,9 +22,10 @@ interface PackCardProps {
   showDiscountTag?: boolean
   version?: string
   lang: string
+  priority?: boolean
 }
 
-export default function PackCard({ id, name, coverImageUrl, artCount, isUnlocked, specs, arts, buyLink, showDiscountTag = true, version = '1.0', lang }: PackCardProps) {
+export default function PackCard({ id, name, coverImageUrl, artCount, isUnlocked, specs, arts, buyLink, showDiscountTag = true, version = '1.0', lang, priority = false }: PackCardProps) {
   const [showModal, setShowModal] = useState(false)
 
   const cardContent = (
@@ -43,7 +44,7 @@ export default function PackCard({ id, name, coverImageUrl, artCount, isUnlocked
             fill
             sizes="(max-width: 600px) 50vw, (max-width: 900px) 33vw, 25vw"
             style={{ objectFit: 'cover' }}
-            loading="lazy"
+            priority={priority}
           />
         ) : (
           <div style={{

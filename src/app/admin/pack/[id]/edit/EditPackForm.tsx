@@ -20,17 +20,17 @@ interface Pack {
 }
 interface ParentPackOption { id: string; name: string }
 interface PackSpec { id: string; label: string; display_order: number }
-interface PackLink { id: string; label_pt: string; label_es: string; url: string; display_order: number; category: string; subsection_id: string | null }
-interface Subsection { id: string; name_pt: string; name_es: string; icon: string; display_order: number }
+interface PackLink { id: string; label_pt: string; label_es: string; label_en: string; url: string; display_order: number; category: string; subsection_id: string | null }
+interface Subsection { id: string; name_pt: string; name_es: string; name_en: string; icon: string; display_order: number }
 interface Category { id: string; name: string; tag: string }
 interface Icon { id: string; name: string; image_url: string }
 
 interface TutorialItem { _key: string; id?: string; url: string; label_pt: string; label_es: string; order: number }
 interface SubsectionItem {
-  _key: string; id?: string; name_pt: string; name_es: string; icon: string; order: number
+  _key: string; id?: string; name_pt: string; name_es: string; name_en: string; icon: string; order: number
   links: LinkItem[]
 }
-interface LinkItem { _key: string; id?: string; url: string; label_pt: string; label_es: string; order: number }
+interface LinkItem { _key: string; id?: string; url: string; label_pt: string; label_es: string; label_en: string; order: number }
 interface SpecItem { _key: string; label: string; order: number }
 
 interface Props { pack: Pack; existingLinks: PackLink[]; existingSubsections: Subsection[]; categories: Category[]; icons: Icon[]; existingSpecs: PackSpec[]; parentPacks: ParentPackOption[] }
@@ -105,9 +105,9 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
   // Subsections with their links
   const [subsections, setSubsections] = useState<SubsectionItem[]>(
     existingSubsections.map(s => ({
-      _key: s.id, id: s.id, name_pt: s.name_pt, name_es: s.name_es, icon: s.icon, order: s.display_order,
+      _key: s.id, id: s.id, name_pt: s.name_pt, name_es: s.name_es, name_en: s.name_en || '', icon: s.icon, order: s.display_order,
       links: existingLinks.filter(l => l.subsection_id === s.id).map(l => ({
-        _key: l.id, id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.display_order,
+        _key: l.id, id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: l.label_en || '', order: l.display_order,
       })),
     }))
   )
@@ -139,7 +139,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
 
   // ===== SUBSECTIONS CRUD =====
   function addSubsection() {
-    setSubsections([...subsections, { _key: `new-${Date.now()}`, name_pt: '', name_es: '', icon: 'folder', order: subsections.length + 1, links: [] }])
+    setSubsections([...subsections, { _key: `new-${Date.now()}`, name_pt: '', name_es: '', name_en: '', icon: 'folder', order: subsections.length + 1, links: [] }])
   }
   function removeSubsection(key: string) { setSubsections(subsections.filter(s => s._key !== key)) }
   function updateSubsection(key: string, field: string, value: string | number) {
@@ -148,7 +148,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
 
   // ===== LINKS CRUD =====
   function addLink(subKey: string) {
-    setSubsections(subsections.map(s => s._key === subKey ? { ...s, links: [...s.links, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', order: s.links.length + 1 }] } : s))
+    setSubsections(subsections.map(s => s._key === subKey ? { ...s, links: [...s.links, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', label_en: '', order: s.links.length + 1 }] } : s))
   }
   function removeLink(subKey: string, linkKey: string) {
     setSubsections(subsections.map(s => s._key === subKey ? { ...s, links: s.links.filter(l => l._key !== linkKey) } : s))
@@ -174,7 +174,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
 
     // Build sections JSON
     const deletedTutorials = youtubeLinks.filter(l => !tutorials.find(t => t.id === l.id)).map(l => ({ id: l.id, _delete: true, url: '', label_pt: '', label_es: '', order: 0 }))
-    const deletedSubsections = existingSubsections.filter(s => !subsections.find(sub => sub.id === s.id)).map(s => ({ id: s.id, _delete: true, name_pt: '', name_es: '', icon: '', order: 0, links: [] as LinkItem[] }))
+    const deletedSubsections = existingSubsections.filter(s => !subsections.find(sub => sub.id === s.id)).map(s => ({ id: s.id, _delete: true, name_pt: '', name_es: '', name_en: '', icon: '', order: 0, links: [] as LinkItem[] }))
     const deletedLinks: { subId: string; linkId: string }[] = []
     existingSubsections.forEach(s => {
       const currentSub = subsections.find(sub => sub.id === s.id)
@@ -198,11 +198,12 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
           id: s.id,
           name_pt: s.name_pt,
           name_es: s.name_es,
+          name_en: s.name_en,
           icon: s.icon,
           order: s.order,
           links: [
-            ...s.links.map(l => ({ id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.order })),
-            ...deletedLinks.filter(d => d.subId === s.id).map(d => ({ id: d.linkId, _delete: true, url: '', label_pt: '', label_es: '', order: 0 })),
+            ...s.links.map(l => ({ id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: l.label_en, order: l.order })),
+            ...deletedLinks.filter(d => d.subId === s.id).map(d => ({ id: d.linkId, _delete: true, url: '', label_pt: '', label_es: '', label_en: '', order: 0 })),
           ],
         })),
         ...deletedSubsections,
@@ -299,6 +300,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                       _key: `new-${Date.now()}`,
                       name_pt: isFeed ? 'Artes Feed' : 'Utilitários',
                       name_es: isFeed ? 'Artes Feed' : 'Utilitarios',
+                      name_en: isFeed ? 'Feed Templates' : 'Utilities',
                       icon: isFeed ? 'folder' : 'utilities',
                       order: subsections.length + 1,
                       links: []
@@ -331,6 +333,10 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                 <label>Nome da Subseção (ES)</label>
                 <input type="text" className="input-field" value={sub.name_es} onChange={e => updateSubsection(sub._key, 'name_es', e.target.value)} />
               </div>
+              <div className="input-group">
+                <label>Nome da Subseção (EN)</label>
+                <input type="text" className="input-field" value={sub.name_en} onChange={e => updateSubsection(sub._key, 'name_en', e.target.value)} />
+              </div>
             </div>
           </div>
           <div style={{ padding: '0 16px 16px' }}>
@@ -344,6 +350,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                   <div className="input-group"><label>URL *</label><input type="url" className="input-field" value={link.url} onChange={e => updateLink(sub._key, link._key, 'url', e.target.value)} placeholder="https://..." /></div>
                   <div className="input-group"><label>Texto (PT-BR) *</label><input type="text" className="input-field" value={link.label_pt} onChange={e => updateLink(sub._key, link._key, 'label_pt', e.target.value)} placeholder="Ex: Artes Feed" /></div>
                   <div className="input-group"><label>Texto (Espanhol)</label><input type="text" className="input-field" value={link.label_es} onChange={e => updateLink(sub._key, link._key, 'label_es', e.target.value)} /></div>
+                  <div className="input-group"><label>Texto (English)</label><input type="text" className="input-field" value={link.label_en} onChange={e => updateLink(sub._key, link._key, 'label_en', e.target.value)} /></div>
                   <div className="input-group"><label>Posição</label><input type="number" className="input-field" value={link.order} onChange={e => updateLink(sub._key, link._key, 'order', parseInt(e.target.value) || 1)} min={1} /></div>
                 </div>
               </div>
@@ -475,6 +482,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                     <select name="language" className="input-field" defaultValue={pack.language}>
                       <option value="pt">Português (PT-BR)</option>
                       <option value="es">Español</option>
+                      <option value="en">English</option>
                     </select>
                   </div>
                   <div className="input-group">
@@ -593,6 +601,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
                     <div className="input-group"><label>URL *</label><input type="url" className="input-field" value={link.url} onChange={e => updateLink(subsections[0]._key, link._key, 'url', e.target.value)} placeholder="https://..." /></div>
                     <div className="input-group"><label>Texto (PT-BR) *</label><input type="text" className="input-field" value={link.label_pt} onChange={e => updateLink(subsections[0]._key, link._key, 'label_pt', e.target.value)} placeholder="Ex: Story Canva" /></div>
                     <div className="input-group"><label>Texto (Espanhol)</label><input type="text" className="input-field" value={link.label_es} onChange={e => updateLink(subsections[0]._key, link._key, 'label_es', e.target.value)} /></div>
+                    <div className="input-group"><label>Texto (English)</label><input type="text" className="input-field" value={link.label_en} onChange={e => updateLink(subsections[0]._key, link._key, 'label_en', e.target.value)} /></div>
                     <div className="input-group"><label>Posição</label><input type="number" className="input-field" value={link.order} onChange={e => updateLink(subsections[0]._key, link._key, 'order', parseInt(e.target.value) || 1)} min={1} /></div>
                   </div>
                 </div>

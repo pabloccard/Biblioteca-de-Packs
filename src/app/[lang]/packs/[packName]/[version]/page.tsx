@@ -25,9 +25,6 @@ import { SectionFeedbacks as SectionFeedbacksBurger } from '../../components-bur
 import { SectionOffer as SectionOfferBurger } from '../../components-burger/SectionOffer'
 import { SectionGuarantee as SectionGuaranteeBurger } from '../../components-burger/SectionGuarantee'
 import { SectionSupport as SectionSupportBurger } from '../../components-burger/SectionSupport'
-import { SectionFaq as SectionFaqBurger } from '../../components-burger/SectionFaq'
-import { SectionFooter as SectionFooterBurger } from '../../components-burger/SectionFooter'
-
 import { redirect, notFound } from 'next/navigation'
 
 // Configuração de versões válidas e aliases por pack
@@ -81,6 +78,8 @@ export default async function PackSalesPage({ params }: { params: Promise<{ lang
       </main>
     )
   }
+
+
 
   // === PROVEDOR DE INTERNET ===
   const isSpanish = lang === 'es' || packName === 'proveedor';

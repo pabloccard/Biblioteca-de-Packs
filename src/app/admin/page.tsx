@@ -13,7 +13,7 @@ export default async function AdminDashboardPage() {
 
   const { data: packs } = await supabase
     .from('packs')
-    .select('*, member_purchases(count)')
+    .select('*')
     .order('created_at', { ascending: false })
 
   const allPacks = packs || []
@@ -82,14 +82,14 @@ export default async function AdminDashboardPage() {
                 <th>Versão</th>
                 <th>Hotmart ID</th>
                 <th>Artes</th>
-                <th>Vendas</th>
+
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {sortedPacks.map((pack) => {
                 const artCount = getLocalArtCount(pack.arts_folder)
-                const salesCount = (pack.member_purchases as { count: number }[])?.[0]?.count || 0
+
                 const isChild = !!pack.parent_pack_id
 
                 return (
@@ -118,7 +118,7 @@ export default async function AdminDashboardPage() {
                     </td>
                     <td><code className="admin-code">{pack.hotmart_id}</code></td>
                     <td>{artCount}</td>
-                    <td>{salesCount}</td>
+
                     <td>
                       <div className="admin-actions">
                         <Link href={`/admin/pack/${pack.id}`} className="btn-admin-action btn-view">Ver</Link>

@@ -164,6 +164,7 @@ export default function AddMemberForm({ allPacks }: { allPacks: Pack[] }) {
                   <select id="language" name="language" className="input-field">
                     <option value="pt">Português (PT-BR)</option>
                     <option value="es">Español</option>
+                    <option value="en">English</option>
                   </select>
                 </div>
                 <div className="input-group">
@@ -247,6 +248,7 @@ export default function AddMemberForm({ allPacks }: { allPacks: Pack[] }) {
                 >
                   <option value="pt">Português (PT-BR)</option>
                   <option value="es">Español</option>
+                  <option value="en">English</option>
                 </select>
               </div>
             </div>

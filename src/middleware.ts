@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const locales = ['pt', 'es']
+const locales = ['pt', 'es', 'en']
 const defaultLocale = 'pt'
 
 export function middleware(request: NextRequest) {
@@ -12,7 +12,10 @@ export function middleware(request: NextRequest) {
   const acceptLanguage = request.headers.get('accept-language') || ''
   
   // Se o usuário já fez login, forçamos o idioma dele. Caso contrário, detecção normal.
-  const preferredLocale = memberLangCookie || (acceptLanguage.toLowerCase().includes('es') ? 'es' : defaultLocale)
+  const preferredLocale = memberLangCookie || (
+    acceptLanguage.toLowerCase().includes('es') ? 'es' :
+    acceptLanguage.toLowerCase().includes('en') ? 'en' : defaultLocale
+  )
 
   // Se a rota já tem um locale suportado
   const pathnameHasLocale = locales.some(
