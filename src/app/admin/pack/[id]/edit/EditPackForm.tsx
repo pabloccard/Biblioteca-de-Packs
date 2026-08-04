@@ -25,7 +25,7 @@ interface Subsection { id: string; name_pt: string; name_es: string; name_en: st
 interface Category { id: string; name: string; tag: string }
 interface Icon { id: string; name: string; image_url: string }
 
-interface TutorialItem { _key: string; id?: string; url: string; label_pt: string; label_es: string; order: number }
+interface TutorialItem { _key: string; id?: string; url: string; label_pt: string; label_es: string; label_en: string; order: number }
 interface SubsectionItem {
   _key: string; id?: string; name_pt: string; name_es: string; name_en: string; icon: string; order: number
   links: LinkItem[]
@@ -99,7 +99,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
   // Tutorials
   const youtubeLinks = existingLinks.filter(l => l.category === 'youtube')
   const [tutorials, setTutorials] = useState<TutorialItem[]>(
-    youtubeLinks.map(l => ({ _key: l.id, id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, order: l.display_order }))
+    youtubeLinks.map(l => ({ _key: l.id, id: l.id, url: l.url, label_pt: l.label_pt, label_es: l.label_es, label_en: l.label_en || '', order: l.display_order }))
   )
 
   // Subsections with their links
@@ -133,7 +133,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
   }
 
   // ===== TUTORIALS CRUD =====
-  function addTutorial() { setTutorials([...tutorials, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', order: tutorials.length + 1 }]) }
+  function addTutorial() { setTutorials([...tutorials, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', label_en: '', order: tutorials.length + 1 }]) }
   function removeTutorial(key: string) { setTutorials(tutorials.filter(t => t._key !== key)) }
   function updateTutorial(key: string, field: string, value: string | number) { setTutorials(tutorials.map(t => t._key === key ? { ...t, [field]: value } : t)) }
 
@@ -190,7 +190,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
 
     const sectionsData = {
       tutorials: [
-        ...tutorials.map(t => ({ id: t.id, url: t.url, label_pt: t.label_pt, label_es: t.label_es, order: t.order })),
+        ...tutorials.map(t => ({ id: t.id, url: t.url, label_pt: t.label_pt, label_es: t.label_es, label_en: t.label_en, order: t.order })),
         ...deletedTutorials,
       ],
       subsections: [
@@ -267,6 +267,7 @@ export default function EditPackForm({ pack, existingLinks, existingSubsections,
               <div className="input-group"><label>URL do YouTube *</label><input type="url" className="input-field" value={t.url} onChange={e => updateTutorial(t._key, 'url', e.target.value)} placeholder="https://youtube.com/watch?v=..." /></div>
               <div className="input-group"><label>Título (PT-BR) *</label><input type="text" className="input-field" value={t.label_pt} onChange={e => updateTutorial(t._key, 'label_pt', e.target.value)} placeholder="Ex: Como instalar as fontes" /></div>
               <div className="input-group"><label>Título (Espanhol)</label><input type="text" className="input-field" value={t.label_es} onChange={e => updateTutorial(t._key, 'label_es', e.target.value)} placeholder="Ex: Cómo instalar las fuentes" /></div>
+              <div className="input-group"><label>Título (English)</label><input type="text" className="input-field" value={t.label_en} onChange={e => updateTutorial(t._key, 'label_en', e.target.value)} /></div>
               <div className="input-group"><label>Posição</label><input type="number" className="input-field" value={t.order} onChange={e => updateTutorial(t._key, 'order', parseInt(e.target.value) || 1)} min={1} /></div>
             </div>
           </div>

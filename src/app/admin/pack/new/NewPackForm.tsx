@@ -13,8 +13,8 @@ const SECTION_TYPES = [
 interface Category { id: string; name: string; tag: string }
 interface Icon { id: string; name: string; image_url: string }
 interface ParentPackOption { id: string; name: string }
-interface TutorialItem { _key: string; url: string; label_pt: string; label_es: string; order: number }
-interface LinkItem { _key: string; url: string; label_pt: string; label_es: string; order: number }
+interface TutorialItem { _key: string; url: string; label_pt: string; label_es: string; label_en: string; order: number }
+interface LinkItem { _key: string; url: string; label_pt: string; label_es: string; label_en: string; order: number }
 interface SpecItem { _key: string; label: string; order: number }
 
 // Subsection simplificada — categorias fixas (Feed / Utilitários para pai, Story para filho)
@@ -101,7 +101,7 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
   }
 
   // Tutorials
-  function addTutorial() { setTutorials([...tutorials, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', order: tutorials.length + 1 }]) }
+  function addTutorial() { setTutorials([...tutorials, { _key: `new-${Date.now()}`, url: '', label_pt: '', label_es: '', label_en: '', order: tutorials.length + 1 }]) }
   function removeTutorial(key: string) { setTutorials(tutorials.filter(t => t._key !== key)) }
   function updateTutorial(key: string, field: string, value: string | number) {
     setTutorials(tutorials.map(t => t._key === key ? { ...t, [field]: value } : t))
@@ -116,7 +116,7 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
 
   // Generic link helpers
   function addLinkTo(setter: React.Dispatch<React.SetStateAction<LinkItem[]>>, current: LinkItem[]) {
-    setter([...current, { _key: `link-${Date.now()}`, url: '', label_pt: '', label_es: '', order: current.length + 1 }])
+    setter([...current, { _key: `link-${Date.now()}`, url: '', label_pt: '', label_es: '', label_en: '', order: current.length + 1 }])
   }
   function removeLinkFrom(setter: React.Dispatch<React.SetStateAction<LinkItem[]>>, current: LinkItem[], key: string) {
     setter(current.filter(l => l._key !== key))
@@ -236,6 +236,7 @@ export default function NewPackForm({ categories, icons, parentPacks }: { catego
                       <div className="input-group"><label>URL do YouTube *</label><input type="url" className="input-field" value={t.url} onChange={e => updateTutorial(t._key, 'url', e.target.value)} placeholder="https://youtube.com/watch?v=..." /></div>
                       <div className="input-group"><label>Título (PT-BR) *</label><input type="text" className="input-field" value={t.label_pt} onChange={e => updateTutorial(t._key, 'label_pt', e.target.value)} placeholder="Ex: Como instalar as fontes" /></div>
                       <div className="input-group"><label>Título (Espanhol)</label><input type="text" className="input-field" value={t.label_es} onChange={e => updateTutorial(t._key, 'label_es', e.target.value)} placeholder="Ex: Cómo instalar las fuentes" /></div>
+                      <div className="input-group"><label>Título (Inglês)</label><input type="text" className="input-field" value={t.label_en} onChange={e => updateTutorial(t._key, 'label_en', e.target.value)} placeholder="Ex: How to install fonts" /></div>
                       <div className="input-group"><label>Posição</label><input type="number" className="input-field" value={t.order} onChange={e => updateTutorial(t._key, 'order', parseInt(e.target.value) || 1)} min={1} /></div>
                     </div>
                   </div>
