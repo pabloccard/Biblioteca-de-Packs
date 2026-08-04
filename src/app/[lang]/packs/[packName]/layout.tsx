@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>): Pro
   let imageUrl = '/herocover.png'
   
   if (packName === 'burger-restaurants') {
-    title = 'Burger Restaurants Pack — Social Media Arts'
+    title = 'Social Media Template Pack for Burger Restaurants'
     imageUrl = '/packs/burger-restaurants/card.webp'
   } else if (packName === 'burger') {
-    title = lang === 'es' ? 'Pack de Hamburguesas — Artes Editables' : 'Pack de Hambúrgueres — Artes Editáveis'
+    title = lang === 'es' ? 'Pack de plantillas editables para hamburgueserías' : 'Pack de Hambúrgueres — Artes Editáveis'
     imageUrl = lang === 'es' ? '/packs/burger-es-vol01/card.webp' : '/packs/burger-pt-vol01/card.webp'
   } else if (packName === 'provedor' || packName === 'proveedor') {
     title = lang === 'es' ? 'Pack Proveedor de Internet — Artes Editables' : 'Pack Provedor de Internet — Artes Editáveis'
