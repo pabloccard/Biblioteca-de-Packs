@@ -38,9 +38,9 @@ function CheckoutButton({ bottom, id }: { bottom: number; id: string }) {
       href={CHECKOUT_URL}
       id={id}
       className="checkout-link"
-      style={{ ...buttonStyle, paddingTop: scalePx(65), paddingBottom: scalePx(65), bottom: scalePx(bottom) }}
+      style={{ ...buttonStyle, paddingTop: scalePx(65), paddingBottom: scalePx(65), paddingLeft: scalePx(230), paddingRight: scalePx(230), bottom: scalePx(bottom) }}
     >
-      Get the pack
+      Get instant access
     </a>
   )
 }
@@ -60,7 +60,7 @@ function ScrollButton({ bottom, id }: { bottom: number; id: string }) {
       href="#secao-oferta-en"
       id={id}
       onClick={handleClick}
-      style={{ ...buttonStyle, paddingTop: scalePx(50), paddingBottom: scalePx(80), bottom: scalePx(bottom) }}
+      style={{ ...buttonStyle, paddingTop: scalePx(65), paddingBottom: scalePx(65), bottom: scalePx(bottom) }}
     >
       Get the pack
     </a>
@@ -135,7 +135,7 @@ export default function BurgerEnSalesPage() {
             loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
-          <CheckoutButton bottom={802} id="btn-oferta-en" />
+          <CheckoutButton bottom={480} id="btn-oferta-en" />
         </div>
 
         {/* 5. Garantia */}
