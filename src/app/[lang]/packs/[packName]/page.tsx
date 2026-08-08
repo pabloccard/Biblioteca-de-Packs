@@ -2,6 +2,7 @@
 
 import { use } from 'react'
 import BurgerEnSalesPage from '../components-burger-en/BurgerEnSalesPage'
+import BurgerPtSalesPage from '../components-burger-pt/BurgerPtSalesPage'
 
 /**
  * Página de vendas: es/packs/burger
@@ -82,11 +83,16 @@ function ScrollButton({ bottom, id }: { bottom: number; id: string }) {
 }
 
 export default function BurgerSalesPage({ params }: { params: Promise<{ lang: string, packName: string }> }) {
-  const { packName } = use(params)
+  const { packName, lang } = use(params)
 
   // Se for a página em inglês, renderiza o componente completamente isolado
   if (packName === 'burger-restaurants') {
     return <BurgerEnSalesPage />
+  }
+
+  // Se for a página em PT (burger), renderiza o componente PT isolado
+  if (packName === 'burger' && lang === 'pt') {
+    return <BurgerPtSalesPage />
   }
 
   // Fallback original para espanhol (burger)
