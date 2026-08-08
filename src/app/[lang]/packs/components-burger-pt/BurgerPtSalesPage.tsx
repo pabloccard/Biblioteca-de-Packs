@@ -146,7 +146,7 @@ export default function BurgerPtSalesPage() {
             loading="lazy"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
-          <CheckoutButton bottom={457} id="btn-garantia-pt" text="Garantir meu pack" />
+          <CheckoutButton bottom={216} id="btn-garantia-pt" text="Garantir meu pack" />
         </div>
 
         {/* 6. FAQ */}
