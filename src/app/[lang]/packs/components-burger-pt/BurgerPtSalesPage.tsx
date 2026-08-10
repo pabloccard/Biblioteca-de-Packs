@@ -1,6 +1,6 @@
 'use client'
 
-const CHECKOUT_URL = 'https://pay.hotmart.com/D106815726I?checkoutMode=10&offDiscount=LANZAMIENTO50'
+const CHECKOUT_URL = 'https://pay.hotmart.com/S106732020D?checkoutMode=10&offDiscount=NOVOPACK'
 
 // Escala proporcional do Figma (2000px) para a tela renderizada (max 480px)
 const S = 'calc(min(100vw, 480px) / 2000)'
