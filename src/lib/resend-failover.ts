@@ -81,9 +81,14 @@ export async function sendEmailWithFailover(params: {
   const resend = useFallback ? getResendFallback() : getResendPrimary()
   const keyUsed = useFallback ? 'MARKETING (fallback)' : 'PRINCIPAL'
 
+  // Se estiver usando fallback, troca o domínio do remetente
+  const finalFrom = useFallback
+    ? params.from.replace('@pablocastilho.com', '@pablocastilho.com.br')
+    : params.from
+
   console.log(`📊 E-mails hoje: ${count}/${DAILY_LIMIT} — Usando API: ${keyUsed}`)
 
-  const result = await resend.emails.send(params)
+  const result = await resend.emails.send({ ...params, from: finalFrom })
 
   // Só incrementa o contador se usou a API principal
   if (!useFallback) {
