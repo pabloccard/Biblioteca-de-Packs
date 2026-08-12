@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { sendEmailWithFailover } from '@/lib/resend-failover'
 
 export async function POST(request: Request) {
   try {
@@ -236,7 +234,7 @@ export async function POST(request: Request) {
       const t = emailContent[packLanguage as keyof typeof emailContent] || emailContent.pt
 
       try {
-        await resend.emails.send({
+        await sendEmailWithFailover({
           from: 'Acesso Liberado <send@pablocastilho.com>',
           to: email,
           subject: t.subject,
