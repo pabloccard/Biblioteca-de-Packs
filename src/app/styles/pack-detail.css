@@ -103,21 +103,7 @@
   color: #888;
 }
 
-.header-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #1A1A1A;
-  color: #888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
+
 
 /* Tabs */
 .tabs-block {
@@ -255,4 +241,40 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+}
+
+.sheet-top-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.sheet-close-top {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #111111;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sheet-close-top:hover {
+  background: #1D1D1F;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .sheet-card {
+    height: 100dvh;
+    max-width: 100%;
+    border-radius: 0;
+  }
+  
+  /* Need to remove animation margin-bottom so it fills correctly */
+  /* SlideUp animation is applied to sheet-card */
 }

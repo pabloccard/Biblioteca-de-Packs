@@ -142,6 +142,15 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
         
         <div className="sheet-content">
           
+          <div className="sheet-top-controls">
+            <button onClick={() => router.back()} className="sheet-close-top" aria-label="Close">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
           {/* Header Block */}
           <div className="content-block header-block">
             {cardImage && <img src={cardImage} alt={pack.name} />}
@@ -149,13 +158,6 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
               <h1>{pack.name}</h1>
               <span>{pack.version || 'volume 01'}</span>
             </div>
-            {/* Close button inside header block */}
-            <button onClick={() => router.back()} className="header-close" aria-label="Close">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
           </div>
 
           {/* Tabs Block */}
