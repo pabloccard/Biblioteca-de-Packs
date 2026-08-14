@@ -103,6 +103,26 @@
   color: #888;
 }
 
+.header-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1D1D1F;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.header-close:hover {
+  background: #2D2D2F;
+  color: #fff;
+}
+
 
 
 /* Tabs */
@@ -243,30 +263,11 @@
   gap: 16px;
 }
 
-.sheet-top-controls {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
 
-.sheet-close-top {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #111111;
-  color: #888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
 
-.sheet-close-top:hover {
-  background: #1D1D1F;
-  color: #fff;
-}
+
+
+
 
 @media (max-width: 768px) {
   .sheet-card {
