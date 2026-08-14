@@ -1,8 +1,7 @@
 /* ================================ */
-/* PACK DETAIL — Bottom Sheet Glass */
+/* PACK DETAIL — Solid Dark Premium */
 /* ================================ */
 
-/* Backdrop — overlay on top of dashboard */
 .sheet-backdrop {
   position: fixed;
   inset: 0;
@@ -26,22 +25,18 @@
   to { opacity: 1; }
 }
 
-/* Sheet Card — FIXED HEIGHT */
 .sheet-card {
   pointer-events: auto;
   width: 100%;
   max-width: 520px;
-  height: 85dvh;
-  background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  height: 90dvh;
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.04);
   border-bottom: none;
   border-radius: 24px 24px 0 0;
   display: flex;
   flex-direction: column;
   animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  box-shadow:
-    0 -8px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @keyframes slideUp {
@@ -49,421 +44,210 @@
   to { margin-bottom: 0; }
 }
 
-@media (min-width: 768px) {
-  .sheet-wrapper {
-    align-items: center;
-  }
-  .sheet-card {
-    height: 80vh;
-    border-radius: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  @keyframes scaleIn {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
+.sheet-card.no-animation, .sheet-backdrop.no-animation {
+  animation: none !important;
 }
 
-/* Drag Handle */
-.sheet-handle-area {
+.sheet-content {
+  padding: 24px 20px 40px;
+  flex: 1;
+  overflow-y: auto;
   display: flex;
-  justify-content: center;
-  padding: 12px 0 4px;
-  flex-shrink: 0;
-}
-
-.sheet-handle {
-  width: 36px;
-  height: 4px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-@media (min-width: 768px) {
-  .sheet-handle-area {
-    display: none;
-  }
-}
-
-/* Close Button */
-.sheet-close-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 50%;
-  color: var(--text-muted);
-  transition: all 0.2s ease;
-  z-index: 2;
-}
-
-.sheet-close-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary);
-  transform: scale(1.05);
-}
-
-/* ======================== */
-/* HEADER — fixed top       */
-/* ======================== */
-
-.sheet-header {
-  position: relative;
-  padding: 8px 24px 20px;
-  flex-shrink: 0;
-}
-
-.sheet-pack-info {
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 16px;
 }
 
-.sheet-pack-image {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+.sheet-content::-webkit-scrollbar {
+  width: 0;
 }
 
-.sheet-pack-image img {
-  width: 100%;
-  height: 100%;
+/* Blocks */
+.content-block {
+  background: #111111;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.header-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.header-block img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
   object-fit: cover;
 }
 
-.sheet-pack-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.header-info {
+  flex: 1;
   min-width: 0;
 }
 
-.sheet-pack-name {
+.header-info h1 {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 2px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.sheet-pack-version {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ======================== */
-/* TABS — fixed             */
-/* ======================== */
-
-.sheet-tabs {
-  display: flex;
-  gap: 2px;
-  padding: 0 24px;
-  flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.sheet-tab {
-  flex: 1;
-  padding: 12px 0;
+.header-info span {
   font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  text-align: center;
-  transition: all 0.25s ease;
-  position: relative;
-  letter-spacing: -0.01em;
+  color: #888;
 }
 
-.sheet-tab:hover {
-  color: var(--text-secondary);
-}
-
-.sheet-tab.active {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.sheet-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 20%;
-  right: 20%;
-  height: 2px;
-  background: var(--accent-gradient);
-  border-radius: 2px 2px 0 0;
-  box-shadow: 0 0 10px rgba(0, 136, 255, 0.3);
-}
-
-/* ======================== */
-/* CONTENT — scrollable     */
-/* ======================== */
-
-.sheet-content {
-  padding: 16px 20px 32px;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Custom scrollbar */
-.sheet-content::-webkit-scrollbar {
-  width: 3px;
-}
-
-.sheet-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sheet-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 100px;
-}
-
-.sheet-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* ======================== */
-/* GLASS CARD (Accordion)   */
-/* ======================== */
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.glass-card.expanded {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.glass-card.locked {
-  background: rgba(255, 255, 255, 0.015);
-  border-color: rgba(255, 255, 255, 0.04);
-}
-
-.glass-card.locked:hover {
-  border-color: rgba(255, 255, 255, 0.06);
-}
-
-/* Card Header */
-.glass-card-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  background: transparent;
-  color: var(--text-primary);
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  gap: 12px;
-}
-
-.glass-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
-}
-
-.glass-card-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-}
-
-.glass-card-count {
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: var(--text-muted);
-}
-
-.glass-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-/* Chevron */
-.glass-chevron {
-  width: 28px;
-  height: 28px;
+.header-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1A1A1A;
+  color: #888;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  color: var(--text-muted);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
-.glass-chevron.open {
-  transform: rotate(180deg);
-  color: var(--text-secondary);
+/* Tabs */
+.tabs-block {
+  display: flex;
+  padding: 6px;
+  gap: 4px;
 }
 
-/* Unlock Button */
-.unlock-btn {
-  padding: 5px 14px;
-  border-radius: 100px;
-  background: var(--accent-gradient);
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  color: #666;
+  border: none;
+  padding: 10px 0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: #1D1D1F;
+  color: #DDDDDD;
+}
+
+/* Sections */
+.link-block h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
   color: #fff;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 82, 255, 0.2);
+  margin-bottom: 24px;
 }
 
-.unlock-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 82, 255, 0.3);
-}
-
-/* Card Body (expand/collapse) */
-.glass-card-body-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card.expanded .glass-card-body-wrapper {
-  grid-template-rows: 1fr;
-}
-
-.glass-card-body {
-  overflow: hidden;
+.link-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 0 16px;
-  opacity: 0;
-  transition: opacity 0.3s ease, padding 0.3s ease;
 }
 
-.glass-card.expanded .glass-card-body {
-  opacity: 1;
-  padding-bottom: 16px;
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
 }
 
-.locked-text {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  padding: 4px 0;
+.link-item:first-child {
+  padding-top: 0;
 }
 
-/* ======================== */
-/* LINK BUTTON OVERRIDES    */
-/* ======================== */
+.link-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
 
-.link-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+.link-item.locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.link-icon-area {
+  flex-shrink: 0;
+}
+
+.link-icon-canva {
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
-  padding: 12px 14px;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  transition: all 0.25s ease;
+  background: linear-gradient(135deg, #00C4CC, #7D2AE8);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: bold; font-size: 0.75rem;
+  font-family: sans-serif;
 }
 
-.link-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(2px);
-  box-shadow: none;
-  color: var(--text-primary);
+.link-icon-ps {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #001E36;
+  display: flex; align-items: center; justify-content: center;
+  color: #31A8FF; font-weight: bold; font-size: 1.2rem;
+  font-family: sans-serif;
 }
 
-/* ======================== */
-/* LEGENDS GRID             */
-/* ======================== */
+.link-icon-generic {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #1A1A1A;
+  display: flex; align-items: center; justify-content: center;
+  color: #666;
+}
 
+.link-title {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+/* Locked State */
+.locked-text {
+  font-size: 0.95rem;
+  color: #A0A0A0;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.btn-unlock {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #0066FF, #00D4FF);
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-unlock:hover {
+  opacity: 0.9;
+}
+
+/* Legends Grid */
 .legends-grid-view {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-/* ======================== */
-/* DESKTOP — side by side   */
-/* ======================== */
-
-@media (min-width: 768px) {
-  .sheet-section {
-    flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .glass-card {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .glass-card-header {
-    cursor: default;
-    pointer-events: none;
-  }
-
-  .glass-card-header .unlock-btn {
-    pointer-events: auto;
-    cursor: pointer;
-  }
-
-  .glass-chevron {
-    display: none;
-  }
-
-  .glass-card-body-wrapper {
-    grid-template-rows: 1fr;
-  }
-
-  .glass-card-body {
-    opacity: 1;
-    padding-bottom: 16px;
-  }
-}
-
-/* Hide old classes */
-.pack-page { display: none; }
-.pack-page-header-edge { display: none; }
-
-.sheet-card.no-animation, .sheet-backdrop.no-animation {
-  animation: none !important;
+  gap: 16px;
 }
