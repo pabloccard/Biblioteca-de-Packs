@@ -1,9 +1,11 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function LoadingSheet() {
   const router = useRouter()
+  useEffect(() => { sessionStorage.setItem('sheetAnimated', 'true') }, [])
 
   return (
     <>

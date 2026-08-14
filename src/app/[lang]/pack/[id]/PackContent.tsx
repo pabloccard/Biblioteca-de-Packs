@@ -87,6 +87,14 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
     return tabs
   }, [hasFiles, arts.length, dict])
 
+  const [skipAnimation] = useState(() => {
+    if (typeof window !== 'undefined') return sessionStorage.getItem('sheetAnimated') === 'true'
+    return false
+  })
+  useEffect(() => {
+    return () => sessionStorage.removeItem('sheetAnimated')
+  }, [])
+
   const [activeTab, setActiveTab] = useState<TabType>(availableTabs[0]?.id || 'files')
   const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
 
@@ -113,8 +121,8 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
 
   if (availableTabs.length === 0) {
     return (
-      <div className="sheet-backdrop" onClick={() => router.back()}>
-        <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
+      <div className={`sheet-backdrop ${skipAnimation ? "no-animation" : ""}`} onClick={() => router.back()}>
+        <div className={`sheet-card ${skipAnimation ? "no-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
           <div className="sheet-content" style={{ textAlign: 'center', padding: '60px 20px' }}>
             <h2>{dict.noContent}</h2>
             <button onClick={() => router.back()} className="btn-admin-secondary" style={{ marginTop: '20px', display: 'inline-block' }}>
@@ -128,9 +136,9 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
 
   return (
     <>
-    <div className="sheet-backdrop" onClick={() => router.back()} />
+    <div className={`sheet-backdrop ${skipAnimation ? "no-animation" : ""}`} onClick={() => router.back()} />
     <div className="sheet-wrapper" onClick={() => router.back()}>
-      <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
+      <div className={`sheet-card ${skipAnimation ? "no-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
         {/* Drag Handle */}
         <div className="sheet-handle-area">
           <div className="sheet-handle" />
