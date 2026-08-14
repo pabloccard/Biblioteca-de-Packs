@@ -6,7 +6,9 @@ export default function LoadingSheet() {
   const router = useRouter()
 
   return (
-    <div className="sheet-backdrop" onClick={() => router.back()}>
+    <>
+    <div className="sheet-backdrop" onClick={() => router.back()} />
+    <div className="sheet-wrapper" onClick={() => router.back()}>
       <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
         <div className="sheet-handle-area">
           <div className="sheet-handle" />
@@ -39,5 +41,6 @@ export default function LoadingSheet() {
         </div>
       </div>
     </div>
+    </>
   )
 }

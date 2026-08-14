@@ -127,7 +127,9 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
   }
 
   return (
-    <div className="sheet-backdrop" onClick={() => router.back()}>
+    <>
+    <div className="sheet-backdrop" onClick={() => router.back()} />
+    <div className="sheet-wrapper" onClick={() => router.back()}>
       <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
         {/* Drag Handle */}
         <div className="sheet-handle-area">
@@ -346,5 +348,6 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
         </div>
       </div>
     </div>
+    </>
   )
 }
