@@ -1,4 +1,7 @@
 import React from 'react'
+import canvaImg from '../../public/canva.png'
+import psImg from '../../public/photoshop.png'
+
 
 interface LinkButtonProps {
   href: string
@@ -32,9 +35,9 @@ export default function LinkButton({ href, label, icon, locked }: LinkButtonProp
     >
       <div className="link-icon-area">
         {isCanva ? (
-          <img src="/canva.png" alt="Canva" className="link-icon-img" />
+          <img src={canvaImg.src} alt="Canva" className="link-icon-img" />
         ) : isPS ? (
-          <img src="/photoshop.png" alt="Photoshop" className="link-icon-img" />
+          <img src={psImg.src} alt="Photoshop" className="link-icon-img" />
         ) : icon ? (
           <div className="link-icon-generic">{icon}</div>
         ) : (
