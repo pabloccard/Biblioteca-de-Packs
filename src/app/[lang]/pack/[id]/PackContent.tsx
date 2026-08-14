@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import LinkButton from '@/components/LinkButton'
 import ArtThumbnail from '@/components/ArtThumbnail'
 
@@ -63,6 +63,7 @@ interface FullProps {
 type TabType = 'files' | 'legends'
 
 export default function PackContent({ pack, links, arts, subsections, sectionOrder, storyPack, isParentUnlocked, parentBuyLink, memberEmail, lang, dict }: FullProps) {
+  const router = useRouter()
   const hasFiles = subsections.length > 0
 
   // Build buy links
@@ -112,13 +113,13 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
 
   if (availableTabs.length === 0) {
     return (
-      <div className="sheet-backdrop">
-        <div className="sheet-card">
+      <div className="sheet-backdrop" onClick={() => router.back()}>
+        <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
           <div className="sheet-content" style={{ textAlign: 'center', padding: '60px 20px' }}>
             <h2>{dict.noContent}</h2>
-            <Link href={`/${lang}/dashboard`} className="btn-admin-secondary" style={{ marginTop: '20px', display: 'inline-block' }}>
+            <button onClick={() => router.back()} className="btn-admin-secondary" style={{ marginTop: '20px', display: 'inline-block' }}>
               {dict.backToPacks}
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -126,8 +127,8 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
   }
 
   return (
-    <div className="sheet-backdrop">
-      <div className="sheet-card">
+    <div className="sheet-backdrop" onClick={() => router.back()}>
+      <div className="sheet-card" onClick={(e) => e.stopPropagation()}>
         {/* Drag Handle */}
         <div className="sheet-handle-area">
           <div className="sheet-handle" />
@@ -135,12 +136,12 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
 
         {/* Header */}
         <header className="sheet-header">
-          <Link href={`/${lang}/dashboard`} className="sheet-close-btn" aria-label="Close">
+          <button onClick={() => router.back()} className="sheet-close-btn" aria-label="Close">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
-          </Link>
+          </button>
 
           <div className="sheet-pack-info">
             {cardImage && (
