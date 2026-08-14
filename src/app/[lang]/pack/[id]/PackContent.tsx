@@ -200,7 +200,11 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                           </p>
                           {feedBuyLink && (
                             <a href={feedBuyLink} className="btn-unlock" target="_blank" rel="noopener noreferrer">
-                              {dict.unlockNow || 'Clique para liberar o acesso'}
+                              <span>{dict.unlockNow || 'Clique para liberar o acesso'}</span>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                              </svg>
                             </a>
                           )}
                         </>
@@ -238,7 +242,11 @@ export default function PackContent({ pack, links, arts, subsections, sectionOrd
                               : 'Você ainda não liberou o acesso para os arquivos de stories.'}
                         </p>
                         <a href={storyBuyLink} className="btn-unlock" target="_blank" rel="noopener noreferrer">
-                          {dict.unlockNow || 'Clique para liberar o acesso'}
+                          <span>{dict.unlockNow || 'Clique para liberar o acesso'}</span>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                          </svg>
                         </a>
                       </>
                     ) : (

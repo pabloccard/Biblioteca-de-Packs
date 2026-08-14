@@ -32,9 +32,9 @@ export default function LinkButton({ href, label, icon, locked }: LinkButtonProp
     >
       <div className="link-icon-area">
         {isCanva ? (
-          <div className="link-icon-canva">Canva</div>
+          <img src="/canva.png" alt="Canva" className="link-icon-img" />
         ) : isPS ? (
-          <div className="link-icon-ps">Ps</div>
+          <img src="/photoshop.png" alt="Photoshop" className="link-icon-img" />
         ) : icon ? (
           <div className="link-icon-generic">{icon}</div>
         ) : (
