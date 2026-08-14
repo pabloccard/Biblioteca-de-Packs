@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getMemberEmail, logoutAction } from '../../../actions'
 import YouTubeEmbed from '@/components/YouTubeEmbed'
-import WhatsAppButton from '@/components/WhatsAppButton'
+// import WhatsAppButton from '@/components/WhatsAppButton'
 import LinkButton from '@/components/LinkButton'
 import ArtThumbnail from '@/components/ArtThumbnail'
 import PackContent from './PackContent'
@@ -126,21 +126,18 @@ export default async function PackPage({ params }: PackPageProps) {
   if (!hasAnyPurchase) redirect(`/${lang}/dashboard`)
 
   return (
-    <div className="page-wrapper">
-      <PackContent
-        pack={pack}
-        links={allLinks}
-        arts={packArts}
-        subsections={packSubsections}
-        sectionOrder={pack.section_order || ['files', 'tutorial', 'legends']}
-        storyPack={storyPackData}
-        isParentUnlocked={isParentUnlocked}
-        parentBuyLink={pack.buy_link || ''}
-        memberEmail={email}
-        lang={lang}
-        dict={dict}
-      />
-      <WhatsAppButton />
-    </div>
+    <PackContent
+      pack={pack}
+      links={allLinks}
+      arts={packArts}
+      subsections={packSubsections}
+      sectionOrder={pack.section_order || ['files', 'tutorial', 'legends']}
+      storyPack={storyPackData}
+      isParentUnlocked={isParentUnlocked}
+      parentBuyLink={pack.buy_link || ''}
+      memberEmail={email}
+      lang={lang}
+      dict={dict}
+    />
   )
 }
