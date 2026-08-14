@@ -219,7 +219,7 @@
   margin-bottom: 22px;
 }
 
-.btn-unlock {
+.pack-btn-unlock {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -237,16 +237,16 @@
   transition: opacity 0.2s, transform 0.2s;
 }
 
-.btn-unlock:hover {
+.pack-btn-unlock:hover {
   opacity: 0.92;
   transform: translateY(-1px);
 }
 
-.btn-unlock svg {
+.pack-btn-unlock svg {
   transition: transform 0.2s ease;
 }
 
-.btn-unlock:hover svg {
+.pack-btn-unlock:hover svg {
   transform: translateX(2px);
 }
 
