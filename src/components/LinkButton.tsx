@@ -23,7 +23,7 @@ export default function LinkButton({ href, label, icon, locked }: LinkButtonProp
   cleanLabel = cleanLabel.trim()
 
   const isCanva = tag?.toLowerCase() === 'canva' || cleanLabel.toLowerCase().includes('canva')
-  const isPS = tag?.toLowerCase() === 'psd' || tag?.toLowerCase() === 'photoshop' || cleanLabel.toLowerCase().includes('psd')
+  const isPS = tag?.toLowerCase() === 'psd' || tag?.toLowerCase() === 'photoshop' || cleanLabel.toLowerCase().includes('psd') || cleanLabel.toLowerCase().includes('photoshop')
 
   return (
     <a
