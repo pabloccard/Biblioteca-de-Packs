@@ -2,18 +2,18 @@
 /* PACK DETAIL — Bottom Sheet Glass */
 /* ================================ */
 
-/* Backdrop */
+/* Backdrop — overlay on top of dashboard */
 .sheet-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 50;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  animation: fadeInBackdrop 0.3s ease forwards;
+  animation: fadeInBackdrop 0.25s ease forwards;
 }
 
 @keyframes fadeInBackdrop {
@@ -21,29 +21,24 @@
   to { opacity: 1; }
 }
 
-/* Sheet Card */
+/* Sheet Card — FIXED HEIGHT */
 .sheet-card {
   width: 100%;
   max-width: 520px;
-  max-height: 92dvh;
-  background: rgba(18, 18, 24, 0.92);
+  height: 85dvh;
+  background: rgba(18, 18, 24, 0.95);
   backdrop-filter: blur(40px) saturate(1.4);
   -webkit-backdrop-filter: blur(40px) saturate(1.4);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: none;
   border-radius: 24px 24px 0 0;
-  overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   box-shadow:
     0 -8px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-.sheet-card::-webkit-scrollbar {
-  width: 0;
 }
 
 @keyframes slideUp {
@@ -56,7 +51,7 @@
     align-items: center;
   }
   .sheet-card {
-    max-height: 85vh;
+    height: 80vh;
     border-radius: 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -113,7 +108,7 @@
 }
 
 /* ======================== */
-/* HEADER                   */
+/* HEADER — fixed top       */
 /* ======================== */
 
 .sheet-header {
@@ -171,14 +166,13 @@
 }
 
 /* ======================== */
-/* TABS                     */
+/* TABS — fixed             */
 /* ======================== */
 
 .sheet-tabs {
   display: flex;
   gap: 2px;
   padding: 0 24px;
-  margin-bottom: 4px;
   flex-shrink: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -217,13 +211,29 @@
 }
 
 /* ======================== */
-/* CONTENT                  */
+/* CONTENT — scrollable     */
 /* ======================== */
 
 .sheet-content {
   padding: 16px 20px 32px;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar */
+.sheet-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sheet-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sheet-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
 }
 
 .sheet-section {
@@ -269,7 +279,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 16px;
+  padding: 16px;
   background: transparent;
   color: var(--text-primary);
   border: none;
@@ -376,7 +386,39 @@
 }
 
 /* ======================== */
-/* DESKTOP — Files side by side */
+/* LINK BUTTON OVERRIDES    */
+/* ======================== */
+
+.link-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+}
+
+.link-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
+  box-shadow: none;
+  color: var(--text-primary);
+}
+
+/* ======================== */
+/* LEGENDS GRID             */
+/* ======================== */
+
+.legends-grid-view {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* ======================== */
+/* DESKTOP — side by side   */
 /* ======================== */
 
 @media (min-width: 768px) {
@@ -415,37 +457,6 @@
   }
 }
 
-/* ======================== */
-/* LEGENDS GRID             */
-/* ======================== */
-
-.legends-grid-view {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-/* ======================== */
-/* LINK BUTTON OVERRIDES    */
-/* ======================== */
-
-.link-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 12px 14px;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-}
-
-.link-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(2px);
-  box-shadow: none;
-  color: var(--text-primary);
-}
-
-/* Keep old classes for backward compat but make them invisible */
+/* Hide old classes */
 .pack-page { display: none; }
 .pack-page-header-edge { display: none; }
