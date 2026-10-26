@@ -142,6 +142,7 @@ export async function createPackAction(formData: FormData) {
   await savePackVersionsAndComplements(supabase, pack.id, versionsRaw, complementsRaw)
 
   try {
+    revalidateTag('packs-catalog', 'default')
     revalidateTag('drive-arts', 'default')
   } catch (e) {
     // ignore
@@ -281,6 +282,7 @@ export async function updatePackAction(formData: FormData) {
   await savePackVersionsAndComplements(supabase, packId, versionsRaw, complementsRaw)
 
   try {
+    revalidateTag('packs-catalog', 'default')
     revalidateTag('drive-arts', 'default')
   } catch (e) {
     // ignore
@@ -591,6 +593,16 @@ export async function deletePackAction(formData: FormData) {
   await supabase.from('pack_subsections').delete().eq('pack_id', packId)
 
   await supabase.from('packs').delete().eq('id', packId)
+
+  try {
+    revalidateTag('packs-catalog', 'default')
+    revalidateTag('drive-arts', 'default')
+  } catch (e) {
+    // ignore
+  }
+
+  revalidatePath('/admin', 'page')
+  revalidatePath('/[lang]/dashboard', 'page')
   redirect('/admin')
 }
 

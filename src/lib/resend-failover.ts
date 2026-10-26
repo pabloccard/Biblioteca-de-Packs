@@ -21,6 +21,8 @@ function getResendClient(apiKey: string) {
   return new Resend(apiKey)
 }
 
+let countLockPromise: Promise<void> = Promise.resolve()
+
 /** Retorna a contagem de e-mails enviados hoje */
 async function getTodayCount(): Promise<number> {
   const today = new Date().toISOString().slice(0, 10) // 'YYYY-MM-DD'
@@ -29,32 +31,59 @@ async function getTodayCount(): Promise<number> {
     .from('email_daily_count')
     .select('count')
     .eq('date', today)
-    .single()
+    .maybeSingle()
 
   return data?.count ?? 0
 }
 
-/** Incrementa o contador diário em 1 (cria o registro se não existir) */
+/** Incrementa o contador diário de forma atômica (RPC ou lock otimista com retries) */
 async function incrementTodayCount(): Promise<void> {
   const today = new Date().toISOString().slice(0, 10)
 
-  // Tenta fazer upsert: se já existe a data, incrementa; se não, cria com count = 1
-  const { data: existing } = await supabaseAdmin
-    .from('email_daily_count')
-    .select('count')
-    .eq('date', today)
-    .single()
-
-  if (existing) {
-    await supabaseAdmin
-      .from('email_daily_count')
-      .update({ count: existing.count + 1 })
-      .eq('date', today)
-  } else {
-    await supabaseAdmin
-      .from('email_daily_count')
-      .insert({ date: today, count: 1 })
+  // 1. Tentar execução via RPC nativo atômico no PostgreSQL (se disponível)
+  try {
+    const { error: rpcError } = await supabaseAdmin.rpc('increment_email_daily_count', {
+      target_date: today,
+    })
+    if (!rpcError) return
+  } catch {
+    // Fallback se a função RPC não estiver instalada
   }
+
+  // 2. Fallback: serialização em memória + atualização otimista contra race conditions
+  countLockPromise = countLockPromise
+    .then(async () => {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const { data: existing } = await supabaseAdmin
+          .from('email_daily_count')
+          .select('count')
+          .eq('date', today)
+          .maybeSingle()
+
+        if (existing) {
+          const { error, count: updatedCount } = await supabaseAdmin
+            .from('email_daily_count')
+            .update({ count: existing.count + 1 })
+            .eq('date', today)
+            .eq('count', existing.count) // Trava otimista
+
+          if (!error && (updatedCount === null || updatedCount === undefined || updatedCount > 0)) {
+            break
+          }
+        } else {
+          const { error } = await supabaseAdmin
+            .from('email_daily_count')
+            .insert({ date: today, count: 1 })
+
+          if (!error) break
+        }
+      }
+    })
+    .catch(err => {
+      console.warn('⚠️ Falha ao incrementar contador diário de e-mails:', err)
+    })
+
+  await countLockPromise
 }
 
 /**

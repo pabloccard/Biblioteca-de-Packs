@@ -122,10 +122,10 @@ export default async function CustomPage({ params }: CustomPageProps) {
 
   if (orderStatus === 'delivered') {
     try {
-      const { listDriveFiles } = await import('@/lib/google-drive')
+      const { getCachedDriveFiles } = await import('@/lib/pack-arts')
       const [feedRes, storiesRes] = await Promise.allSettled([
-        feedFolderId ? listDriveFiles(feedFolderId) : Promise.resolve([]),
-        storiesFolderId ? listDriveFiles(storiesFolderId) : Promise.resolve([]),
+        feedFolderId ? getCachedDriveFiles(feedFolderId) : Promise.resolve([]),
+        storiesFolderId ? getCachedDriveFiles(storiesFolderId) : Promise.resolve([]),
       ])
 
       if (feedRes.status === 'fulfilled') {

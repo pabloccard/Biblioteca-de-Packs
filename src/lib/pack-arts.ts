@@ -32,7 +32,11 @@ export async function getCachedDriveFiles(folderId: string): Promise<DriveFile[]
       try {
         const files = await listDriveFiles(folderId)
         return files
-          .filter(f => f.mimeType.startsWith('image/') || f.name.match(/\.(png|jpg|jpeg|webp|svg|gif)$/i))
+          .filter(f =>
+            f.mimeType?.startsWith('image/') ||
+            f.mimeType === 'application/pdf' ||
+            f.name?.match(/\.(png|jpg|jpeg|webp|svg|gif|psd|ai|pdf)$/i)
+          )
           .sort((a, b) => {
             const numA = parseInt(a.name.match(/\d+/)?.[0] || '0', 10)
             const numB = parseInt(b.name.match(/\d+/)?.[0] || '0', 10)

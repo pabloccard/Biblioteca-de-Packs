@@ -1,5 +1,6 @@
 import { GoogleAuth } from 'google-auth-library';
 import { getPersonalGoogleAccessToken } from './google-oauth';
+import { unstable_cache } from 'next/cache';
 
 // =====================
 // Google Drive API Client
@@ -96,6 +97,56 @@ export async function getDriveFileThumbnail(
 
   const arrayBuffer = await thumbResponse.arrayBuffer();
   return { data: Buffer.from(arrayBuffer), mimeType: 'image/png' };
+}
+
+// Bounded in-memory cache for high-frequency concurrent thumbnail requests
+const thumbnailMemoryCache = new Map<string, { data: Buffer; mimeType: string; expiresAt: number }>();
+const MAX_MEMORY_THUMBNAILS = 300;
+
+/**
+ * Cached version of thumbnail buffer using both Next.js Data Cache and in-memory Map
+ */
+export async function getCachedDriveThumbnailBuffer(
+  fileId: string,
+  size: number | string = 600
+): Promise<{ data: Buffer; mimeType: string } | null> {
+  const cacheKey = `${fileId}_${size}`;
+  const now = Date.now();
+
+  const mem = thumbnailMemoryCache.get(cacheKey);
+  if (mem && mem.expiresAt > now) {
+    return { data: mem.data, mimeType: mem.mimeType };
+  }
+
+  const getCachedBase64 = unstable_cache(
+    async () => {
+      const fresh = await getDriveFileThumbnail(fileId, size);
+      if (!fresh) return null;
+      return {
+        base64: fresh.data.toString('base64'),
+        mimeType: fresh.mimeType || 'image/png',
+      };
+    },
+    ['drive-thumb-cache', fileId, String(size)],
+    { revalidate: 604800 /* 7 days */, tags: ['drive-thumbnails', `drive-thumb-${fileId}`] }
+  );
+
+  const cached = await getCachedBase64();
+  if (!cached) return null;
+
+  const buffer = Buffer.from(cached.base64, 'base64');
+
+  if (thumbnailMemoryCache.size >= MAX_MEMORY_THUMBNAILS) {
+    const oldestKey = thumbnailMemoryCache.keys().next().value;
+    if (oldestKey) thumbnailMemoryCache.delete(oldestKey);
+  }
+  thumbnailMemoryCache.set(cacheKey, {
+    data: buffer,
+    mimeType: cached.mimeType,
+    expiresAt: now + 3600 * 1000,
+  });
+
+  return { data: buffer, mimeType: cached.mimeType };
 }
 
 /**

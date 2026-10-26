@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { isAdminAuthenticated } from './actions'
 import { listDriveFiles, createCustomizationFolders } from '@/lib/google-drive'
+import { getCachedDriveFiles } from '@/lib/pack-arts'
 
 // =====================
 // CUSTOMIZATION ORDERS
@@ -158,15 +159,16 @@ export async function setupDeliveryAction(formData: FormData) {
     // Clear old delivery files
     await supabase.from('customization_delivery_files').delete().eq('order_id', orderId)
 
-    // Insert new delivery files
-    for (let i = 0; i < files.length; i++) {
-      await supabase.from('customization_delivery_files').insert({
+    // Insert new delivery files in batch
+    if (files && files.length > 0) {
+      const deliveryRows = files.map((file, i) => ({
         order_id: orderId,
-        drive_file_id: files[i].id,
-        file_name: files[i].name,
-        thumbnail_url: files[i].thumbnailLink || null,
+        drive_file_id: file.id,
+        file_name: file.name,
+        thumbnail_url: file.thumbnailLink || null,
         display_order: i,
-      })
+      }))
+      await supabase.from('customization_delivery_files').insert(deliveryRows)
     }
 
     // Update order
@@ -545,23 +547,12 @@ export async function populateOrderArtsFromPack(orderId: string, packId: string,
     display_order: number
   }[] = []
 
-  // 2. Tentar buscar artes da pasta do Google Drive
+  // 2. Tentar buscar artes da pasta do Google Drive (com cache)
   if (targetFolderId) {
     try {
-      const files = await listDriveFiles(targetFolderId)
-      const imageFiles = (files || []).filter(f =>
-        f.mimeType.startsWith('image/') ||
-        f.name.match(/\.(png|jpg|jpeg|webp|svg|gif)$/i)
-      )
+      const imageFiles = await getCachedDriveFiles(targetFolderId)
 
-      if (imageFiles.length > 0) {
-        imageFiles.sort((a, b) => {
-          const numA = parseInt(a.name.match(/\d+/)?.[0] || '0', 10)
-          const numB = parseInt(b.name.match(/\d+/)?.[0] || '0', 10)
-          if (numA && numB) return numA - numB
-          return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
-        })
-
+      if (imageFiles && imageFiles.length > 0) {
         artsToInsert = imageFiles.map((file, index) => ({
           order_id: orderId,
           drive_file_id: file.id,

@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
     const isSingleFolderZip = zip === 'true' && folderId;
 
     if (isMultiFolderZip || isSingleFolderZip) {
+      const { Readable } = await import('stream');
       // Dynamic import of archiver supporting both v8 (ZipArchive class) and legacy functions
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const archiverModule = require('archiver');
@@ -40,9 +41,6 @@ export async function GET(request: NextRequest) {
         : typeof archiverModule === 'function'
           ? archiverModule('zip', { zlib: { level: 5 } })
           : archiverModule.default('zip', { zlib: { level: 5 } });
-      const chunks: Buffer[] = [];
-
-      archive.on('data', (chunk: Buffer) => chunks.push(chunk));
 
       const safePackName = packNameParam
         ? packNameParam.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-')
@@ -58,9 +56,9 @@ export async function GET(request: NextRequest) {
           const files = await listDriveFiles(targetFolderId);
           // Only image files or documents
           const validFiles = files.filter(f =>
-            f.mimeType.startsWith('image/') ||
+            f.mimeType?.startsWith('image/') ||
             f.mimeType === 'application/pdf' ||
-            f.name.match(/\.(png|jpg|jpeg|webp|svg|gif|psd|ai|pdf)$/i)
+            f.name?.match(/\.(png|jpg|jpeg|webp|svg|gif|psd|ai|pdf)$/i)
           );
 
           // Batch downloading in parallel batches of 6
@@ -86,24 +84,36 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      if (feedFolderId && storiesFolderId) {
-        // Both feed and stories folders provided
-        await Promise.all([
-          addFolderFilesToArchive(feedFolderId, 'Feed (1080x1440)'),
-          addFolderFilesToArchive(storiesFolderId, 'Stories (1080x1920)'),
-        ]);
-      } else if (feedFolderId) {
-        await addFolderFilesToArchive(feedFolderId, 'Feed (1080x1440)');
-      } else if (storiesFolderId) {
-        await addFolderFilesToArchive(storiesFolderId, 'Stories (1080x1920)');
-      } else if (folderId) {
-        await addFolderFilesToArchive(folderId, '');
-      }
+      // Convert archive to progressive Web ReadableStream
+      const webStream = Readable.toWeb(archive as any);
 
-      await archive.finalize();
-      const zipBuffer = Buffer.concat(chunks);
+      // Execute background archiving into the stream
+      (async () => {
+        try {
+          if (feedFolderId && storiesFolderId) {
+            await Promise.all([
+              addFolderFilesToArchive(feedFolderId, 'Feed (1080x1440)'),
+              addFolderFilesToArchive(storiesFolderId, 'Stories (1080x1920)'),
+            ]);
+          } else if (feedFolderId) {
+            await addFolderFilesToArchive(feedFolderId, 'Feed (1080x1440)');
+          } else if (storiesFolderId) {
+            await addFolderFilesToArchive(storiesFolderId, 'Stories (1080x1920)');
+          } else if (folderId) {
+            await addFolderFilesToArchive(folderId, '');
+          }
+          await archive.finalize();
+        } catch (streamErr) {
+          console.error('Error during streaming zip generation:', streamErr);
+          try {
+            archive.abort();
+          } catch {
+            // ignore
+          }
+        }
+      })();
 
-      return new NextResponse(new Uint8Array(zipBuffer), {
+      return new Response(webStream as any, {
         headers: {
           'Content-Type': 'application/zip',
           'Content-Disposition': `attachment; filename="${zipFilename}"`,

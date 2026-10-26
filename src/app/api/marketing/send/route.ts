@@ -61,6 +61,23 @@ export async function POST(request: NextRequest) {
   let totalSent = campaign.total_sent || 0
   let totalFailed = campaign.total_failed || 0
 
+  // Otimização: buscar tokens de unsubscribe em lote para todos os destinatários de uma vez (elimina N+1)
+  const memberIds = Array.from(new Set(sends.map(s => s.member_id).filter(Boolean)))
+  const unsubscribeTokenMap = new Map<string, string>()
+
+  if (memberIds.length > 0) {
+    const { data: membersList } = await supabaseAdmin
+      .from('members')
+      .select('id, unsubscribe_token')
+      .in('id', memberIds)
+
+    membersList?.forEach(m => {
+      if (m.id && m.unsubscribe_token) {
+        unsubscribeTokenMap.set(m.id, m.unsubscribe_token)
+      }
+    })
+  }
+
   // Enviar em batches
   for (let i = 0; i < sends.length; i += BATCH_SIZE) {
     const batch = sends.slice(i, i + BATCH_SIZE)
@@ -88,14 +105,9 @@ export async function POST(request: NextRequest) {
           // Construir HTML com tracking pixel
           const trackingPixel = `<img src="${mktUrl}/api/marketing/track/open?id=${send.id}" width="1" height="1" style="display:none;width:1px;height:1px;" alt="" />`
 
-          // Buscar token de unsubscribe
-          const { data: member } = await supabaseAdmin
-            .from('members')
-            .select('unsubscribe_token')
-            .eq('id', send.member_id)
-            .single()
-
-          const unsubscribeUrl = `${mktUrl}/unsubscribe?token=${member?.unsubscribe_token || ''}`
+          // Token de unsubscribe obtido do mapa pré-carregado
+          const unsubscribeToken = unsubscribeTokenMap.get(send.member_id) || ''
+          const unsubscribeUrl = `${mktUrl}/unsubscribe?token=${unsubscribeToken}`
 
           // Substituir variáveis no conteúdo
           let html = campaign.html_content

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDriveFileThumbnail } from '@/lib/google-drive';
+import { getCachedDriveThumbnailBuffer } from '@/lib/google-drive';
 
 export async function GET(request: NextRequest) {
   const fileId = request.nextUrl.searchParams.get('fileId');
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const thumbnail = await getDriveFileThumbnail(fileId, size);
+    const thumbnail = await getCachedDriveThumbnailBuffer(fileId, size);
 
     if (!thumbnail) {
       // Return a placeholder SVG if no thumbnail is available
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       return new NextResponse(svg, {
         headers: {
           'Content-Type': 'image/svg+xml',
-          'Cache-Control': 'public, max-age=60',
+          'Cache-Control': 'public, max-age=300',
         },
       });
     }
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(new Uint8Array(thumbnail.data), {
       headers: {
         'Content-Type': thumbnail.mimeType,
-        'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000',
+        'Cache-Control': 'public, max-age=604800, s-maxage=2592000, stale-while-revalidate=5184000',
       },
     });
   } catch {

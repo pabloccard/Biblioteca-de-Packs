@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getMemberSession, logoutAction } from '../../actions'
 import DashboardView, { PackItemData } from '@/components/DashboardView'
 import { getDictionary, Locale } from '@/lib/dictionaries'
+import { getCachedPacksCatalog } from '@/lib/catalog'
 
 interface DashboardPageProps {
   params: Promise<{ lang: string }>
@@ -40,22 +41,17 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     }
   }
 
-  // Fetch purchases and packs (apenas colunas necessárias, excluindo JSON pesado de legendas)
-  const [purchasesResult, packsResult] = await Promise.all([
+  // Fetch purchases and cached packs catalog
+  const [purchasesResult, allPacks] = await Promise.all([
     memberId
       ? supabase.from('member_purchases').select('pack_id').eq('member_id', memberId)
       : Promise.resolve({ data: null }),
-    supabase
-      .from('packs')
-      .select('id, name, version, cover_image_url, buy_link, release_date, language, created_at, pack_versions(cover_image_url, display_order)')
-      .is('parent_pack_id', null)
-      .order('release_date', { ascending: false }),
+    getCachedPacksCatalog(),
   ])
 
   const purchasedPackIds = new Set(
     (purchasesResult.data || []).map((p: { pack_id: string }) => p.pack_id)
   )
-  const allPacks = packsResult.data || []
 
   const isPackAccessible = (packId: string) => purchasedPackIds.has(packId)
   const userLang = memberLanguage || lang || 'pt'

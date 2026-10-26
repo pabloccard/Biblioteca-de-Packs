@@ -196,19 +196,23 @@ export async function POST(request: Request) {
       }
 
       if (isComplementPurchase) {
-        // Registrar compra do complemento
+        // Verificar se complemento já foi liberado anteriormente (idempotência contra retries)
         const { data: existingCompPurchase } = await supabaseAdmin
           .from('complement_purchases')
           .select('id')
           .eq('member_id', memberId)
           .eq('complement_id', complement!.id)
-          .single()
+          .maybeSingle()
 
-        if (!existingCompPurchase) {
-          await supabaseAdmin
-            .from('complement_purchases')
-            .insert({ member_id: memberId, complement_id: complement!.id })
+        if (existingCompPurchase) {
+          console.log(`ℹ️ Webhook: Complemento "${complement!.type}" já liberado para ${email}. Ignorando reprocessamento duplicado.`)
+          return NextResponse.json({ success: true, message: 'Complemento já liberado anteriormente.' })
         }
+
+        // Registrar compra do complemento
+        await supabaseAdmin
+          .from('complement_purchases')
+          .insert({ member_id: memberId, complement_id: complement!.id })
 
         // Também garantir acesso ao pack pai
         const { data: existingPackPurchase } = await supabaseAdmin
@@ -216,7 +220,7 @@ export async function POST(request: Request) {
           .select('id')
           .eq('member_id', memberId)
           .eq('pack_id', effectivePackId)
-          .single()
+          .maybeSingle()
 
         if (!existingPackPurchase) {
           await supabaseAdmin
@@ -228,7 +232,7 @@ export async function POST(request: Request) {
         // Desbloquear também todos os outros complementos ativos do pack (ex: Stories)
         // e quaisquer packs filhos legados
         if (complement!.type === 'custom') {
-          // 1. Desbloquear todos os outros complementos do pack pai (ex: Stories)
+          // 1. Desbloquear todos os outros complementos do pack pai (em lote único)
           const { data: otherComplements } = await supabaseAdmin
             .from('pack_complements')
             .select('id, type')
@@ -236,43 +240,46 @@ export async function POST(request: Request) {
             .neq('id', complement!.id)
 
           if (otherComplements && otherComplements.length > 0) {
-            for (const otherComp of otherComplements) {
-              const { data: existingOther } = await supabaseAdmin
-                .from('complement_purchases')
-                .select('id')
-                .eq('member_id', memberId)
-                .eq('complement_id', otherComp.id)
-                .maybeSingle()
+            const compIds = otherComplements.map(c => c.id)
+            const { data: existingComps } = await supabaseAdmin
+              .from('complement_purchases')
+              .select('complement_id')
+              .eq('member_id', memberId)
+              .in('complement_id', compIds)
 
-              if (!existingOther) {
-                await supabaseAdmin
-                  .from('complement_purchases')
-                  .insert({ member_id: memberId, complement_id: otherComp.id })
-                console.log(`🎁 Pacote Premium: liberado complemento "${otherComp.type}" automaticamente para ${email}`)
-              }
+            const existingCompSet = new Set((existingComps || []).map(r => r.complement_id))
+            const toInsertComps = otherComplements
+              .filter(c => !existingCompSet.has(c.id))
+              .map(c => ({ member_id: memberId, complement_id: c.id }))
+
+            if (toInsertComps.length > 0) {
+              await supabaseAdmin.from('complement_purchases').insert(toInsertComps)
+              console.log(`🎁 Pacote Premium: liberados ${toInsertComps.length} complementos em lote para ${email}`)
             }
           }
 
-          // 2. Desbloquear packs filhos legados (se houver)
+          // 2. Desbloquear packs filhos legados se houver (em lote único)
           const { data: childPacks } = await supabaseAdmin
             .from('packs')
             .select('id')
             .eq('parent_pack_id', effectivePackId)
 
           if (childPacks && childPacks.length > 0) {
-            for (const child of childPacks) {
-              const { data: existingChildPurchase } = await supabaseAdmin
-                .from('member_purchases')
-                .select('id')
-                .eq('member_id', memberId)
-                .eq('pack_id', child.id)
-                .maybeSingle()
+            const childIds = childPacks.map(c => c.id)
+            const { data: existingChildren } = await supabaseAdmin
+              .from('member_purchases')
+              .select('pack_id')
+              .eq('member_id', memberId)
+              .in('pack_id', childIds)
 
-              if (!existingChildPurchase) {
-                await supabaseAdmin
-                  .from('member_purchases')
-                  .insert({ member_id: memberId, pack_id: child.id })
-              }
+            const existingChildSet = new Set((existingChildren || []).map(r => r.pack_id))
+            const toInsertChildren = childPacks
+              .filter(c => !existingChildSet.has(c.id))
+              .map(c => ({ member_id: memberId, pack_id: c.id }))
+
+            if (toInsertChildren.length > 0) {
+              await supabaseAdmin.from('member_purchases').insert(toInsertChildren)
+              console.log(`🎁 Pacote Premium: liberados ${toInsertChildren.length} packs legados em lote para ${email}`)
             }
           }
 
@@ -329,35 +336,39 @@ export async function POST(request: Request) {
             } else if (newOrder) {
               console.log(`📝 Pedido de personalização criado com sucesso: order_id=${newOrder.id} (status: waiting)`)
 
-              // Popula automaticamente as artes do pack para o formulário do cliente
-              try {
-                const { populateOrderArtsFromPack } = await import('@/app/admin/customization-actions')
-                await populateOrderArtsFromPack(newOrder.id, effectivePackId, supabaseAdmin)
-                console.log(`🎨 Artes do pack populadas com sucesso para o pedido ${newOrder.id}`)
-              } catch (artsErr) {
-                console.warn('⚠️ Não foi possível popular artes do pack no webhook:', artsErr)
-              }
+              // Paralelizar tarefas assíncronas do pedido (Telegram + Popular Artes)
+              await Promise.allSettled([
+                (async () => {
+                  try {
+                    const { populateOrderArtsFromPack } = await import('@/app/admin/customization-actions')
+                    await populateOrderArtsFromPack(newOrder.id, effectivePackId, supabaseAdmin)
+                    console.log(`🎨 Artes do pack populadas com sucesso para o pedido ${newOrder.id}`)
+                  } catch (artsErr) {
+                    console.warn('⚠️ Não foi possível popular artes do pack no webhook:', artsErr)
+                  }
+                })(),
+                (async () => {
+                  try {
+                    const { notifyNewCustomizationOrder } = await import('@/lib/telegram')
+                    const { generateCustomizeSlug } = await import('@/lib/customization-slug')
+                    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://bibliotecadepacks.com.br'
+                    const customizeSlug = generateCustomizeSlug(buyerName, newOrder.access_token)
+                    const customizeLink = `${appUrl}/customize/${customizeSlug}`
 
-              // Dispara notificação instantânea no Telegram do Pablo
-              try {
-                const { notifyNewCustomizationOrder } = await import('@/lib/telegram')
-                const { generateCustomizeSlug } = await import('@/lib/customization-slug')
-                const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://bibliotecadepacks.com.br'
-                const customizeSlug = generateCustomizeSlug(buyerName, newOrder.access_token)
-                const customizeLink = `${appUrl}/customize/${customizeSlug}`
-
-                await notifyNewCustomizationOrder({
-                  orderId: newOrder.id,
-                  clientName: buyerName || '',
-                  clientWhatsapp: payload.buyer?.checkout_phone || payload.buyer?.phone || null,
-                  clientEmail: email,
-                  packName: effectivePack?.name || 'Pack',
-                  customizeLink,
-                })
-                console.log(`📱 Notificação no Telegram enviada para o administrador`)
-              } catch (telegramErr) {
-                console.warn('⚠️ Não foi possível enviar notificação no Telegram:', telegramErr)
-              }
+                    await notifyNewCustomizationOrder({
+                      orderId: newOrder.id,
+                      clientName: buyerName || '',
+                      clientWhatsapp: payload.buyer?.checkout_phone || payload.buyer?.phone || null,
+                      clientEmail: email,
+                      packName: effectivePack?.name || 'Pack',
+                      customizeLink,
+                    })
+                    console.log(`📱 Notificação no Telegram enviada para o administrador`)
+                  } catch (telegramErr) {
+                    console.warn('⚠️ Não foi possível enviar notificação no Telegram:', telegramErr)
+                  }
+                })(),
+              ])
             }
           } else {
             console.log(`ℹ️ Pedido de personalização já existe para este membro: order_id=${existingOrder.id}`)
@@ -366,23 +377,26 @@ export async function POST(request: Request) {
 
         console.log(`✅ Complemento liberado: ${email} → ${complement!.type} do pack "${effectivePack?.name}"`)
       } else {
-        // Registrar compra do pack principal
+        // Registrar compra do pack principal (com checagem de idempotência contra retries)
         const { data: existingPurchase } = await supabaseAdmin
           .from('member_purchases')
           .select('id')
           .eq('member_id', memberId)
           .eq('pack_id', pack!.id)
-          .single()
+          .maybeSingle()
 
-        if (!existingPurchase) {
-          const { error: purchaseError } = await supabaseAdmin
-            .from('member_purchases')
-            .insert({ member_id: memberId, pack_id: pack!.id })
+        if (existingPurchase) {
+          console.log(`ℹ️ Webhook: Acesso ao pack "${pack!.name}" já liberado para ${email}. Ignorando reprocessamento duplicado.`)
+          return NextResponse.json({ success: true, message: 'Pack já liberado anteriormente.' })
+        }
 
-          if (purchaseError) {
-            console.error('❌ Erro ao registrar compra:', purchaseError.message)
-            return NextResponse.json({ error: 'Erro ao registrar compra' }, { status: 500 })
-          }
+        const { error: purchaseError } = await supabaseAdmin
+          .from('member_purchases')
+          .insert({ member_id: memberId, pack_id: pack!.id })
+
+        if (purchaseError) {
+          console.error('❌ Erro ao registrar compra:', purchaseError.message)
+          return NextResponse.json({ error: 'Erro ao registrar compra' }, { status: 500 })
         }
 
         console.log(`✅ Acesso liberado: ${email} → Pack "${pack!.name}"`)

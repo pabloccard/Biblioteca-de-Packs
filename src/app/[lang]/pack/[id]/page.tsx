@@ -45,10 +45,10 @@ export default async function PackPage({ params, searchParams }: PackPageProps) 
 
   if (!purchase) redirect(`/${lang}/dashboard`)
 
-  // Fetch pack
+  // Fetch pack (apenas colunas necessárias)
   const { data: pack } = await supabase
     .from('packs')
-    .select('*')
+    .select('id, name, version, cover_image_url, drive_arts_folder_id, arts_folder, art_captions')
     .eq('id', id)
     .single()
 
@@ -68,7 +68,7 @@ export default async function PackPage({ params, searchParams }: PackPageProps) 
       .order('display_order', { ascending: true }),
     supabase
       .from('pack_complements')
-      .select('*')
+      .select('id, type, buy_link, price, description_pt, description_es, description_en, display_order')
       .eq('pack_id', id)
       .eq('is_active', true)
       .order('display_order', { ascending: true }),
