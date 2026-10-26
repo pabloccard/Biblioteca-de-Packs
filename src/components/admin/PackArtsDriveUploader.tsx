@@ -123,7 +123,7 @@ export default function PackArtsDriveUploader({
     }
   }
 
-  // Upload otimizado de arquivos para a pasta do Drive (escala 100%, WebP 80%, com progresso visual)
+  // Upload otimizado de arquivos para a pasta do Drive (escala 100%, WebP 50%, com progresso visual)
   async function handleUpload(selectedFiles: FileList | File[]) {
     if (!folderId) {
       setErrorMessage('Pasta do Google Drive não identificada.')
@@ -164,11 +164,11 @@ export default function PackArtsDriveUploader({
         setUploadState(prev => ({
           ...prev,
           currentFileName: file.name,
-          currentAction: 'Otimizando (escala 100%, WebP 80%)',
+          currentAction: 'Otimizando (escala 100%, WebP 50%)',
         }))
 
-        // 1. Preserva 100% das dimensões originais e compacta para WebP 80%
-        const opt = await optimizePackArt(file, 1.0, 0.8)
+        // 1. Preserva 100% das dimensões originais e compacta para WebP 50%
+        const opt = await optimizePackArt(file, 1.0, 0.5)
         totalOrig += opt.originalSize
         totalOpt += opt.optimizedSize
 
@@ -503,7 +503,7 @@ export default function PackArtsDriveUploader({
                         : 'Otimizando e Enviando ao Google Drive...'}
                     </h4>
                     <p style={{ margin: '2px 0 0 0', fontSize: '0.78rem', color: '#94a3b8' }}>
-                      ⚡ Dimensões originais 100% • Compactação WebP 80%
+                      ⚡ Dimensões originais 100% • Compactação WebP 50%
                     </p>
                   </div>
                 </div>
@@ -673,7 +673,7 @@ export default function PackArtsDriveUploader({
                 }}
               >
                 <span>⚡</span>
-                <strong>Otimização automática ativada:</strong> escala original 100% e compactação WebP 80% antes do envio
+                <strong>Otimização automática ativada:</strong> escala original 100% e compactação WebP 50% antes do envio
               </span>
             </div>
           </div>

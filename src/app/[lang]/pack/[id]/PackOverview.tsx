@@ -148,8 +148,8 @@ export default function PackOverview({
 
   const customComplement = complements.find(c => c.type === 'custom')
 
-  const tabFilesText = lang === 'en' ? 'Files' : lang === 'es' ? 'Archivos' : 'Arquivos'
-  const tabLegendsText = lang === 'en' ? 'Captions' : lang === 'es' ? 'Leyendas' : 'Legendas'
+  const tabFilesText = dict?.tabFiles || (lang === 'en' ? 'Files' : lang === 'es' ? 'Archivos' : 'Arquivos')
+  const tabLegendsText = dict?.tabLegends || (lang === 'en' ? 'Captions' : lang === 'es' ? 'Textos' : 'Legendas')
 
   return (
     <div className="pack-detail-wrapper">
@@ -249,7 +249,7 @@ export default function PackOverview({
           {activeTab === 'files' && (
             <motion.main
               key="files"
-              className="pack-files-list"
+              className="pack-files-list pack-overview-files"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -261,10 +261,11 @@ export default function PackOverview({
               const customCover = customComplement.customCoverUrl || coverImage
 
               return (
-                <motion.div variants={rowVariants}>
+                <motion.div variants={rowVariants} className="pack-overview-custom-item">
+                  {/* Mobile version row (< 768px) */}
                   <Link
                     href={`/${lang}/pack/${pack.id}/custom`}
-                    className="pack-file-row pack-file-row-custom"
+                    className="pack-file-row pack-file-row-custom pack-version-row-mobile"
                   >
                     <div className={isCustomPurchased ? 'pack-file-thumb' : 'pack-file-thumb pack-file-thumb-locked'}>
                       <img src={customCover} alt="" className="pack-file-thumb-img" />
@@ -308,16 +309,58 @@ export default function PackOverview({
                       </p>
                     </div>
                   </Link>
+
+                  {/* Desktop version card (>= 768px) - Exact Dashboard PackCard */}
+                  <Link
+                    href={`/${lang}/pack/${pack.id}/custom`}
+                    className="pack-card-link pack-version-card-desktop"
+                  >
+                    <div className={`pack-card ${isCustomPurchased ? 'unlocked' : 'locked'}`}>
+                      <div className="pack-card-media">
+                        <img
+                          src={customCover}
+                          alt={dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
+                          className="pack-card-img"
+                        />
+                        <img
+                          src="/sombra-card.webp"
+                          alt=""
+                          className="pack-card-shadow-img"
+                          aria-hidden="true"
+                        />
+                        {!isCustomPurchased && (
+                          <div className="pack-card-lock-center" aria-hidden="true">
+                            <svg width="44" height="44" viewBox="0 0 24 24" className="pack-lock-svg">
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M12 2a5 5 0 0 0-5 5v3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3h-1V7a5 5 0 0 0-5-5zm3 8V7a3 3 0 0 0-6 0v3h6zm-3 4a1.5 1.5 0 0 0-1 2.618V18a1 1 0 1 0 2 0v-1.382A1.5 1.5 0 0 0 12 14z"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="pack-card-footer">
+                          <div className="pack-file-title-row">
+                            <img src="/premium.webp" alt="" className="pack-crown-icon" />
+                            <h3 className="pack-card-title" style={{ color: '#FFB742' }}>
+                              {dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
+                            </h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 </motion.div>
               )
             })()}
 
             {/* Color Version Items */}
             {versions.map((version) => (
-              <motion.div key={version.id} variants={rowVariants}>
+              <motion.div key={version.id} variants={rowVariants} className="pack-overview-version-item">
+                {/* Mobile version row (< 768px) */}
                 <Link
                   href={`/${lang}/pack/${pack.id}/version/${version.id}`}
-                  className="pack-file-row"
+                  className="pack-file-row pack-version-row-mobile"
                 >
                   <div className="pack-file-thumb">
                     {version.coverImageUrl ? (
@@ -328,6 +371,31 @@ export default function PackOverview({
                   </div>
                   <div className="pack-file-info pack-file-info-centered">
                     <h4 className="pack-file-title">{version.name}</h4>
+                  </div>
+                </Link>
+
+                {/* Desktop version card (>= 768px) - Exact Dashboard PackCard Style */}
+                <Link
+                  href={`/${lang}/pack/${pack.id}/version/${version.id}`}
+                  className="pack-card-link pack-version-card-desktop"
+                >
+                  <div className="pack-card unlocked">
+                    <div className="pack-card-media">
+                      <img
+                        src={version.coverImageUrl || coverImage}
+                        alt={version.name}
+                        className="pack-card-img"
+                      />
+                      <img
+                        src="/sombra-card.webp"
+                        alt=""
+                        className="pack-card-shadow-img"
+                        aria-hidden="true"
+                      />
+                      <div className="pack-card-footer">
+                        <h3 className="pack-card-title">{version.name}</h3>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </motion.div>
@@ -354,22 +422,27 @@ export default function PackOverview({
                 >
                   <div className="pack-legend-thumb">
                     <img
-                      src={art.imageUrl}
-                      alt={art.caption || art.name || `Arte ${art.number}`}
+                      src={art.imageUrl || (art.id ? `/api/drive/proxy-thumbnail?fileId=${art.id}` : '')}
+                      alt={art.name || `Arte ${art.number}`}
                       className="pack-legend-thumb-img"
                       loading="lazy"
+                      onError={(e) => {
+                        if (art.id && !e.currentTarget.src.includes('/api/drive/proxy-thumbnail')) {
+                          e.currentTarget.src = `/api/drive/proxy-thumbnail?fileId=${art.id}`
+                        }
+                      }}
                     />
                   </div>
                   <div className="pack-legend-content">
                     <p className="pack-legend-text">
-                      {art.caption || (lang === 'es' ? 'Sin leyenda disponible' : lang === 'en' ? 'No caption available' : 'Sem legenda disponível')}
+                      {art.caption || (lang === 'es' ? 'Sin texto disponible' : lang === 'en' ? 'No caption available' : 'Sem legenda disponível')}
                     </p>
                     {art.caption && (
                       <CopyButton
                         text={art.caption}
                         className="pack-legend-copy-btn"
-                        label={lang === 'en' ? 'Copy caption' : lang === 'es' ? 'Copiar leyenda' : 'Copiar legenda'}
-                        copiedLabel={lang === 'en' ? 'Copied!' : lang === 'es' ? '¡Copiado!' : 'Copiado!'}
+                        label={dict?.copyLegend || (lang === 'en' ? 'Copy caption' : lang === 'es' ? 'Copiar texto' : 'Copiar legenda')}
+                        copiedLabel={dict?.legendCopied || (lang === 'en' ? 'Copied!' : lang === 'es' ? '¡Copiado!' : 'Copiado!')}
                       />
                     )}
                   </div>
@@ -381,7 +454,7 @@ export default function PackOverview({
                   {lang === 'en'
                     ? 'No captions available for this pack.'
                     : lang === 'es'
-                      ? 'No hay leyendas disponibles para este pack.'
+                      ? (dict?.noLegends || 'No hay textos disponibles para este pack.')
                       : 'Nenhuma legenda disponível para este pack.'}
                 </p>
               </div>

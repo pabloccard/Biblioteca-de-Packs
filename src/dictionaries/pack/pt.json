@@ -3,6 +3,8 @@
   "tabTutorials": "Tutoriais",
   "tabFiles": "Arquivos",
   "tabLegends": "Legendas",
+  "copyLegend": "Copiar legenda",
+  "legendCopied": "Copiado!",
   "filesHeaderDesc": "Escolha a versão que deseja acessar ou solicite a personalização das suas artes.",
   "legendsHeaderDesc": "Escolha uma arte, copie o texto e adapte as informações, se necessário.",
   "customCardTitle": "Personalizado",

@@ -219,7 +219,7 @@ export default function VersionContent({
         {/* Format Links */}
         <AnimatePresence mode="wait">
           <motion.main
-            className="pack-files-list"
+            className="pack-files-list version-links-list"
             initial="hidden"
             animate="visible"
             exit="exit"

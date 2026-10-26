@@ -14,12 +14,12 @@ export interface OptimizedArt {
 
 /**
  * Redimensiona a imagem preservando a escala original (1.0 = 100% da resolução original)
- * e compacta para WebP com a qualidade especificada (padrão 0.8 = 80%).
+ * e compacta para WebP com a qualidade especificada (padrão 0.5 = 50%).
  */
 export async function optimizePackArt(
   file: File,
   scale: number = 1.0,
-  quality: number = 0.8
+  quality: number = 0.5
 ): Promise<OptimizedArt> {
   // Se não for imagem suportada, retorna o arquivo original
   if (!file.type.startsWith('image/')) {

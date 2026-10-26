@@ -245,3 +245,45 @@
 .custom-cta-secondary:active {
   transform: scale(0.98);
 }
+
+@media (min-width: 768px) {
+  .custom-body {
+    padding: 32px 36px;
+    max-width: 760px;
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+    box-sizing: border-box;
+  }
+
+  .custom-body-centered {
+    max-width: 680px;
+    padding: 36px 40px;
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .custom-features-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 28px;
+    margin-bottom: 36px;
+  }
+
+  .custom-cta-section {
+    flex-direction: row;
+    gap: 16px;
+    padding-bottom: 8px;
+  }
+
+  .custom-cta-primary,
+  .custom-cta-secondary {
+    flex: 1;
+  }
+}
+

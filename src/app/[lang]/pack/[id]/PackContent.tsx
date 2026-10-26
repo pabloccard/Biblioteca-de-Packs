@@ -225,7 +225,7 @@ export default function PackContent({
   }, [links, lang])
 
   const tabFilesText = lang === 'en' ? 'Files' : lang === 'es' ? 'Archivos' : 'Arquivos'
-  const tabLegendsText = lang === 'en' ? 'Captions' : lang === 'es' ? 'Leyendas' : 'Legendas'
+  const tabLegendsText = lang === 'en' ? 'Captions' : lang === 'es' ? 'Textos' : 'Legendas'
 
   return (
     <div className="pack-detail-wrapper">

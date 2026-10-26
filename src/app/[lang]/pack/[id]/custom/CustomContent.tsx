@@ -876,12 +876,12 @@ export default function CustomContent({
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
-                      <span>{lang === 'en' ? 'Caption copied!' : 'Legenda copiada!'}</span>
+                      <span>{lang === 'en' ? 'Caption copied!' : lang === 'es' ? '¡Texto copiado!' : 'Legenda copiada!'}</span>
                     </>
                   ) : (
                     <>
                       <img src="/copy-icon.svg" alt="" width={18} height={18} className="copy-icon-img copy-icon-white" />
-                      <span>{lang === 'en' ? 'Copy caption' : 'Copiar legenda'}</span>
+                      <span>{lang === 'en' ? 'Copy caption' : lang === 'es' ? 'Copiar texto' : 'Copiar legenda'}</span>
                     </>
                   )}
                 </motion.button>

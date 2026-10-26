@@ -26,26 +26,29 @@ export interface PackArtsSource {
 /**
  * Busca em cache os arquivos de imagem de uma pasta do Google Drive
  */
-export const getCachedDriveFiles = unstable_cache(
-  async (folderId: string): Promise<DriveFile[]> => {
-    try {
-      const files = await listDriveFiles(folderId)
-      return files
-        .filter(f => f.mimeType.startsWith('image/') || f.name.match(/\.(png|jpg|jpeg|webp|svg|gif)$/i))
-        .sort((a, b) => {
-          const numA = parseInt(a.name.match(/\d+/)?.[0] || '0', 10)
-          const numB = parseInt(b.name.match(/\d+/)?.[0] || '0', 10)
-          if (numA && numB) return numA - numB
-          return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
-        })
-    } catch (e) {
-      console.error(`Erro ao carregar arquivos da pasta do Drive (${folderId}):`, e)
-      return []
-    }
-  },
-  ['drive-pack-arts-files'],
-  { revalidate: 300, tags: ['drive-arts'] }
-)
+export async function getCachedDriveFiles(folderId: string): Promise<DriveFile[]> {
+  const cachedFn = unstable_cache(
+    async () => {
+      try {
+        const files = await listDriveFiles(folderId)
+        return files
+          .filter(f => f.mimeType.startsWith('image/') || f.name.match(/\.(png|jpg|jpeg|webp|svg|gif)$/i))
+          .sort((a, b) => {
+            const numA = parseInt(a.name.match(/\d+/)?.[0] || '0', 10)
+            const numB = parseInt(b.name.match(/\d+/)?.[0] || '0', 10)
+            if (numA && numB) return numA - numB
+            return a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+          })
+      } catch (e) {
+        console.error(`Erro ao carregar arquivos da pasta do Drive (${folderId}):`, e)
+        return []
+      }
+    },
+    ['drive-pack-arts-files', folderId],
+    { revalidate: 300, tags: ['drive-arts', `drive-arts-${folderId}`] }
+  )
+  return cachedFn()
+}
 
 /**
  * Retorna as artes de um pack (prioriza Google Drive com fallback para pasta local e legendas do banco).
@@ -64,9 +67,7 @@ export async function getPackArts(pack: PackArtsSource | null | undefined): Prom
       return driveFiles.map((file, idx) => {
         const numMatch = file.name.match(/^(\d+)/) || file.name.match(/(\d+)/)
         const fileNum = numMatch ? parseInt(numMatch[1], 10) : idx + 1
-        const imageUrl = file.thumbnailLink
-          ? file.thumbnailLink.replace(/=s\d+$/, '=s800')
-          : `/api/drive/proxy-thumbnail?fileId=${file.id}`
+        const imageUrl = `/api/drive/proxy-thumbnail?fileId=${file.id}`
 
         const cleanBaseName = file.name.replace(/\.[^.]+$/, '')
         const caption =
