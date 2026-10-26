@@ -12,26 +12,26 @@ export default function CustomizeLoading() {
           <div className="pack-cover-header">
             <div className="skeleton-subtitle" style={{ width: '120px', height: '12px' }} />
           </div>
-          <div className="skeleton-title" style={{ width: '200px', height: '24px', marginTop: '4px' }} />
-          <div className="skeleton-subtitle" style={{ width: '290px', height: '14px', marginTop: '6px' }} />
+          <div className="skeleton-title" style={{ width: '220px', height: '28px', marginTop: '4px' }} />
+          <div className="skeleton-subtitle" style={{ width: '320px', height: '14px', marginTop: '8px' }} />
         </div>
 
         {/* 3. Dica da Grade */}
-        <div className="cust-grid-hint" style={{ marginTop: 'var(--pack-header-gap, 28px)' }}>
-          <div className="skeleton-shimmer" style={{ width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0 }} />
-          <div className="skeleton-subtitle" style={{ width: '190px', height: '12px' }} />
+        <div className="cust-grid-hint">
+          <div className="skeleton-shimmer" style={{ width: '22px', height: '22px', borderRadius: '50%', flexShrink: 0 }} />
+          <div className="skeleton-subtitle" style={{ width: '220px', height: '13px' }} />
         </div>
 
-        {/* 4. Grade de Artes (3 Colunas) */}
+        {/* 4. Grade de Artes (12 cards para preencher as linhas em todas as telas) */}
         <div className="cust-arts-grid">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+          {Array.from({ length: 12 }).map((_, i) => (
             <div key={i} className="skeleton-art-card" />
           ))}
         </div>
 
         {/* 5. Botão de Envio */}
-        <div className="cust-submit-section" style={{ width: '100%', padding: '32px 32px 80px' }}>
-          <div className="skeleton-btn-pill" style={{ height: '52px' }} />
+        <div className="cust-submit-section">
+          <div className="skeleton-btn-pill" style={{ height: '52px', maxWidth: '440px' }} />
         </div>
       </div>
     </div>

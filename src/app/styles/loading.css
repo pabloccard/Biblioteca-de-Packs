@@ -92,6 +92,21 @@
   z-index: 1;
 }
 
+@media (min-width: 768px) {
+  .skeleton-hero-backdrop {
+    max-height: 270px;
+    border-radius: 0 !important;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-hero-backdrop {
+    max-height: 290px;
+  }
+}
+
 .skeleton-hero-backdrop .pack-cover-shadow {
   position: absolute;
   bottom: -4px;

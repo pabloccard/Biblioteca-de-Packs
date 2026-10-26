@@ -100,6 +100,7 @@ function ArtGridCard({
   onClick: () => void
 }) {
   const [loaded, setLoaded] = useState(false)
+  const [hasError, setHasError] = useState(false)
   const thumb = art.drive_file_id
     ? `/api/drive/proxy-thumbnail?fileId=${art.drive_file_id}`
     : (art.thumbnail_url || '')
@@ -115,21 +116,36 @@ function ArtGridCard({
       aria-label={art.file_name}
     >
       <div className="cust-art-grid-img-wrap">
-        <div className={`skeleton-art-card cust-art-placeholder ${loaded ? 'hidden' : ''}`} />
-        <img
-          src={thumb}
-          alt=""
-          width={400}
-          height={500}
-          className={`cust-art-grid-img ${isFilled ? 'filled' : ''} ${loaded ? 'loaded' : ''}`}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          ref={(img) => {
-            if (img && img.complete && img.naturalWidth > 0 && !loaded) {
+        {!loaded && !hasError && (
+          <div className="skeleton-art-card cust-art-placeholder" />
+        )}
+        {hasError ? (
+          <div className="cust-art-fallback">
+            <span className="cust-art-fallback-icon">🎨</span>
+            <span className="cust-art-fallback-label">
+              {art.display_order || art.file_name.replace(/\.[^/.]+$/, '')}
+            </span>
+          </div>
+        ) : (
+          <img
+            src={thumb}
+            alt={art.file_name}
+            width={400}
+            height={500}
+            className={`cust-art-grid-img ${isFilled ? 'filled' : ''} ${loaded ? 'loaded' : ''}`}
+            loading={art.display_order <= 12 ? 'eager' : 'lazy'}
+            onLoad={() => setLoaded(true)}
+            onError={() => {
+              setHasError(true)
               setLoaded(true)
-            }
-          }}
-        />
+            }}
+            ref={(img) => {
+              if (img && img.complete && img.naturalWidth > 0 && !loaded) {
+                setLoaded(true)
+              }
+            }}
+          />
+        )}
       </div>
 
       {/* Checkzinho no canto superior esquerdo com animação fluida de entrada e saída */}
@@ -383,7 +399,7 @@ export default function CustomizeForm({
                   {texts.badge}
                 </span>
               </div>
-              <h1 className="pack-cover-title" style={{ fontSize: '24px', marginTop: '2px' }}>
+              <h1 className="pack-cover-title" style={{ marginTop: '2px' }}>
                 {texts.greeting}
               </h1>
               <p className="pack-header-description" style={{ marginTop: '8px' }}>
@@ -467,7 +483,7 @@ export default function CustomizeForm({
           >
             <motion.div
               key="custom-briefing-modal-container"
-              className="custom-art-modal-container"
+              className="custom-art-modal-container cust-briefing-modal-container"
               onClick={e => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.88, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -480,7 +496,7 @@ export default function CustomizeForm({
               }}
             >
               {/* Arte expandida com botão voltar sobre ela */}
-              <div className="custom-art-modal-img-wrap">
+              <div className="custom-art-modal-img-wrap cust-briefing-modal-img-wrap">
                 <motion.button
                   type="button"
                   className="custom-art-modal-back-btn"
@@ -505,6 +521,7 @@ export default function CustomizeForm({
                       ? `/api/drive/proxy-thumbnail?fileId=${editingArt.drive_file_id}&size=1600`
                       : (editingArt.thumbnail_url || '')
                   }
+                  fallbackSrc={editingArt.thumbnail_url || undefined}
                   alt={editingArt.file_name}
                 />
               </div>
