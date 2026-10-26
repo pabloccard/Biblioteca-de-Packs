@@ -17,12 +17,8 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 
 const DAILY_LIMIT = 90
 
-function getResendPrimary() {
-  return new Resend(process.env.RESEND_API_KEY)
-}
-
-function getResendFallback() {
-  return new Resend(process.env.RESEND_MARKETING_API_KEY)
+function getResendClient(apiKey: string) {
+  return new Resend(apiKey)
 }
 
 /** Retorna a contagem de e-mails enviados hoje */
@@ -75,10 +71,26 @@ export async function sendEmailWithFailover(params: {
   subject: string
   html: string
 }) {
-  const count = await getTodayCount()
-  const useFallback = count >= DAILY_LIMIT
+  const primaryKey = process.env.RESEND_API_KEY?.trim()
+  const fallbackKey = process.env.RESEND_MARKETING_API_KEY?.trim()
 
-  const resend = useFallback ? getResendFallback() : getResendPrimary()
+  if (!primaryKey && !fallbackKey) {
+    console.warn('⚠️ Nenhuma chave Resend (RESEND_API_KEY ou RESEND_MARKETING_API_KEY) configurada no ambiente. E-mail não enviado.')
+    return { data: null, error: { message: 'Chave da API Resend não configurada no .env.local.' } }
+  }
+
+  const count = await getTodayCount()
+  let useFallback = count >= DAILY_LIMIT
+
+  // Se a principal não estiver disponível, tenta usar fallback e vice-versa
+  if (!primaryKey && fallbackKey) {
+    useFallback = true
+  } else if (useFallback && !fallbackKey && primaryKey) {
+    useFallback = false
+  }
+
+  const selectedKey = useFallback ? fallbackKey! : primaryKey!
+  const resend = getResendClient(selectedKey)
   const keyUsed = useFallback ? 'MARKETING (fallback)' : 'PRINCIPAL'
 
   // Se estiver usando fallback, troca o domínio do remetente
@@ -91,7 +103,7 @@ export async function sendEmailWithFailover(params: {
   const result = await resend.emails.send({ ...params, from: finalFrom })
 
   // Só incrementa o contador se usou a API principal
-  if (!useFallback) {
+  if (!useFallback && !result.error) {
     await incrementTodayCount()
   }
 

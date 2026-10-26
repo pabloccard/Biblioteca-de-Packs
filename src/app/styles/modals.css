@@ -338,34 +338,6 @@
   margin-left: 6px;
 }
 
-/* Specs chips */
-.locked-specs-text {
-  text-align: center;
-  padding: 16px 24px 0;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-
-.locked-specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  padding: 16px 24px 0;
-}
-
-.locked-spec-chip {
-  padding: 5px 14px;
-  border-radius: var(--radius-full);
-  background: rgba(0, 82, 255, 0.08);
-  border: 1px solid rgba(0, 82, 255, 0.2);
-  color: var(--accent-primary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  white-space: normal;
-  text-align: center;
-}
 
 /* Carousel */
 .locked-carousel {

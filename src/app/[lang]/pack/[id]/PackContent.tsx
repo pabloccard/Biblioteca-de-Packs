@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import LinkButton from '@/components/LinkButton'
-import ArtThumbnail from '@/components/ArtThumbnail'
+import { motion } from 'motion/react'
+import CopyButton from '@/components/CopyButton'
 
 interface Pack {
   id: string
@@ -62,244 +62,381 @@ interface FullProps {
 
 type TabType = 'files' | 'legends'
 
-export default function PackContent({ pack, links, arts, subsections, sectionOrder, storyPack, isParentUnlocked, parentBuyLink, memberEmail, lang, dict }: FullProps) {
+// Hero entrance animations
+const heroVariants = {
+  hidden: { opacity: 0, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
+
+const headerInfoVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      delay: 0.08,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
+
+const tabsVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.16,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
+
+// Staggered list animations for files tab
+const fileListVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const fileRowVariants = {
+  hidden: {
+    opacity: 0,
+    y: 16,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
+
+// Staggered animations for captions tab
+const legendsGridVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.08,
+    },
+  },
+}
+
+const legendCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+    scale: 0.97,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
+
+export default function PackContent({
+  pack,
+  links,
+  arts,
+  lang,
+}: FullProps) {
   const router = useRouter()
-  const hasFiles = subsections.length > 0
+  const [activeTab, setActiveTab] = useState<TabType>('files')
 
-  // Build buy links
-  const storyBuyLink = useMemo(() => {
-    if (!storyPack?.buyLink) return ''
-    const separator = storyPack.buyLink.includes('?') ? '&' : '?'
-    return `${storyPack.buyLink}${separator}email=${encodeURIComponent(memberEmail)}`
-  }, [storyPack?.buyLink, memberEmail])
-
-  const feedBuyLink = useMemo(() => {
-    if (!parentBuyLink) return ''
-    const separator = parentBuyLink.includes('?') ? '&' : '?'
-    return `${parentBuyLink}${separator}email=${encodeURIComponent(memberEmail)}`
-  }, [parentBuyLink, memberEmail])
-
-  // Build tabs (no tutorial)
-  const availableTabs = useMemo(() => {
-    const tabs: { id: TabType; label: string }[] = []
-    if (hasFiles) tabs.push({ id: 'files', label: dict.tabFiles })
-    if (arts.length > 0) tabs.push({ id: 'legends', label: dict.tabLegends })
-    return tabs
-  }, [hasFiles, arts.length, dict])
-
-  const [skipAnimation] = useState(() => {
-    if (typeof window !== 'undefined') return sessionStorage.getItem('sheetAnimated') === 'true'
-    return false
-  })
+  // Prevent background page from scrolling or showing through bounce scroll
   useEffect(() => {
-    return () => sessionStorage.removeItem('sheetAnimated')
+    const originalOverflow = document.body.style.overflow
+    const originalOverscroll = document.body.style.overscrollBehavior
+    document.body.style.overflow = 'hidden'
+    document.body.style.overscrollBehavior = 'none'
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      document.body.style.overscrollBehavior = originalOverscroll
+    }
   }, [])
 
-  const [activeTab, setActiveTab] = useState<TabType>(availableTabs[0]?.id || 'files')
-  const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
+  // Clean name
+  const cleanName = pack.name.includes('|') ? pack.name.split('|')[0].trim() : pack.name
 
-  const toggleAccordion = useCallback((id: string) => {
-    setExpandedAccordion(prev => prev === id ? null : id)
-  }, [])
-
-  // Pack card image
-  const cardImage = pack.arts_folder ? `/${pack.arts_folder}/card.webp` : pack.cover_image_url || ''
-
-  // Subsection name helper
-  const getSubName = (sub: PackSubsection) => {
-    if (lang === 'en') return sub.name_en || sub.name_pt
-    if (lang === 'es') return sub.name_es || sub.name_pt
-    return sub.name_pt
+  // Version badge
+  function formatVersionBadge(ver?: string | null): string {
+    if (!ver) return 'VOL 1.0'
+    const trimmed = ver.trim()
+    if (/^vol\.?\s*/i.test(trimmed)) {
+      const rest = trimmed.replace(/^vol\.?\s*/i, '').trim()
+      return `VOL ${rest.toUpperCase()}`
+    }
+    return `VOL ${trimmed.toUpperCase()}`
   }
+  const displayVersion = formatVersionBadge(pack.version)
 
-  // Link label helper
-  const getLinkLabel = (link: PackLink) => {
-    if (lang === 'en') return link.label_en || link.label_pt
-    if (lang === 'es') return link.label_es || link.label_pt
-    return link.label_pt
-  }
+  // Cover image
+  const coverImage = pack.cover_image_url || (pack.arts_folder ? `/${pack.arts_folder}/card.webp` : '/herocover.png')
 
-  if (availableTabs.length === 0) {
-    return (
-      <div className={`sheet-backdrop ${skipAnimation ? "no-animation" : ""}`} onClick={() => router.back()}>
-        <div className={`sheet-card ${skipAnimation ? "no-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
-          <div className="sheet-content" style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <h2>{dict.noContent}</h2>
-            <button onClick={() => router.back()} className="btn-admin-secondary" style={{ marginTop: '20px', display: 'inline-block' }}>
-              {dict.backToPacks}
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  // WhatsApp link for custom orders
+  const whatsappUrl = `https://wa.me/5564993237320?text=${encodeURIComponent(
+    `Olá! Gostaria de solicitar a personalização das artes do pack ${cleanName}.`
+  )}`
+
+  // Process links into clean rows
+  const fileItems = useMemo(() => {
+    return links.map((link) => {
+        const rawLabel = (lang === 'en' ? link.label_en : lang === 'es' ? link.label_es : link.label_pt) || link.label_pt || ''
+        const hexMatch = rawLabel.match(/["'](#?[A-Fa-f0-9]{6})["']/)
+        const hexColor = hexMatch ? hexMatch[1] : null
+
+        const cleanLabel = rawLabel
+          .replace(/^Pack\s+/i, '')
+          .replace(/\[.*?\]/g, '')
+          .replace(/".*?"/g, '')
+          .trim()
+
+        return {
+          id: link.id,
+          title: cleanLabel || rawLabel,
+          url: link.url,
+          hexColor,
+        }
+      })
+  }, [links, lang])
+
+  const tabFilesText = lang === 'en' ? 'Files' : lang === 'es' ? 'Archivos' : 'Arquivos'
+  const tabLegendsText = lang === 'en' ? 'Captions' : lang === 'es' ? 'Leyendas' : 'Legendas'
 
   return (
-    <>
-    <div className={`sheet-backdrop ${skipAnimation ? "no-animation" : ""}`} onClick={() => router.back()} />
-    <div className="sheet-wrapper" onClick={() => router.back()}>
-      <div className={`sheet-card ${skipAnimation ? "no-animation" : ""}`} onClick={(e) => e.stopPropagation()}>
-        
-        <div className="sheet-content">
-          
-          {/* Header Block */}
-          <div className="content-block header-block">
-            {cardImage && <img src={cardImage} alt={pack.name} />}
-            <div className="header-info">
-              <h1>{pack.name}</h1>
-              <span>{pack.version || 'volume 01'}</span>
-            </div>
-            <button onClick={() => router.back()} className="header-close" aria-label="Close">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
+    <div className="pack-detail-wrapper">
+      <div className="pack-detail-container">
+
+        {/* Cover & Hero Section with motion */}
+        <motion.div
+          className="pack-cover-hero"
+          initial="hidden"
+          animate="visible"
+          variants={heroVariants}
+        >
+          {/* Back Button */}
+          <motion.button
+            type="button"
+            onClick={() => router.back()}
+            className="pack-detail-back-btn"
+            aria-label="Voltar"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 12H5" />
+              <path d="M12 19l-7-7 7-7" />
+            </svg>
+          </motion.button>
+
+          {/* Cover image */}
+          <img src={coverImage} alt={cleanName} className="pack-cover-img" />
+
+          {/* Sombra overlay do cover */}
+          <img
+            src="/sombra-cover.webp"
+            alt=""
+            className="pack-cover-shadow"
+            onError={(e) => {
+              e.currentTarget.src = '/sombra-card.webp'
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Title, Version and Segmented Control */}
+          <div className="pack-cover-overlay">
+            <motion.div
+              className="pack-cover-header"
+              variants={headerInfoVariants}
+            >
+              <h1 className="pack-cover-title">{cleanName}</h1>
+              {displayVersion && (
+                <span className="pack-card-version pack-cover-version">{displayVersion}</span>
+              )}
+            </motion.div>
+
+            {/* Separate Pill Tabs */}
+            <motion.div
+              className="pack-tabs-row"
+              role="tablist"
+              variants={tabsVariants}
+            >
+              <motion.button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'files'}
+                className={`pack-tab-pill ${activeTab === 'files' ? 'active' : 'inactive'}`}
+                onClick={() => setActiveTab('files')}
+                whileTap={{ scale: 0.97 }}
+              >
+                {tabFilesText}
+              </motion.button>
+              <motion.button
+                type="button"
+                role="tab"
+                aria-selected={activeTab === 'legends'}
+                className={`pack-tab-pill ${activeTab === 'legends' ? 'active' : 'inactive'}`}
+                onClick={() => setActiveTab('legends')}
+                whileTap={{ scale: 0.97 }}
+              >
+                {tabLegendsText}
+              </motion.button>
+            </motion.div>
           </div>
+        </motion.div>
 
-          {/* Tabs Block */}
-          {availableTabs.length > 1 && (
-            <div className="content-block tabs-block">
-              {availableTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab.id)}
+        {/* TAB CONTENT: ARQUIVOS */}
+        {activeTab === 'files' && (
+          <motion.main
+            key="files"
+            className="pack-files-list"
+            initial="hidden"
+            animate="visible"
+            variants={fileListVariants}
+          >
+            {/* Customization item */}
+            <motion.a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pack-file-row pack-file-row-custom"
+              variants={fileRowVariants}
+              whileHover={{ x: 4 }}
+              whileTap={{ scale: 0.99 }}
+            >
+              <div className="pack-file-thumb pack-file-thumb-locked">
+                <img src={coverImage} alt="" className="pack-file-thumb-img" />
+                <div className="pack-file-lock-badge">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    className="pack-file-lock-svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M12 2a5 5 0 0 0-5 5v3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3h-1V7a5 5 0 0 0-5-5zm3 8V7a3 3 0 0 0-6 0v3h6zm-3 4a1.5 1.5 0 0 0-1 2.618V18a1 1 0 1 0 2 0v-1.382A1.5 1.5 0 0 0 12 14z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="pack-file-info">
+                <div className="pack-file-title-row">
+                  <img
+                    src="/premium.webp"
+                    alt=""
+                    className="pack-crown-icon"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      const fallback = e.currentTarget.nextElementSibling as HTMLElement
+                      if (fallback) fallback.style.display = 'inline-block'
+                    }}
+                  />
+                  <span className="pack-crown-fallback" style={{ display: 'none' }}>👑</span>
+                  <h4 className="pack-file-title">Personalizado</h4>
+                </div>
+                <p className="pack-file-desc">
+                  Sem tempo para editar?<br />
+                  Eu edito para você, basta clicar e solicitar.
+                </p>
+              </div>
+            </motion.a>
+
+            {/* Variation items - clean without tint */}
+            {fileItems.map((item) => (
+              <motion.a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pack-file-row"
+                variants={fileRowVariants}
+                whileHover={{ x: 4 }}
+                whileTap={{ scale: 0.99 }}
+              >
+                <div className="pack-file-thumb">
+                  <img src={coverImage} alt={item.title} className="pack-file-thumb-img" />
+                </div>
+                <div className="pack-file-info pack-file-info-centered">
+                  <h4 className="pack-file-title">{item.title}</h4>
+                </div>
+              </motion.a>
+            ))}
+          </motion.main>
+        )}
+
+        {/* TAB CONTENT: LEGENDAS */}
+        {activeTab === 'legends' && (
+          <motion.main
+            key="legends"
+            className="pack-legends-view"
+            initial="hidden"
+            animate="visible"
+            variants={legendsGridVariants}
+          >
+            {arts.length > 0 ? (
+              arts.map((art) => (
+                <motion.div
+                  key={art.id}
+                  className="pack-legend-card"
+                  variants={legendCardVariants}
                 >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* FILES TAB */}
-          {activeTab === 'files' && (
-            <>
-              {/* FEED subsections */}
-              {subsections
-                .filter(s => {
-                  const n = s.name_pt.toLowerCase()
-                  return !n.includes('story') && !n.includes('utilitário') && !n.includes('utilidades')
-                })
-                .map((sub) => {
-                  const subLinks = links.filter(l => l.subsection_id === sub.id)
-                  if (subLinks.length === 0) return null
-                  const isLocked = !isParentUnlocked
-                  return (
-                    <div key={sub.id} className="content-block link-block">
-                      <h2>{getSubName(sub)}</h2>
-                      {isLocked ? (
-                        <>
-                          <p className="locked-text">
-                            {lang === 'en'
-                              ? 'You haven\'t unlocked the Feed files yet. Click below to get them.'
-                              : lang === 'es'
-                                ? 'Aún no has desbloqueado los archivos en la versión Feed. Haz clic para liberar el acceso.'
-                                : 'Você ainda não liberou o acesso para os arquivos de feed.'}
-                          </p>
-                          {feedBuyLink && (
-                            <a href={feedBuyLink} className="pack-btn-unlock" target="_blank" rel="noopener noreferrer">
-                              <span>{dict.unlockNow || 'Clique para liberar o acesso'}</span>
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                              </svg>
-                            </a>
-                          )}
-                        </>
-                      ) : (
-                        <div className="link-list">
-                          {subLinks.map(link => (
-                            <LinkButton key={link.id} href={link.url} label={getLinkLabel(link)} />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-
-              {/* STORY subsections */}
-              {storyPack && storyPack.subsections.map((sub) => {
-                const subLinks = storyPack.links.filter(l => l.subsection_id === sub.id)
-                if (subLinks.length === 0) return null
-                const isLocked = !storyPack.isUnlocked
-
-                return (
-                  <div key={sub.id} className="content-block link-block">
-                    <h2>
-                      {getSubName(sub)
-                        .replace(/^Story$/i, lang === 'en' ? 'Story Files' : lang === 'es' ? 'Archivos Stories' : 'Arquivos para stories')
-                        .replace(/^Stories$/i, lang === 'en' ? 'Story Files' : lang === 'es' ? 'Archivos Stories' : 'Arquivos para stories')}
-                    </h2>
-                    {isLocked ? (
-                      <>
-                        <p className="locked-text">
-                          {lang === 'en'
-                            ? 'You haven\'t unlocked the Story files yet.'
-                            : lang === 'es'
-                              ? 'Aún no has desbloqueado los archivos en la versión Story.'
-                              : 'Você ainda não liberou o acesso para os arquivos de stories.'}
-                        </p>
-                        <a href={storyBuyLink} className="pack-btn-unlock" target="_blank" rel="noopener noreferrer">
-                          <span>{dict.unlockNow || 'Clique para liberar o acesso'}</span>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                          </svg>
-                        </a>
-                      </>
-                    ) : (
-                      <div className="link-list">
-                        {subLinks.map(link => (
-                          <LinkButton key={link.id} href={link.url} label={getLinkLabel(link)} locked={isLocked} />
-                        ))}
-                      </div>
+                  <div className="pack-legend-img-wrap">
+                    <img src={art.image_url} alt="Arte" loading="lazy" />
+                  </div>
+                  <div className="pack-legend-body">
+                    <p className="pack-legend-caption">
+                      {art.caption || 'Sem legenda disponível'}
+                    </p>
+                    {art.caption && (
+                      <CopyButton text={art.caption} />
                     )}
                   </div>
-                )
-              })}
-
-              {/* UTILITIES subsections */}
-              {subsections
-                .filter(s => {
-                  const n = s.name_pt.toLowerCase()
-                  return n.includes('utilitário') || n.includes('utilidades')
-                })
-                .map((sub) => {
-                  const subLinks = links.filter(l => l.subsection_id === sub.id)
-                  if (subLinks.length === 0) return null
-                  return (
-                    <div key={sub.id} className="content-block link-block">
-                      <h2>{getSubName(sub)}</h2>
-                      <div className="link-list">
-                        {subLinks.map(link => (
-                          <LinkButton key={link.id} href={link.url} label={getLinkLabel(link)} />
-                        ))}
-                      </div>
-                    </div>
-                  )
-                })}
-            </>
-          )}
-
-          {/* LEGENDS TAB */}
-          {activeTab === 'legends' && (
-            <div className="content-block">
-              <div className="legends-grid-view">
-                {arts.map((art) => (
-                  <ArtThumbnail
-                    key={art.id}
-                    imageUrl={art.image_url}
-                    caption={art.caption || ''}
-                  />
-                ))}
+                </motion.div>
+              ))
+            ) : (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 20px', color: '#71717A' }}>
+                <p>Nenhuma legenda disponível para este pack.</p>
               </div>
-            </div>
-          )}
+            )}
+          </motion.main>
+        )}
 
-        </div>
       </div>
     </div>
-    </>
   )
 }

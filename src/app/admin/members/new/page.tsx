@@ -8,7 +8,11 @@ export default async function AddMemberPage() {
   if (!isAdmin) redirect('/admin/login')
 
   const supabase = await createClient()
-  const { data: packs } = await supabase.from('packs').select('id, name, version, parent_pack_id').order('name')
+  const { data: packs } = await supabase
+    .from('packs')
+    .select('id, name, version')
+    .is('parent_pack_id', null)
+    .order('name')
 
   return <AddMemberForm allPacks={packs || []} />
 }

@@ -12,13 +12,12 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   packName: string
-  specs: string[]
   arts: PackArt[]
   buyLink: string
   lang: string
 }
 
-export default function LockedPackModal({ isOpen, onClose, packName, specs, arts, buyLink, lang }: Props) {
+export default function LockedPackModal({ isOpen, onClose, packName, arts, buyLink, lang }: Props) {
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
@@ -55,18 +54,6 @@ export default function LockedPackModal({ isOpen, onClose, packName, specs, arts
           <h3>{t.title}</h3>
           <p className="locked-pack-name">{packName}</p>
         </div>
-
-        {/* Specs */}
-        {specs.length > 0 && (
-          <div className="locked-specs-text">
-            {specs.map((spec, i) => (
-              <span key={i}>
-                {spec}
-                {i < specs.length - 1 && <span style={{ margin: '0 8px', color: 'var(--text-muted)' }}>•</span>}
-              </span>
-            ))}
-          </div>
-        )}
 
         {/* Carousel */}
         {arts.length > 0 && (

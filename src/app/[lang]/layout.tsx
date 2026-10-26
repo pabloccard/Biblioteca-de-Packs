@@ -1,16 +1,15 @@
 import { ReactNode } from 'react'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 export default function LangLayout({
   children,
-  sheet,
 }: {
   children: ReactNode
-  sheet: ReactNode
 }) {
   return (
     <>
       {children}
-      {sheet}
+      <WhatsAppButton />
     </>
   )
 }

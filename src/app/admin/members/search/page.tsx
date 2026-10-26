@@ -8,7 +8,18 @@ export default async function SearchMemberPage() {
   if (!isAdmin) redirect('/admin/login')
 
   const supabase = await createClient()
-  const { data: packs } = await supabase.from('packs').select('id, name, version, parent_pack_id').order('name')
+  const [{ data: packs }, { data: complements }] = await Promise.all([
+    supabase
+      .from('packs')
+      .select('id, name, version')
+      .is('parent_pack_id', null)
+      .order('name'),
+    supabase
+      .from('pack_complements')
+      .select('id, pack_id, type, packs(id, name, version)')
+      .eq('is_active', true)
+      .order('type'),
+  ])
 
-  return <SearchMemberForm allPacks={packs || []} />
+  return <SearchMemberForm allPacks={packs || []} allComplements={(complements || []) as any} />
 }

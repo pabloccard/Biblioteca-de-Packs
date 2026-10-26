@@ -23,7 +23,15 @@ export function middleware(request: NextRequest) {
   )
 
   // Páginas que não devem ser internacionalizadas
-  if (pathname.startsWith('/admin') || pathname.startsWith('/lp')) return
+  if (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/lp') ||
+    pathname.startsWith('/customize') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api')
+  ) {
+    return NextResponse.next()
+  }
 
   if (pathnameHasLocale) {
     // Se o usuário acessou uma rota com idioma X, mas o idioma registrado no banco/cookie é Y,
@@ -38,7 +46,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(request.nextUrl)
       }
     }
-    return
+    return NextResponse.next()
   }
 
   // Redireciona adicionando o locale para rotas que não têm locale (ex: '/')
@@ -47,9 +55,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Executa o middleware em todas as rotas, exceto:
-  // api, _next/static, _next/image, favicon.ico e arquivos com extensão (como .png, .css)
+  // Executa o middleware apenas nas rotas necessárias, ignorando:
+  // api, admin, customize, lp, _next/static, _next/image, favicon.ico e arquivos com extensão (como .png, .css)
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
+    '/((?!api|admin|customize|lp|_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 }

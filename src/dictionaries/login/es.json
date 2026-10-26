@@ -1,11 +1,11 @@
 {
-  "title": "Accede a tus <span>packs</span>",
-  "subtitle": "Ingresa el correo electrónico utilizado<br/>en el momento de la compra",
-  "emailLabel": "Correo",
+  "title": "Accede a tus packs",
+  "subtitle": "Ingresa el correo electrónico que utilizaste en la compra para acceder a tus packs.",
+  "emailLabel": "Tu correo de compra",
   "emailPlaceholder": "Tu correo de compra",
   "submit": "Continuar",
   "loading": "Verificando...",
-  "helpText": "¿Necesitas ayuda? <a href=\"https://wa.me/5564993237320\" target=\"_blank\">Hablar con soporte &gt;</a>",
+  "helpText": "¿Precisas ayuda? <a href=\"https://wa.me/5564993237320\" target=\"_blank\" rel=\"noopener noreferrer\">Hablar con soporte</a>",
   "footer": "© 2026 Pablo Castilho<br/>Todos los derechos reservados.",
   "errors": {
     "invalid_email": "Por favor, introduce un correo válido.",

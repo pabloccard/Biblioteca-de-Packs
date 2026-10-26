@@ -1,9 +1,5 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import LockedPackModal from './LockedPackModal'
 
 interface PackArt {
   id: string
@@ -16,84 +12,107 @@ interface PackCardProps {
   coverImageUrl: string | null
   artCount: number
   isUnlocked: boolean
-  specs: string[]
   arts: PackArt[]
   buyLink: string
-  showDiscountTag?: boolean
   version?: string
   lang: string
   priority?: boolean
 }
 
-export default function PackCard({ id, name, coverImageUrl, artCount, isUnlocked, specs, arts, buyLink, showDiscountTag = true, version = '1.0', lang, priority = false }: PackCardProps) {
-  const [showModal, setShowModal] = useState(false)
+export default function PackCard({
+  id,
+  name,
+  coverImageUrl,
+  artCount,
+  isUnlocked,
+  arts,
+  buyLink,
+  version = '1.0',
+  lang,
+  priority = false,
+}: PackCardProps) {
+  // Clean name (strip "| Vol.XX" if present in the pack name string)
+  const cleanName = name.includes('|') ? name.split('|')[0].trim() : name
+
+  // Format version badge (e.g. "vol.01" -> "VOL 0.1", "Vol.03" -> "VOL 0.3", "0.4" -> "VOL 0.4")
+  function formatVersionBadge(ver?: string | null): string {
+    if (!ver) return 'VOL 1.0'
+    const trimmed = ver.trim()
+    if (/^vol\.?\s*/i.test(trimmed)) {
+      const rest = trimmed.replace(/^vol\.?\s*/i, '').trim()
+      return `VOL ${rest.toUpperCase()}`
+    }
+    return `VOL ${trimmed.toUpperCase()}`
+  }
+
+  const displayVersion = formatVersionBadge(version)
 
   const cardContent = (
     <div className={`pack-card ${isUnlocked ? 'unlocked' : 'locked'}`}>
-      {showDiscountTag && !isUnlocked && (
-        <div className="promo-tag">PROMOÇÃO</div>
-      )}
-      {isUnlocked && version && (
-        <div className="version-tag">{version}</div>
-      )}
-      <div className="pack-card-image">
+      <div className="pack-card-media">
         {coverImageUrl ? (
           <Image
             src={coverImageUrl}
-            alt={name}
+            alt={cleanName}
             fill
-            sizes="(max-width: 600px) 50vw, (max-width: 900px) 33vw, 25vw"
-            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="pack-card-img"
             priority={priority}
           />
         ) : (
-          <div style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-            fontSize: '2.5rem',
-          }}>
-            📦
+          <div className="pack-card-placeholder">
+            <span>📦</span>
           </div>
         )}
 
+        {/* Sombra oficial do Figma */}
+        <img
+          src="/sombra-card.webp"
+          alt=""
+          className="pack-card-shadow-img"
+          aria-hidden="true"
+        />
+
+        {/* Center lock icon for locked pack */}
         {!isUnlocked && (
-          <div className="pack-card-lock">
-            <div className="lock-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </div>
+          <div className="pack-card-lock-center" aria-hidden="true">
+            <svg
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              className="pack-lock-svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12 2a5 5 0 0 0-5 5v3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3h-1V7a5 5 0 0 0-5-5zm3 8V7a3 3 0 0 0-6 0v3h6zm-3 4a1.5 1.5 0 0 0-1 2.618V18a1 1 0 1 0 2 0v-1.382A1.5 1.5 0 0 0 12 14z"
+              />
+            </svg>
           </div>
         )}
 
+        {/* Bottom card footer with Title and Version pill */}
+        <div className="pack-card-footer">
+          <h3 className="pack-card-title">{cleanName}</h3>
+          {displayVersion && (
+            <span className="pack-card-version">{displayVersion}</span>
+          )}
+        </div>
       </div>
     </div>
   )
 
   if (isUnlocked) {
-    return <Link href={`/${lang}/pack/${id}`}>{cardContent}</Link>
+    return (
+      <Link href={`/${lang}/pack/${id}`} scroll={true} className="pack-card-link">
+        {cardContent}
+      </Link>
+    )
   }
 
   return (
-    <>
-      <div className="pack-card-wrapper-locked" style={{ cursor: 'pointer' }} onClick={() => setShowModal(true)}>
-
-        {cardContent}
-      </div>
-      <LockedPackModal
-        lang={lang}
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        packName={name}
-        specs={specs}
-        arts={arts}
-        buyLink={buyLink}
-      />
-    </>
+    <div className="pack-card-wrapper-locked" aria-disabled="true">
+      {cardContent}
+    </div>
   )
 }

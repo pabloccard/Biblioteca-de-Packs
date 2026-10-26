@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 import { cookies } from 'next/headers'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_MARKETING_API_KEY)
+const resend = new Resend(process.env.RESEND_MARKETING_API_KEY || 're_placeholder')
 const BATCH_SIZE = 3
 const BATCH_DELAY_MS = 1500
 

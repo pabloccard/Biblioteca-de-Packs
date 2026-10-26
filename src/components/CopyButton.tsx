@@ -4,9 +4,12 @@ import { useState } from 'react'
 
 interface CopyButtonProps {
   text: string
+  className?: string
+  label?: string
+  copiedLabel?: string
 }
 
-export default function CopyButton({ text }: CopyButtonProps) {
+export default function CopyButton({ text, className, label, copiedLabel }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -27,22 +30,27 @@ export default function CopyButton({ text }: CopyButtonProps) {
     }
   }
 
+  const btnClass = className || `copy-btn ${copied ? 'copied' : ''}`
+
   return (
     <button
-      className={`copy-btn ${copied ? 'copied' : ''}`}
+      className={btnClass}
       onClick={handleCopy}
       type="button"
-      title={copied ? 'Copiado!' : 'Copiar legenda'}
+      title={copied ? (copiedLabel || 'Copiado!') : (label || 'Copiar legenda')}
     >
       {copied ? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
+        <>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          {label && <span>{copiedLabel || 'Copiado!'}</span>}
+        </>
       ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-        </svg>
+        <>
+          <img src="/copy-icon.svg" alt="" width={18} height={18} className="copy-icon-img" />
+          {label && <span>{label}</span>}
+        </>
       )}
     </button>
   )

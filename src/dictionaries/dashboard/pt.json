@@ -1,5 +1,6 @@
 {
   "greeting": "Olá, {name}!",
+  "subtitle": "Escolha um pack para acessar suas artes e legendas.",
   "visitor": "Visitante",
   "packsUnlocked": "Você tem {count} pack liberado",
   "packsUnlockedPlural": "Você tem {count} packs liberados",

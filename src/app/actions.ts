@@ -37,6 +37,14 @@ export async function loginAction(formData: FormData) {
     path: '/',
   })
 
+  cookieStore.set('member_id', member.id, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30,
+    path: '/',
+  })
+
   cookieStore.set('member_name', member.name || '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -59,6 +67,7 @@ export async function loginAction(formData: FormData) {
 export async function logoutAction(formData?: FormData) {
   const lang = (formData?.get('lang') as string) || 'pt'
   const cookieStore = await cookies()
+  cookieStore.delete('member_id')
   cookieStore.delete('member_email')
   cookieStore.delete('member_name')
   cookieStore.delete('member_lang')
@@ -70,7 +79,27 @@ export async function getMemberEmail(): Promise<string | null> {
   return cookieStore.get('member_email')?.value || null
 }
 
+export async function getMemberId(): Promise<string | null> {
+  const cookieStore = await cookies()
+  return cookieStore.get('member_id')?.value || null
+}
+
 export async function getMemberName(): Promise<string | null> {
   const cookieStore = await cookies()
   return cookieStore.get('member_name')?.value || null
+}
+
+export async function getMemberSession(): Promise<{
+  id: string | null
+  email: string | null
+  name: string | null
+  lang: string | null
+}> {
+  const cookieStore = await cookies()
+  return {
+    id: cookieStore.get('member_id')?.value || null,
+    email: cookieStore.get('member_email')?.value || null,
+    name: cookieStore.get('member_name')?.value || null,
+    lang: cookieStore.get('member_lang')?.value || null,
+  }
 }

@@ -1,7 +1,34 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { motion } from 'motion/react'
 import { adminLoginAction } from '../actions'
+
+// Stagger animation container
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+// Item fade & slide animation
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+}
 
 export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null)
@@ -21,63 +48,94 @@ export default function AdminLoginPage() {
 
   return (
     <div className="login-page">
-      <div className="login-card">
-        <div className="login-icon" style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' }}>
-          🔐
-        </div>
+      <motion.main
+        className="login-card"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        {/* Title */}
+        <motion.div variants={itemVariants}>
+          <span style={{ display: 'inline-block', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', color: '#4D4D4D', textTransform: 'uppercase', marginBottom: '8px' }}>
+            ACESSO RESTRITO
+          </span>
+          <h1 className="login-title">
+            Painel Admin
+          </h1>
+        </motion.div>
 
-        <h1 className="login-title">Admin</h1>
-        <p className="login-subtitle">
-          Painel de administração da<br />
+        {/* Subtitle */}
+        <motion.p className="login-subtitle" variants={itemVariants}>
+          Área administrativa da<br />
           Biblioteca de Packs
-        </p>
+        </motion.p>
 
-        <form className="login-form" action={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="admin-email">Email</label>
-            <input
-              id="admin-email"
-              name="email"
-              type="email"
-              className="input-field"
-              placeholder="admin@email.com"
-              required
-              autoComplete="email"
-              autoFocus
-            />
-          </div>
+        {/* Form Container */}
+        <div className="login-form-container">
+          <form className="login-form" action={handleSubmit}>
+            {/* Email Input */}
+            <motion.div className="login-input-wrapper" variants={itemVariants}>
+              <input
+                id="admin-email"
+                name="email"
+                type="email"
+                className="login-input"
+                placeholder="exemplo@admin.com"
+                required
+                autoComplete="email"
+                autoFocus
+              />
+            </motion.div>
 
-          <div className="input-group">
-            <label htmlFor="admin-password">Senha</label>
-            <input
-              id="admin-password"
-              name="password"
-              type="password"
-              className="input-field"
-              placeholder="••••••••"
-              required
-              autoComplete="current-password"
-            />
-          </div>
+            {/* Password Input */}
+            <motion.div className="login-input-wrapper" variants={itemVariants}>
+              <input
+                id="admin-password"
+                name="password"
+                type="password"
+                className="login-input"
+                placeholder="••••••••"
+                required
+                autoComplete="current-password"
+              />
+            </motion.div>
 
-          {error && (
-            <div className="login-error">
-              {error}
-            </div>
-          )}
-
-          <button type="submit" className="btn-primary" disabled={loading} style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)' }}>
-            {loading ? (
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <span className="loading-spinner" />
-                Entrando...
-              </span>
-            ) : (
-              'Entrar no Painel'
+            {/* Error Message */}
+            {error && (
+              <motion.div
+                className="login-error"
+                role="alert"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {error}
+              </motion.div>
             )}
-          </button>
-        </form>
-      </div>
+
+            {/* Submit Button */}
+            <motion.div variants={itemVariants}>
+              <motion.button
+                id="admin-submit-button"
+                type="submit"
+                className="login-btn-submit"
+                disabled={loading}
+                whileHover={!loading ? { scale: 1.015, backgroundColor: '#F4F4F5' } : undefined}
+                whileTap={!loading ? { scale: 0.985 } : undefined}
+                transition={{ duration: 0.15 }}
+              >
+                {loading ? (
+                  <>
+                    <span className="loading-spinner" />
+                    <span>Entrando...</span>
+                  </>
+                ) : (
+                  <span>Entrar no Painel</span>
+                )}
+              </motion.button>
+            </motion.div>
+          </form>
+        </div>
+      </motion.main>
     </div>
   )
 }

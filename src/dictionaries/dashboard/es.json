@@ -1,5 +1,6 @@
 {
   "greeting": "¡Hola, {name}!",
+  "subtitle": "Elige un pack para acceder a tus diseños y textos para publicaciones.",
   "visitor": "Visitante",
   "packsUnlocked": "Tienes {count} pack desbloqueado",
   "packsUnlockedPlural": "Tienes {count} packs desbloqueados",

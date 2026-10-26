@@ -1,11 +1,11 @@
 {
-  "title": "Access your <span>packs</span>",
-  "subtitle": "Enter the email address you used<br/>at checkout",
-  "emailLabel": "Email used at checkout",
-  "emailPlaceholder": "Email used at checkout",
+  "title": "Access your packs",
+  "subtitle": "Enter the email used when purchasing to access your packs.",
+  "emailLabel": "Your purchase email",
+  "emailPlaceholder": "Your purchase email",
   "submit": "Continue",
   "loading": "Checking...",
-  "helpText": "Need help? <a href=\"https://wa.me/5564993237320\" target=\"_blank\">Contact support &gt;</a>",
+  "helpText": "Need help? <a href=\"https://wa.me/5564993237320\" target=\"_blank\" rel=\"noopener noreferrer\">Contact support</a>",
   "footer": "© 2026 Pablo Castilho<br/>All rights reserved.",
   "errors": {
     "invalid_email": "Please enter a valid email.",

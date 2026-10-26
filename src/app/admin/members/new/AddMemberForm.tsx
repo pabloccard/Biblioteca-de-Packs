@@ -4,20 +4,11 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { addMemberAndAssignPackAction, bulkAddSingleMemberAction } from '../../actions'
 
-interface Pack { id: string; name: string; version: string; parent_pack_id: string | null }
+interface Pack { id: string; name: string; version: string }
 
 type BulkResult = { email: string; status: 'created' | 'existing' | 'error'; message: string }
 
 export default function AddMemberForm({ allPacks }: { allPacks: Pack[] }) {
-  // Organizar packs em hierarquia: pais → filhos
-  const parentPacks = allPacks.filter(p => !p.parent_pack_id)
-  const childPacks = allPacks.filter(p => !!p.parent_pack_id)
-  const sortedPacks: Pack[] = []
-  for (const parent of parentPacks) {
-    sortedPacks.push(parent)
-    const children = childPacks.filter(c => c.parent_pack_id === parent.id)
-    sortedPacks.push(...children)
-  }
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -171,9 +162,9 @@ export default function AddMemberForm({ allPacks }: { allPacks: Pack[] }) {
                   <label htmlFor="pack_id">Pack *</label>
                   <select id="pack_id" name="pack_id" className="input-field" required>
                     <option value="">Selecione um pack...</option>
-                    {sortedPacks.map(p => (
+                    {allPacks.map(p => (
                       <option key={p.id} value={p.id}>
-                        {p.parent_pack_id ? '  └─ ' : ''}{p.name} ({p.version || '1.0'})
+                        {p.name} ({p.version || '1.0'})
                       </option>
                     ))}
                   </select>
@@ -230,9 +221,9 @@ export default function AddMemberForm({ allPacks }: { allPacks: Pack[] }) {
                   disabled={bulkProcessing}
                 >
                   <option value="">Selecione um pack...</option>
-                  {sortedPacks.map(p => (
+                  {allPacks.map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.parent_pack_id ? '  └─ ' : ''}{p.name} ({p.version || '1.0'})
+                      {p.name} ({p.version || '1.0'})
                     </option>
                   ))}
                 </select>

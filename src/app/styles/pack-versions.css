@@ -1,0 +1,247 @@
+/* ========================================= */
+/* VERSION FORMAT ICONS                      */
+/* ========================================= */
+
+.version-format-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background-color: #1A1A1C;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.version-format-icon.version-format-stories {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+}
+
+.version-format-icon.version-format-locked {
+  opacity: 0.6;
+}
+
+.version-format-ratio {
+  color: #4D4D4D;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+}
+
+.version-format-lock-icon {
+  color: #4D4D4D;
+  flex-shrink: 0;
+}
+
+.version-locked-row {
+  opacity: 0.7;
+  pointer-events: auto;
+}
+
+/* ========================================= */
+/* PHOTOSHOP NOTE (Aviso normal, sem caixinha) */
+/* ========================================= */
+
+.version-psd-note {
+  margin-top: 24px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  border: none;
+}
+
+.version-psd-note p {
+  color: #4D4D4D;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.version-psd-note strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* ========================================= */
+/* CUSTOM COMPLEMENT PAGES                   */
+/* ========================================= */
+
+.custom-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.custom-badge-text {
+  color: #FFB742;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.custom-headline {
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  font-family: inherit;
+}
+
+.custom-subtext {
+  color: #6E6E6E;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+}
+
+/* Custom body content */
+.custom-body {
+  position: relative;
+  z-index: 4;
+  padding: var(--pack-header-gap, 56px) 32px 0 32px;
+}
+
+.custom-body-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-section-title {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  font-family: inherit;
+}
+
+/* Features list */
+.custom-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.custom-features-list li {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.custom-check {
+  color: #22C55E;
+  font-size: 16px;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+/* Price section */
+.custom-price-section {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.custom-price-label {
+  color: #4D4D4D;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: inherit;
+}
+
+.custom-price-value {
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-family: inherit;
+}
+
+/* CTA buttons */
+.custom-cta-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 32px;
+}
+
+.custom-cta-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border-radius: 9999px;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: inherit;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.custom-cta-primary:hover {
+  background-color: #E4E4E7;
+}
+
+.custom-cta-primary:active {
+  transform: scale(0.98);
+}
+
+.custom-cta-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+  border-radius: 9999px;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: inherit;
+  border: 1px solid #4D4D4D;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  cursor: pointer;
+}
+
+.custom-cta-secondary:hover {
+  border-color: #71717A;
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.custom-cta-secondary:active {
+  transform: scale(0.98);
+}

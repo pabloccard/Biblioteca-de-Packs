@@ -1,5 +1,6 @@
 {
   "greeting": "Hello, {name}!",
+  "subtitle": "Choose a pack to access its arts and captions.",
   "visitor": "Visitor",
   "packsUnlocked": "You have {count} unlocked pack",
   "packsUnlockedPlural": "You have {count} unlocked packs",

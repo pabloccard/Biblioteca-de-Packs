@@ -148,7 +148,7 @@
   border-radius: 6px;
 }
 
-.skeleton-card {
+.bulk-skeleton-card {
   aspect-ratio: 4/5;
   border-radius: var(--radius-xl);
 }

@@ -1,166 +1,170 @@
 /* ===================== */
-/* PACK CARD             */
+/* PACK CARD - FIGMA REDESIGN */
 /* ===================== */
 
+.pack-card-link {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+.pack-card-wrapper-locked {
+  display: block;
+  width: 100%;
+  cursor: default;
+  outline: none;
+  user-select: none;
+}
+
 .pack-card {
-  background: var(--bg-card);
-  border-radius: 12px;
-  transition: all var(--transition-slow);
   position: relative;
-  aspect-ratio: 4/5;
+  width: 100%;
+  aspect-ratio: 981 / 745;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #000000;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+  user-select: none;
+  isolation: isolate;
+  border: none;
 }
 
 .pack-card.unlocked:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-3px) scale(1.008);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
 }
 
 .pack-card.locked {
-  /* Retiramos o opacity e filter daqui para não apagar as cores da tag de promoção */
+  cursor: default;
 }
 
 .pack-card.locked:hover {
-  /* Hover subtil */
+  transform: none;
 }
 
-.pack-card.locked .pack-card-image {
-  /* Filtro removido para não escurecer o cadeado que está dentro */
-}
-
-.pack-card-image {
+.pack-card-media {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 12px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
+  border-radius: inherit;
+  background-color: #000000;
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
-.pack-card-image img {
+.pack-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
 }
 
-.pack-card.unlocked:hover .pack-card-image img {
-  transform: scale(1.05);
+.pack-card.unlocked:hover .pack-card-img {
+  transform: scale(1.04);
 }
 
-.pack-card-lock {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65); /* Escurece a capa mas não afeta os filhos */
+/* Locked Card State: blurred, darkened, desaturated */
+.pack-card.locked .pack-card-img {
+  filter: blur(6px) brightness(0.26) contrast(1.1);
+  transform: scale(1.06);
+}
+
+/* Fallback placeholder */
+.pack-card-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #141416;
+  font-size: 24px;
+}
+
+/* ========================================= */
+/* SHADOW EFFECT FROM FIGMA (sombra-card.webp)*/
+/* ========================================= */
+
+.pack-card-shadow-img {
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
+  width: calc(100% + 8px) !important;
+  max-width: none !important;
+  height: auto;
+  pointer-events: none;
+  z-index: 2;
+  display: block;
+}
+
+/* Center lock icon */
+.pack-card-lock-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
   pointer-events: none;
 }
 
-.lock-icon {
-  width: 60px;
-  height: 60px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
+.pack-lock-svg {
+  width: 44px;
+  height: 44px;
+  fill: rgba(255, 255, 255, 0.45);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.pack-card.locked:hover .pack-lock-svg {
+  transform: none;
+}
+
+/* Bottom footer of card */
+.pack-card-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 20px 22px 20px;
+  box-sizing: border-box;
+}
+
+.pack-card-title {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9);
+  font-family: inherit;
+}
+
+.pack-card-version {
+  background-color: #FFFFFF;
+  color: #000000;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-}
-
-.pack-card-badge {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 6px 18px;
-  border-radius: 100px;
-  background: rgba(0, 82, 255, 0.12);
-  border: 1px solid rgba(0, 82, 255, 0.3);
-  color: #4da6ff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  z-index: 2;
-  isolation: isolate;
-}
-
-.pack-card-badge::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: #000000;
-  border-radius: inherit;
-  z-index: -1;
-}
-
-/* Discount tag for locked cards */
-.pack-card-wrapper-locked {
-  position: relative;
-}
-
-.pack-card-discount-tag {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 14px;
-  border-radius: 100px;
-  background: var(--accent-gradient);
-  z-index: 10;
-  white-space: nowrap;
-}
-
-.discount-tag-text {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-
-}
-
-/* Pack info removed from card layout */
-
-
-/* Promo Tag (Locked Cards) */
-.promo-tag {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  background: #00FF33;
-  color: #000;
-  font-weight: 800;
-  font-size: 10px;
-  padding: 4px 10px;
-  border-radius: 100px;
-  border: 6px solid var(--bg-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
-/* Version Tag (Unlocked Cards) */
-.version-tag {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  background: #222222;
-  color: #888888;
-  font-weight: 500;
-  font-size: 9px;
-  padding: 2px 8px;
-  border-radius: 100px;
-  border: 6px solid var(--bg-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-family: inherit;
 }
