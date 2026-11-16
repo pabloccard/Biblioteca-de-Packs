@@ -73,12 +73,19 @@ export default function WebhookTestForm({ packs, complements }: WebhookTestFormP
           email: email.trim().toLowerCase(),
           name: name.trim() || 'Teste',
           checkout_phone: whatsapp.trim() || undefined,
+          address: {
+            country: 'Brasil',
+          },
         },
         product: {
           id: selectedHotmartId,
         },
         purchase: {
           status: status,
+          checkout_country: {
+            name: 'Brasil',
+            iso: 'BR',
+          },
         },
       },
     }
@@ -196,6 +203,7 @@ export default function WebhookTestForm({ packs, complements }: WebhookTestFormP
                   <optgroup label="Liberar acesso">
                     <option value="APPROVED">✅ APPROVED</option>
                     <option value="COMPLETE">✅ COMPLETE</option>
+                    <option value="COMPLETED">✅ COMPLETED</option>
                   </optgroup>
                   <optgroup label="Remover acesso">
                     <option value="REFUNDED">🚫 REFUNDED</option>

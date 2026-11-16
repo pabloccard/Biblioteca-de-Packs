@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { sendEmailWithFailover } from '@/lib/resend-failover'
 import { createCustomizationFolders } from '@/lib/google-drive'
+import { sanitizePhoneNumber } from '@/lib/phone-sanitizer'
 
 export async function POST(request: Request) {
   try {
@@ -22,8 +23,48 @@ export async function POST(request: Request) {
     const buyerName = payload.buyer?.name || payload.buyer?.first_name || ''
     const event = body.event || 'UNKNOWN'
 
+    // Extrair país e telefone do comprador (suporta Hotmart 2.0 e variações)
+    const buyerCountry =
+      payload.buyer?.address?.country ||
+      payload.purchase?.checkout_country?.name ||
+      payload.buyer?.address?.country_iso ||
+      payload.purchase?.checkout_country?.iso ||
+      null
+
+    const baseCheckoutPhone = payload.buyer?.checkout_phone || payload.checkout_phone || null
+    const checkoutPhoneCode = payload.buyer?.checkout_phone_code || payload.checkout_phone_code || null
+    let combinedCheckoutPhone = baseCheckoutPhone
+    if (baseCheckoutPhone && checkoutPhoneCode) {
+      const phoneDigits = String(baseCheckoutPhone).replace(/\D/g, '')
+      const codeDigits = String(checkoutPhoneCode).replace(/\D/g, '')
+      if (codeDigits && phoneDigits && phoneDigits.length < 10 && !phoneDigits.startsWith(codeDigits)) {
+        combinedCheckoutPhone = `${codeDigits}${phoneDigits}`
+      }
+    }
+
+    const rawPhone =
+      combinedCheckoutPhone ||
+      payload.buyer?.phone ||
+      payload.buyer?.cellphone ||
+      (payload.buyer?.phone_number
+        ? `${payload.buyer?.phone_local_code || ''}${payload.buyer?.phone_number}`
+        : null) ||
+      (payload.phone_checkout_number
+        ? `${payload.phone_checkout_local_code || ''}${payload.phone_checkout_number}`
+        : null) ||
+      payload.phone ||
+      null
+
+    const sanitizeResult = rawPhone ? sanitizePhoneNumber(rawPhone, buyerCountry) : null
+    const cleanPhone = sanitizeResult?.isValid ? sanitizeResult.cleanPhone : null
+
     // Log detalhado para debug
-    console.log(`📥 Webhook recebido: event=${event} | productId=${productId} | email=${email} | status=${status} | buyer=${buyerName}`)
+    const phoneLog = cleanPhone
+      ? cleanPhone
+      : rawPhone
+        ? `(inválido: "${rawPhone}" - ${sanitizeResult?.reason || 'desconhecido'})`
+        : '(sem telefone no payload)'
+    console.log(`📥 Webhook recebido: event=${event} | productId=${productId} | email=${email} | status=${status} | buyer=${buyerName} | phone=${phoneLog} | country=${buyerCountry || '(não informado)'}`)
 
     if (!email) {
       return NextResponse.json({ error: 'Email não encontrado no payload' }, { status: 400 })
@@ -151,48 +192,96 @@ export async function POST(request: Request) {
     }
 
     // 5. Lógica de LIBERAÇÃO
-    const statusParaLiberar = ['APPROVED', 'COMPLETE']
+    const statusParaLiberar = ['APPROVED', 'COMPLETE', 'COMPLETED']
     if (statusParaLiberar.includes(status)) {
       const packLanguage = effectivePack?.language || 'pt'
 
       // Verificar se membro já existe
       const { data: existingMember } = await supabaseAdmin
         .from('members')
-        .select('id')
+        .select('id, name, phone, country')
         .eq('email', email)
-        .single()
+        .maybeSingle()
 
       let memberId: string
 
       if (existingMember) {
         memberId = existingMember.id
-        // Atualizar nome se estiver vazio
-        if (buyerName) {
-          await supabaseAdmin
+        
+        // Atualizar campos caso ainda estejam vazios ou se houver novo telefone/país
+        const updates: Record<string, any> = {}
+        if (!existingMember.name && buyerName) {
+          updates.name = buyerName
+        }
+        if (cleanPhone && (!existingMember.phone || existingMember.phone !== cleanPhone)) {
+          updates.phone = cleanPhone
+        }
+        if (buyerCountry && !existingMember.country) {
+          updates.country = buyerCountry
+        }
+
+        if (Object.keys(updates).length > 0) {
+          const { error: updateError } = await supabaseAdmin
             .from('members')
-            .update({ name: buyerName })
+            .update(updates)
             .eq('id', memberId)
-            .eq('name', '') // Só atualiza se o nome estava vazio
+
+          if (updateError) {
+            console.error(`❌ Erro ao atualizar membro (${email}):`, updateError.message)
+          } else {
+            console.log(`👤 Membro atualizado (${email}):`, updates)
+          }
         }
       } else {
-        // Criar novo membro
+        // Criar novo membro já com telefone e país
         const { data: newMember, error: createError } = await supabaseAdmin
           .from('members')
           .insert({
             email,
             name: buyerName,
+            phone: cleanPhone || null,
+            country: buyerCountry || null,
             language: packLanguage,
             unsubscribe_token: crypto.randomUUID(),
           })
           .select('id')
           .single()
 
-        if (createError || !newMember) {
-          console.error('❌ Erro ao criar membro:', createError?.message)
-          return NextResponse.json({ error: 'Erro ao criar membro' }, { status: 500 })
-        }
+        if (createError) {
+          // Concorrência / Race Condition:
+          // Se duas requisições simultâneas da Hotmart (ex: Produto Principal + Order Bump)
+          // tentaram criar o mesmo membro no mesmo milissegundo, recuperar o membro criado pela outra requisição
+          const { data: existingAfterRace } = await supabaseAdmin
+            .from('members')
+            .select('id, name, phone, country')
+            .eq('email', email)
+            .maybeSingle()
 
-        memberId = newMember.id
+          if (existingAfterRace) {
+            memberId = existingAfterRace.id
+            console.log(`⚡ Concorrência resolvida: membro já criado simultaneamente por outra requisição (${email}, memberId=${memberId})`)
+
+            // Atualizar campos caso a requisição concorrente ainda não tivesse dados
+            const raceUpdates: Record<string, any> = {}
+            if (!existingAfterRace.name && buyerName) raceUpdates.name = buyerName
+            if (cleanPhone && (!existingAfterRace.phone || existingAfterRace.phone !== cleanPhone)) raceUpdates.phone = cleanPhone
+            if (buyerCountry && !existingAfterRace.country) raceUpdates.country = buyerCountry
+            if (Object.keys(raceUpdates).length > 0) {
+              const { error: raceUpdateErr } = await supabaseAdmin.from('members').update(raceUpdates).eq('id', memberId)
+              if (raceUpdateErr) {
+                console.error(`❌ Erro ao atualizar membro após concorrência (${email}):`, raceUpdateErr.message)
+              }
+            }
+          } else {
+            console.error('❌ Erro real ao criar membro:', createError.message)
+            return NextResponse.json({ error: 'Erro ao criar membro' }, { status: 500 })
+          }
+        } else if (newMember) {
+          memberId = newMember.id
+          console.log(`✨ Novo membro criado: ${email} | telefone=${cleanPhone || '(sem telefone)'} | país=${buyerCountry || '(não informado)'}`)
+        } else {
+          return NextResponse.json({ error: 'Erro ao identificar membro' }, { status: 500 })
+        }
       }
 
       if (isComplementPurchase) {
@@ -209,12 +298,17 @@ export async function POST(request: Request) {
           return NextResponse.json({ success: true, message: 'Complemento já liberado anteriormente.' })
         }
 
-        // Registrar compra do complemento
-        await supabaseAdmin
+        // Registrar compra do complemento (idempotente contra duplicidade concorrente)
+        const { error: compError } = await supabaseAdmin
           .from('complement_purchases')
           .insert({ member_id: memberId, complement_id: complement!.id })
 
-        // Também garantir acesso ao pack pai
+        if (compError && compError.code !== '23505') {
+          console.error('❌ Erro ao registrar complemento:', compError.message)
+          return NextResponse.json({ error: 'Erro ao registrar compra' }, { status: 500 })
+        }
+
+        // Também garantir acesso ao pack pai (tolerante à concorrência se o pack principal estiver sendo inserido no mesmo instante)
         const { data: existingPackPurchase } = await supabaseAdmin
           .from('member_purchases')
           .select('id')
@@ -223,9 +317,13 @@ export async function POST(request: Request) {
           .maybeSingle()
 
         if (!existingPackPurchase) {
-          await supabaseAdmin
+          const { error: parentPackErr } = await supabaseAdmin
             .from('member_purchases')
             .insert({ member_id: memberId, pack_id: effectivePackId })
+
+          if (parentPackErr && parentPackErr.code !== '23505') {
+            console.warn('⚠️ Aviso ao garantir pack pai para complemento:', parentPackErr.message)
+          }
         }
 
         // Se o complemento for do tipo 'custom' (Pacote Premium Completo):
@@ -321,7 +419,7 @@ export async function POST(request: Request) {
                 pack_id: effectivePackId,
                 client_name: buyerName || '',
                 client_email: email,
-                client_whatsapp: payload.buyer?.checkout_phone || payload.buyer?.phone || null,
+                client_whatsapp: cleanPhone || payload.buyer?.checkout_phone || payload.buyer?.phone || null,
                 status: 'waiting',
                 delivery_links: driveDeliveryLinks,
                 delivery_drive_folder_id: clientFolderId || null,
@@ -358,7 +456,7 @@ export async function POST(request: Request) {
                     await notifyNewCustomizationOrder({
                       orderId: newOrder.id,
                       clientName: buyerName || '',
-                      clientWhatsapp: payload.buyer?.checkout_phone || payload.buyer?.phone || null,
+                      clientWhatsapp: cleanPhone || payload.buyer?.checkout_phone || payload.buyer?.phone || null,
                       clientEmail: email,
                       packName: effectivePack?.name || 'Pack',
                       customizeLink,
@@ -395,8 +493,14 @@ export async function POST(request: Request) {
           .insert({ member_id: memberId, pack_id: pack!.id })
 
         if (purchaseError) {
-          console.error('❌ Erro ao registrar compra:', purchaseError.message)
-          return NextResponse.json({ error: 'Erro ao registrar compra' }, { status: 500 })
+          // Se for erro de duplicidade (código 23505), a requisição concorrente do Order Bump
+          // ou um retry já garantiu o acesso ao pack pai — consideramos um sucesso idempotente!
+          if (purchaseError.code === '23505' || purchaseError.message?.includes('duplicate key') || purchaseError.message?.includes('unique')) {
+            console.log(`ℹ️ Webhook: Acesso ao pack já liberado concorrentemente para ${email}`)
+          } else {
+            console.error('❌ Erro ao registrar compra:', purchaseError.message)
+            return NextResponse.json({ error: 'Erro ao registrar compra' }, { status: 500 })
+          }
         }
 
         console.log(`✅ Acesso liberado: ${email} → Pack "${pack!.name}"`)

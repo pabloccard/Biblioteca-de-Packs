@@ -801,91 +801,98 @@ export default function CustomContent({
                 />
               </div>
 
-              {/* Caption (Legenda padrão do pack - limitada a 3 linhas com ...) */}
-              {selectedArt.caption && (
-                <div className="custom-art-modal-caption">
-                  <p>{selectedArt.caption.replace(/\s+/g, ' ').trim()}</p>
+              {/* Painel lateral de ações e legenda (desktop à direita, mobile abaixo) */}
+              <div className="custom-art-modal-sidebar">
+                <div className="custom-art-modal-sidebar-top">
+                  {/* Caption (Legenda padrão do pack) */}
+                  {selectedArt.caption && (
+                    <div className="custom-art-modal-caption">
+                      <p>{selectedArt.caption.replace(/\s+/g, ' ').trim()}</p>
+                    </div>
+                  )}
                 </div>
-              )}
 
-              {/* Action Buttons: Feed & Stories */}
-              <div className="custom-art-modal-btn-row">
-                <motion.button
-                  type="button"
-                  className="custom-art-modal-btn-download"
-                  onClick={() => handleDownloadSingle(selectedArt.feedFile, 'feed')}
-                  disabled={downloadingItem === `feed-${selectedArt.feedFile.id}`}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  {downloadingItem === `feed-${selectedArt.feedFile.id}` ? (
-                    <span className="custom-button-spinner custom-button-spinner-dark" />
-                  ) : (
-                    <img
-                      src="/download-icon.svg"
-                      alt=""
-                      className="custom-art-modal-icon-download"
-                      width={18}
-                      height={18}
-                    />
-                  )}
-                  <span>Feed</span>
-                </motion.button>
+                <div className="custom-art-modal-actions-wrap">
+                  {/* Action Buttons: Feed & Stories */}
+                  <div className="custom-art-modal-btn-row">
+                    <motion.button
+                      type="button"
+                      className="custom-art-modal-btn-download"
+                      onClick={() => handleDownloadSingle(selectedArt.feedFile, 'feed')}
+                      disabled={downloadingItem === `feed-${selectedArt.feedFile.id}`}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      {downloadingItem === `feed-${selectedArt.feedFile.id}` ? (
+                        <span className="custom-button-spinner custom-button-spinner-dark" />
+                      ) : (
+                        <img
+                          src="/download-icon.svg"
+                          alt=""
+                          className="custom-art-modal-icon-download"
+                          width={18}
+                          height={18}
+                        />
+                      )}
+                      <span>Feed</span>
+                    </motion.button>
 
-                <motion.button
-                  type="button"
-                  className={`custom-art-modal-btn-download ${!selectedArt.storyFile ? 'disabled' : ''}`}
-                  onClick={() => {
-                    if (selectedArt.storyFile) {
-                      handleDownloadSingle(selectedArt.storyFile, 'story')
-                    } else {
-                      alert(
-                        lang === 'en'
-                          ? 'Stories format not available for this art'
-                          : 'Formato Stories não disponível para esta arte'
-                      )
-                    }
-                  }}
-                  disabled={!selectedArt.storyFile || downloadingItem === `story-${selectedArt.storyFile?.id}`}
-                  whileTap={selectedArt.storyFile ? { scale: 0.97 } : undefined}
-                >
-                  {downloadingItem === `story-${selectedArt.storyFile?.id}` ? (
-                    <span className="custom-button-spinner custom-button-spinner-dark" />
-                  ) : (
-                    <img
-                      src="/download-icon.svg"
-                      alt=""
-                      className="custom-art-modal-icon-download"
-                      width={18}
-                      height={18}
-                    />
+                    <motion.button
+                      type="button"
+                      className={`custom-art-modal-btn-download ${!selectedArt.storyFile ? 'disabled' : ''}`}
+                      onClick={() => {
+                        if (selectedArt.storyFile) {
+                          handleDownloadSingle(selectedArt.storyFile, 'story')
+                        } else {
+                          alert(
+                            lang === 'en'
+                              ? 'Stories format not available for this art'
+                              : 'Formato Stories não disponível para esta arte'
+                          )
+                        }
+                      }}
+                      disabled={!selectedArt.storyFile || downloadingItem === `story-${selectedArt.storyFile?.id}`}
+                      whileTap={selectedArt.storyFile ? { scale: 0.97 } : undefined}
+                    >
+                      {downloadingItem === `story-${selectedArt.storyFile?.id}` ? (
+                        <span className="custom-button-spinner custom-button-spinner-dark" />
+                      ) : (
+                        <img
+                          src="/download-icon.svg"
+                          alt=""
+                          className="custom-art-modal-icon-download"
+                          width={18}
+                          height={18}
+                        />
+                      )}
+                      <span>Stories</span>
+                    </motion.button>
+                  </div>
+
+                  {/* Copiar Legenda Button */}
+                  {selectedArt.caption && (
+                    <motion.button
+                      type="button"
+                      className={`custom-art-modal-btn-copy ${copiedCaption ? 'copied' : ''}`}
+                      onClick={handleCopyCaption}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {copiedCaption ? (
+                        <>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{lang === 'en' ? 'Caption copied!' : lang === 'es' ? '¡Texto copiado!' : 'Legenda copiada!'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <img src="/copy-icon.svg" alt="" width={18} height={18} className="copy-icon-img copy-icon-white" />
+                          <span>{lang === 'en' ? 'Copy caption' : lang === 'es' ? 'Copiar texto' : 'Copiar legenda'}</span>
+                        </>
+                      )}
+                    </motion.button>
                   )}
-                  <span>Stories</span>
-                </motion.button>
+                </div>
               </div>
-
-              {/* Copiar Legenda Button */}
-              {selectedArt.caption && (
-                <motion.button
-                  type="button"
-                  className={`custom-art-modal-btn-copy ${copiedCaption ? 'copied' : ''}`}
-                  onClick={handleCopyCaption}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {copiedCaption ? (
-                    <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span>{lang === 'en' ? 'Caption copied!' : lang === 'es' ? '¡Texto copiado!' : 'Legenda copiada!'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <img src="/copy-icon.svg" alt="" width={18} height={18} className="copy-icon-img copy-icon-white" />
-                      <span>{lang === 'en' ? 'Copy caption' : lang === 'es' ? 'Copiar texto' : 'Copiar legenda'}</span>
-                    </>
-                  )}
-                </motion.button>
-              )}
             </motion.div>
           </motion.div>
         )}

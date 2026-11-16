@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 
 interface WhatsAppButtonProps {
   phoneNumber?: string
@@ -14,9 +14,15 @@ export default function WhatsAppButton({
   message,
   autoExpand = false,
 }: WhatsAppButtonProps) {
+  const pathname = usePathname()
   const [expanded, setExpanded] = useState(false)
   const params = useParams()
   const lang = (params?.lang as string) || 'pt'
+
+  // Não renderiza botão de WhatsApp nas páginas de vendas
+  if (pathname?.includes('/packs/')) {
+    return null
+  }
 
   let defaultMessage = 'Olá! Preciso de ajuda.'
   let defaultText = 'Precisa de ajuda?'

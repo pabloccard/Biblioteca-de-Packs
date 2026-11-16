@@ -1,0 +1,520 @@
+/* ========================================= */
+/* WHATSAPP MARKETING CRM STYLES             */
+/* ========================================= */
+
+.wa-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 80px 24px;
+}
+
+.wa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.wa-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wa-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.wa-subtitle {
+  font-size: 14px;
+  color: #A1A1AA;
+  margin: 0;
+}
+
+.wa-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botões */
+.wa-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #000000;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.wa-btn-primary:hover {
+  background: #22bf5b;
+  transform: translateY(-1px);
+}
+
+.wa-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.wa-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Stats Cards */
+.wa-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.wa-stat-card {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.wa-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.wa-stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #A1A1AA;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Cards de Campanha */
+.wa-campaigns-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wa-campaign-card {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  gap: 20px;
+}
+
+.wa-campaign-card:hover {
+  border-color: rgba(37, 211, 102, 0.4);
+  background: #18181c;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.wa-campaign-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wa-campaign-top-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wa-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wa-badge-niche {
+  background: rgba(255, 183, 66, 0.15);
+  color: #FFB742;
+  border: 1px solid rgba(255, 183, 66, 0.3);
+}
+
+.wa-badge-lang {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.wa-campaign-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.wa-campaign-pack-info {
+  font-size: 13px;
+  color: #A1A1AA;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wa-campaign-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.wa-progress-wrap {
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wa-progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.wa-progress-bar-fill {
+  height: 100%;
+  background: #25D366;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.wa-progress-text {
+  font-size: 11px;
+  color: #A1A1AA;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Upload Dropzone */
+.wa-dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 48px 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.wa-dropzone:hover,
+.wa-dropzone.drag-active {
+  border-color: #25D366;
+  background: rgba(37, 211, 102, 0.05);
+}
+
+.wa-dropzone-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(37, 211, 102, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #25D366;
+  margin-bottom: 4px;
+}
+
+.wa-dropzone-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.wa-dropzone-desc {
+  font-size: 13px;
+  color: #A1A1AA;
+  max-width: 480px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Relatório de Importação */
+.wa-report-card {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 28px;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.wa-report-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wa-report-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.wa-report-metric-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wa-report-metric-num {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.wa-report-metric-num.success {
+  color: #25D366;
+}
+
+.wa-report-metric-num.warning {
+  color: #FFB742;
+}
+
+.wa-report-metric-num.info {
+  color: #60A5FA;
+}
+
+.wa-report-metric-num.danger {
+  color: #F87171;
+}
+
+.wa-report-metric-label {
+  font-size: 12px;
+  color: #A1A1AA;
+}
+
+/* Tabela de Destinatários e Execução */
+.wa-recipients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wa-recipient-card {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  transition: border-color 0.15s ease;
+}
+
+.wa-recipient-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.wa-recipient-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wa-recipient-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wa-recipient-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.wa-recipient-phone {
+  font-size: 14px;
+  font-weight: 600;
+  color: #25D366;
+  font-family: monospace;
+}
+
+.wa-recipient-email {
+  font-size: 13px;
+  color: #A1A1AA;
+}
+
+.wa-recipient-msg-preview {
+  font-size: 12.5px;
+  color: #D4D4D8;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.wa-recipient-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wa-btn-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #000000;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wa-btn-send:hover {
+  background: #20BA59;
+  transform: translateY(-1px);
+}
+
+.wa-btn-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tabs */
+.wa-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.wa-tab-btn {
+  background: transparent;
+  border: none;
+  color: #A1A1AA;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.wa-tab-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wa-tab-btn.active {
+  background: rgba(37, 211, 102, 0.15);
+  color: #25D366;
+}
+
+.wa-tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.wa-tab-btn.active .wa-tab-count {
+  background: #25D366;
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  .wa-campaign-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .wa-campaign-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .wa-recipient-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .wa-recipient-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

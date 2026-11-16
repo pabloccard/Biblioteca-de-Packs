@@ -526,27 +526,42 @@ export default function CustomizeForm({
                 />
               </div>
 
-              {/* Input abaixo da arte para as informações */}
-              <div className="cust-modal-input-area">
-                <textarea
-                  value={tempText}
-                  onChange={e => setTempText(e.target.value)}
-                  placeholder={texts.modalPlaceholder}
-                  className="cust-modal-textarea"
-                  rows={3}
-                />
-              </div>
+              {/* Painel lateral direito no desktop (ou abaixo no mobile) */}
+              <div className="custom-art-modal-sidebar cust-briefing-modal-sidebar">
+                <div className="cust-briefing-sidebar-header">
+                  <h3 className="cust-briefing-sidebar-title">
+                    {isEs ? 'Instrucciones para este diseño' : 'Instruções para esta arte'}
+                  </h3>
+                  <p className="cust-briefing-sidebar-desc">
+                    {isEs
+                      ? 'Escribe qué información debe cambiarse: planes, precios, datos de contacto o textos. Si este diseño no necesita cambios, puedes dejarlo vacío.'
+                      : 'Digite quais informações devem ser alteradas: planos, preços, contatos ou textos. Se esta arte não precisar de alterações, pode deixar em branco.'}
+                  </p>
+                </div>
 
-              {/* Botão branco 'Concluir' */}
-              <motion.button
-                type="button"
-                className="cust-modal-conclude-btn"
-                onClick={handleSaveAndCloseArtModal}
-                whileHover={{ scale: 1.015 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {texts.modalConclude}
-              </motion.button>
+                {/* Input para as informações */}
+                <div className="cust-modal-input-area">
+                  <textarea
+                    value={tempText}
+                    onChange={e => setTempText(e.target.value)}
+                    placeholder={texts.modalPlaceholder}
+                    className="cust-modal-textarea"
+                    rows={6}
+                    autoFocus
+                  />
+                </div>
+
+                {/* Botão branco 'Concluir' */}
+                <motion.button
+                  type="button"
+                  className="cust-modal-conclude-btn"
+                  onClick={handleSaveAndCloseArtModal}
+                  whileHover={{ scale: 1.015 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {texts.modalConclude}
+                </motion.button>
+              </div>
             </motion.div>
           </motion.div>
         )}

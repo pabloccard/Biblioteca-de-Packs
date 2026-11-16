@@ -804,6 +804,38 @@
   margin: auto;
 }
 
+.custom-art-modal-sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-art-modal-sidebar-top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-art-modal-header-meta {
+  display: none;
+}
+
+.custom-art-modal-art-name {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.custom-art-modal-caption-label {
+  display: none;
+}
+
+.custom-art-modal-actions-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .custom-art-modal-header {
   display: none;
 }
@@ -1420,30 +1452,116 @@
     gap: 14px;
   }
 
+  /* Modal no Desktop: 2 Colunas lado a lado */
   .custom-art-modal-container {
-    max-width: 480px;
+    max-width: 840px;
+    width: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 32px;
+    background: #141416;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 32px 100px rgba(0, 0, 0, 0.85);
   }
 
   .custom-art-modal-img-wrap {
-    border-radius: 20px;
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.9);
+    flex: 0 0 380px;
+    width: 380px;
+    max-width: 48%;
+    aspect-ratio: 4 / 5;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .custom-art-modal-sidebar {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .custom-art-modal-sidebar-top {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .custom-art-modal-header-meta {
+    display: none;
+  }
+
+  .custom-art-modal-art-name {
+    display: none;
+  }
+
+  .custom-art-modal-caption {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    max-height: none;
+    overflow-y: auto;
+    margin: 0;
+    padding: 20px 22px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    box-sizing: border-box;
+  }
+
+  .custom-art-modal-caption-label {
+    display: none;
   }
 
   .custom-art-modal-caption p {
-    font-size: 13px;
-    line-height: 1.55;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #E4E4E7;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    max-height: none;
+    overflow: visible;
+    margin: 0;
+    word-break: break-word;
+  }
+
+  .custom-art-modal-actions-wrap {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .custom-art-modal-btn-row {
+    margin-bottom: 0;
   }
 
   .custom-art-modal-btn-download {
-    height: 52px;
+    height: 50px;
     font-size: 15px;
   }
 
   .custom-art-modal-btn-copy {
-    height: 52px;
+    height: 50px;
     font-size: 15px;
+  }
+
+  @media (max-height: 760px) {
+    .custom-art-modal-container {
+      max-width: 740px;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .custom-art-modal-img-wrap {
+      flex: 0 0 300px;
+      width: 300px;
+    }
   }
 
   /* Custom Canva tab links */

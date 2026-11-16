@@ -1,0 +1,36 @@
+export default function EditeSection() {
+  return (
+    <section className="v2-edite">
+      <div className="v2-edite-content">
+        {/* Título */}
+        <div className="v2-section-title-block v2-reveal">
+          <div className="v2-badge">
+            <span className="v2-badge-icon v2-badge-icon--blue">
+              <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
+            </span>
+            <span className="v2-badge-text">Edite onde quiser</span>
+          </div>
+          <h2 className="v2-section-title">
+            Arquivos prontos para{' '}
+            <span className="v2-highlight">Canva e Photoshop.</span>
+          </h2>
+        </div>
+
+        {/* Mockup único */}
+        <img
+          src="/sales-pages/provedor-v2/mockup.webp"
+          alt="Mockup de edição em Canva e Photoshop"
+          className="v2-edite-mockup v2-reveal-scale v2-delay-1"
+        />
+
+        {/* Descrição */}
+        <p className="v2-section-desc v2-reveal v2-delay-2">
+          Não precisa ser designer profissional nem ter programas pesados. Os
+          arquivos já vêm 100% organizados para você alterar as informações em
+          poucos cliques, seja na praticidade do Canva ou no controle avançado
+          do Photoshop.
+        </p>
+      </div>
+    </section>
+  )
+}

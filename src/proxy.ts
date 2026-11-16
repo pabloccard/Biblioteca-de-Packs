@@ -10,7 +10,6 @@ export function proxy(request: NextRequest) {
   // 1. Salto imediato: rotas que não devem ser internacionalizadas nem processadas
   if (
     pathname.startsWith('/admin') ||
-    pathname.startsWith('/lp') ||
     pathname.startsWith('/customize') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api')
@@ -27,8 +26,7 @@ export function proxy(request: NextRequest) {
 
   if (currentLocale) {
     // Se o usuário acessou uma rota com idioma X, mas o idioma registrado no cookie é Y,
-    // e ele ESTÁ logado, redirecionamos para o idioma correto dele.
-    // EXCETO para as páginas de vendas (/packs/), onde a pessoa pode navegar livremente em qualquer idioma.
+    // e ele ESTÁ logado, redirecionamos para o idioma correto dele (exceto páginas de vendas /packs/).
     if (memberLangCookie && memberLangCookie !== currentLocale && !pathname.includes('/packs/')) {
       request.nextUrl.pathname = pathname.replace(`/${currentLocale}`, `/${memberLangCookie}`)
       return NextResponse.redirect(request.nextUrl)

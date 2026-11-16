@@ -164,6 +164,10 @@ export async function getPersonalGoogleAccessToken(): Promise<{ token: string; e
     }
   } catch (err: any) {
     console.error('Erro ao renovar token OAuth do Google:', err.message)
+    if (err.message?.includes('invalid_grant')) {
+      console.warn('Google OAuth refresh_token expirado ou revogado (invalid_grant). Removendo credenciais inválidas para liberar reconexão no painel admin.')
+      await deleteGoogleOAuthTokens().catch(() => {})
+    }
     return null
   }
 }
