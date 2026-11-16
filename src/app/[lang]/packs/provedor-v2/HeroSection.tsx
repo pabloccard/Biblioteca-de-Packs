@@ -1,5 +1,3 @@
-'use client'
-
 import BgCards from './BgCards'
 
 export default function HeroSection() {
@@ -9,7 +7,7 @@ export default function HeroSection() {
 
       <div className="v2-hero-content">
         {/* Badge / Chapéu — cor verde #D4FF5E */}
-        <div className="v2-badge v2-reveal">
+        <div className="v2-badge v2-hero-enter v2-hero-enter-1">
           <span className="v2-badge-icon v2-badge-icon--green">
             <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
           </span>
@@ -19,7 +17,7 @@ export default function HeroSection() {
         </div>
 
         {/* Título principal */}
-        <h1 className="v2-hero-title v2-reveal v2-delay-1">
+        <h1 className="v2-hero-title v2-hero-enter v2-hero-enter-2">
           O próximo <span className="v2-highlight">post</span>
           <br />
           do seu provedor
@@ -28,7 +26,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Subtítulo */}
-        <p className="v2-hero-subtitle v2-reveal v2-delay-2">
+        <p className="v2-hero-subtitle v2-hero-enter v2-hero-enter-3">
           <span className="v2-highlight">Um pack</span>{' '}
           <span>
             completo de criativos para destacar seus planos de internet nas
@@ -38,7 +36,7 @@ export default function HeroSection() {
         </p>
 
         {/* Bloco "Duas opções" */}
-        <div className="v2-hero-options v2-reveal v2-delay-3">
+        <div className="v2-hero-options v2-hero-enter v2-hero-enter-4">
           <div className="v2-hero-options-header">
             <span>Duas opções</span>
           </div>

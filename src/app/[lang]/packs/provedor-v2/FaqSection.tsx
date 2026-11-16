@@ -48,7 +48,7 @@ export default function FaqSection() {
     <section className="v2-faq">
       <div className="v2-faq-content">
         {/* Título com Badge */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--blue" />
             <span className="v2-badge-text">Tire suas dúvidas</span>
@@ -57,7 +57,7 @@ export default function FaqSection() {
         </div>
 
         {/* Lista de perguntas */}
-        <div className="v2-faq-list v2-reveal v2-delay-1">
+        <div className="v2-faq-list">
           {FAQ_ITEMS.map((item, i) => {
             const isOpen = openIndex === i
             return (
@@ -71,9 +71,28 @@ export default function FaqSection() {
                 >
                   <div className="v2-faq-header">
                     <h3 className="v2-faq-question">{item.question}</h3>
+                    <span className={`v2-faq-chevron ${isOpen ? 'v2-faq-chevron--open' : ''}`}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6 9L12 15L18 9"
+                          stroke="#F1F2EC"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </div>
 
-                  {isOpen && <p className="v2-faq-answer">{item.answer}</p>}
+                  <div className={`v2-faq-answer-wrapper ${isOpen ? 'v2-faq-answer-wrapper--open' : ''}`}>
+                    <p className="v2-faq-answer">{item.answer}</p>
+                  </div>
                 </div>
               </div>
             )

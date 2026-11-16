@@ -110,7 +110,7 @@ export default function VersoesSection() {
     <section className="v2-versoes">
       <div className="v2-versoes-content">
         {/* Título — cor azul #0557EE */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--blue">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
@@ -126,13 +126,14 @@ export default function VersoesSection() {
         </div>
 
         {/* Carrossel de versões — infinito, full width, draggable */}
-        <div ref={containerRef} className="v2-versoes-carousel-container v2-reveal v2-delay-1">
+        <div ref={containerRef} className="v2-versoes-carousel-container">
           <div ref={trackRef} className="v2-versoes-carousel-track">
             {[...VERSOES_COVERS, ...VERSOES_COVERS].map((src, i) => (
               <div key={i} className="v2-versoes-carousel-card">
                 <img
                   src={src}
                   alt={`Versão de cores ${(i % VERSOES_COVERS.length) + 1}`}
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -140,7 +141,7 @@ export default function VersoesSection() {
         </div>
 
         {/* Descrição */}
-        <p className="v2-versoes-desc v2-reveal v2-delay-2">
+        <p className="v2-versoes-desc">
           Recolorir uma arte cheia de efeitos dá trabalho. Por isso, já
           preparamos <span className="v2-highlight">15 versões</span> com as
           principais cores do mercado para você ter opções prontas de uso.

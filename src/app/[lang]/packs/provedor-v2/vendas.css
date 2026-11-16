@@ -2,7 +2,7 @@
 /* ===== PÁGINA DE VENDAS V2 — PROVEDOR DE INTERNET ===== */
 /* ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400&display=swap');
+/* Google Fonts Sora loaded via Next.js font system (--font-sora variable) */
 
 :root {
   /* Escala proporcional exata do Figma (Frame de 1080px de largura para mobile max 480px) */
@@ -58,14 +58,12 @@
   position: absolute;
   top: calc(-58.91 * var(--s));
   left: 50%;
-  transform: translateX(calc(-50% - 0.21 * var(--s))) translateY(var(--parallax-y, 0px));
+  transform: translateX(calc(-50% - 0.21 * var(--s)));
   width: calc(1199.575 * var(--s));
   height: calc(1068.657 * var(--s));
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
 }
 
 .v2-bg-cards-rotated {
@@ -83,60 +81,8 @@
 .v2-bg-card {
   aspect-ratio: 1080 / 1440;
   overflow: hidden;
-  opacity: 0.35;
-  transform: scale(0.92);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.v2-bg-in-view .v2-bg-card {
   opacity: 1;
-  transform: scale(1);
 }
-
-/* Stagger elegante nos 6 cards de fundo */
-.v2-bg-in-view .v2-bg-card-1 { transition-delay: 0.05s; }
-.v2-bg-in-view .v2-bg-card-2 { transition-delay: 0.15s; }
-.v2-bg-in-view .v2-bg-card-3 { transition-delay: 0.25s; }
-.v2-bg-in-view .v2-bg-card-4 { transition-delay: 0.1s; }
-.v2-bg-in-view .v2-bg-card-5 { transition-delay: 0.2s; }
-.v2-bg-in-view .v2-bg-card-6 { transition-delay: 0.3s; }
-
-/* Flutuação suave multi-camadas em cada coluna dos cards */
-@keyframes v2FloatCardA {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(calc(-12 * var(--s)));
-  }
-}
-
-@keyframes v2FloatCardB {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(calc(12 * var(--s)));
-  }
-}
-
-@keyframes v2FloatCardC {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(calc(-8 * var(--s)));
-  }
-}
-
-.v2-bg-in-view .v2-bg-card-1 img { animation: v2FloatCardA 7s ease-in-out infinite; }
-.v2-bg-in-view .v2-bg-card-2 img { animation: v2FloatCardB 8.5s ease-in-out infinite 1s; }
-.v2-bg-in-view .v2-bg-card-3 img { animation: v2FloatCardC 6.5s ease-in-out infinite 2s; }
-.v2-bg-in-view .v2-bg-card-4 img { animation: v2FloatCardB 8s ease-in-out infinite 0.5s; }
-.v2-bg-in-view .v2-bg-card-5 img { animation: v2FloatCardA 9s ease-in-out infinite 1.5s; }
-.v2-bg-in-view .v2-bg-card-6 img { animation: v2FloatCardC 7.5s ease-in-out infinite 2.5s; }
 
 .v2-bg-card img {
   width: 100%;
@@ -145,7 +91,6 @@
   display: block;
   pointer-events: none;
   user-select: none;
-  transition: transform 0.4s ease;
 }
 
 /* Sombras gradientes sobre os cards */
@@ -248,7 +193,7 @@
   z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  padding: calc(460 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
+  padding: calc(600 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -413,7 +358,7 @@
   z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  padding: calc(460 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
+  padding: calc(600 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
   display: flex;
   flex-direction: column;
   gap: calc(100 * var(--s));
@@ -627,7 +572,7 @@
   z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  padding: calc(460 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
+  padding: calc(600 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
   display: flex;
   flex-direction: column;
   gap: calc(100 * var(--s));
@@ -655,7 +600,7 @@
 }
 
 .v2-step-num {
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-sora), 'Sora', sans-serif;
   font-size: calc(210 * var(--s));
   font-weight: 300;
   line-height: 0.72;
@@ -746,13 +691,11 @@
   overflow: hidden;
   box-shadow: calc(8 * var(--s)) calc(8 * var(--s)) calc(8 * var(--s)) rgba(0,0,0,0.25);
   width: calc(800 * var(--s));
-  height: calc(646 * var(--s));
 }
 
 .v2-feedback-card img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 }
 
@@ -773,7 +716,7 @@
   z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  padding: calc(460 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
+  padding: calc(600 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1132,7 +1075,7 @@
   z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  padding: calc(460 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
+  padding: calc(600 * var(--s)) calc(100 * var(--s)) calc(200 * var(--s));
   display: flex;
   flex-direction: column;
   gap: calc(100 * var(--s));
@@ -1223,37 +1166,115 @@
 }
 
 /* ============================================= */
-/* ===== ANIMAÇÕES DE ROLAGEM PROFISSIONAIS ===== */
+/* ===== ANIMAÇÃO DE ENTRADA DO HERO ===== */
 /* ============================================= */
 
-.v2-reveal {
+@keyframes v2HeroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(30 * var(--s)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v2-hero-enter {
   opacity: 0;
-  transform: translateY(calc(36 * var(--s)));
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  animation: v2HeroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.v2-reveal.v2-revealed {
-  opacity: 1;
-  transform: translateY(0);
+.v2-hero-enter-1 { animation-delay: 0.1s; }
+.v2-hero-enter-2 { animation-delay: 0.25s; }
+.v2-hero-enter-3 { animation-delay: 0.4s; }
+.v2-hero-enter-4 { animation-delay: 0.55s; }
+
+/* ============================================= */
+/* ===== ANIMAÇÃO FAQ ACCORDION ===== */
+/* ============================================= */
+
+.v2-faq-chevron {
+  width: calc(48 * var(--s));
+  height: calc(48 * var(--s));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
-.v2-reveal-scale {
+.v2-faq-chevron svg {
+  width: 100%;
+  height: 100%;
+}
+
+.v2-faq-chevron--open {
+  transform: rotate(180deg);
+}
+
+.v2-faq-answer-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease, opacity 0.3s ease;
   opacity: 0;
-  transform: scale(0.92) translateY(calc(24 * var(--s)));
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
 
-.v2-reveal-scale.v2-revealed {
+.v2-faq-answer-wrapper--open {
+  grid-template-rows: 1fr;
   opacity: 1;
-  transform: scale(1) translateY(0);
 }
 
-/* Staggers de transição */
-.v2-delay-1 { transition-delay: 0.1s; }
-.v2-delay-2 { transition-delay: 0.2s; }
-.v2-delay-3 { transition-delay: 0.3s; }
-.v2-delay-4 { transition-delay: 0.4s; }
+.v2-faq-answer-wrapper > .v2-faq-answer {
+  overflow: hidden;
+}
+
+/* ============================================= */
+/* ===== ANIMAÇÃO OFERTAS TOGGLE ===== */
+/* ============================================= */
+
+.v2-nova-radio-dot {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform-origin: center;
+}
+
+@keyframes v2BenefitFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(10 * var(--s)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v2-benefit-fade-in {
+  opacity: 0;
+  animation: v2BenefitFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes v2CtaTextFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.v2-cta-text-fade {
+  animation: v2CtaTextFade 0.3s ease forwards;
+}
+
+/* ============================================= */
+/* ===== OTIMIZAÇÃO: CONTENT VISIBILITY ===== */
+/* ============================================= */
+
+.v2-carrossel,
+.v2-versoes,
+.v2-edite,
+.v2-personalize,
+.v2-feedbacks,
+.v2-ofertas,
+.v2-suporte,
+.v2-faq {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}

@@ -28,16 +28,16 @@ export type SectionBgName =
  */
 export const SECTION_COVER_IDS: Record<SectionBgName, number[]> = {
   // 1. Topo (Hero)
-  hero: [1, 5, 6, 8, 2, 3],
+  hero: [2, 1, 3, 4, 5, 6],
 
   // 2. Seção "Conheça as artes"
-  carrossel: [7, 8, 9, 10, 11, 12],
+  carrossel: [11, 8, 13, 16, 9, 20],
 
   // 5. Seção "Se preferir, nós personalizamos"
-  personalize: [13, 14, 15, 16, 17, 18],
+  personalize: [9, 20, 17, 10, 21, 22],
 
   // 7. Seção "Escolha como prefere receber" (Oferta)
-  ofertas: [19, 20, 21, 22, 23, 24],
+  ofertas: [19, 1, 16, 4, 9, 3],
 
   // 8. Seção "Suporte direto pelo WhatsApp"
   suporte: [1, 3, 5, 7, 9, 11],

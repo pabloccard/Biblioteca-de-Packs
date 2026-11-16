@@ -11,7 +11,7 @@ export default function FeedbacksSection() {
     <section className="v2-feedbacks">
       <div className="v2-feedbacks-content">
         {/* Título */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--blue">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
@@ -24,13 +24,14 @@ export default function FeedbacksSection() {
         </div>
 
         {/* Carrossel infinito de feedbacks — auto-scroll, sem drag */}
-        <div className="v2-feedback-carousel-container v2-reveal v2-delay-1">
+        <div className="v2-feedback-carousel-container">
           <div className="v2-feedback-carousel-track">
             {duplicated.map((src, i) => (
               <div key={i} className="v2-feedback-card">
                 <img
                   src={src}
                   alt={`Feedback de cliente ${(i % FEEDBACK_CARDS.length) + 1}`}
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -38,7 +39,7 @@ export default function FeedbacksSection() {
         </div>
 
         {/* Descrição */}
-        <p className="v2-section-desc v2-reveal v2-delay-2">
+        <p className="v2-section-desc">
           Nada melhor do que a palavra de quem vive a mesma rotina que você.
           Veja a reação real de quem já recebeu os arquivos, aprovou a qualidade
           com a equipe e colocou as artes para rodar.

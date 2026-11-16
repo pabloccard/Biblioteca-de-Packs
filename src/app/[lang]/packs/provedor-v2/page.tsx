@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Urbanist } from 'next/font/google'
+import { Urbanist, Sora } from 'next/font/google'
 import HeroSection from './HeroSection'
 import CarrosselSection from './CarrosselSection'
 import VersoesSection from './VersoesSection'
@@ -10,7 +10,6 @@ import FeedbacksSection from './FeedbacksSection'
 import OfertasSection from './OfertasSection'
 import SuporteSection from './SuporteSection'
 import FaqSection from './FaqSection'
-import ScrollRevealObserver from './ScrollRevealObserver'
 import './vendas.css'
 
 const urbanist = Urbanist({
@@ -18,6 +17,13 @@ const urbanist = Urbanist({
   weight: ['300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-urbanist',
+})
+
+const sora = Sora({
+  subsets: ['latin'],
+  weight: ['300', '400'],
+  display: 'swap',
+  variable: '--font-sora',
 })
 
 export const metadata: Metadata = {
@@ -34,11 +40,8 @@ export default async function ProvedorV2SalesPage({
   const { lang } = await params
 
   return (
-    <main className={`vendas-page ${urbanist.className} ${urbanist.variable}`}>
+    <main className={`vendas-page ${urbanist.className} ${urbanist.variable} ${sora.variable}`}>
       <div className="vendas-container">
-        {/* Ativa observador de animações de rolagem */}
-        <ScrollRevealObserver />
-
         {/* 1. HERO */}
         <HeroSection />
 

@@ -25,7 +25,7 @@ export default function PersonalizeSection() {
 
       <div className="v2-personalize-content">
         {/* Título */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--green">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
@@ -42,18 +42,15 @@ export default function PersonalizeSection() {
         </div>
 
         {/* Subtítulo */}
-        <p className="v2-personalize-subtitle v2-reveal v2-delay-1">
+        <p className="v2-personalize-subtitle">
           Não quer abrir nenhum programa de edição? Escolha a modalidade pronta
           para postar e deixe todo o trabalho com a nossa equipe.
         </p>
 
-        {/* Lista de passos 1-2-3 com cascata */}
+        {/* Lista de passos 1-2-3 */}
         <div className="v2-steps-list">
           {STEPS.map((step, i) => (
-            <div
-              key={step.num}
-              className={`v2-reveal v2-delay-${i + 1}`}
-            >
+            <div key={step.num}>
               {i > 0 && <div className="v2-step-divider" />}
               <div className="v2-step-item">
                 <span className="v2-step-num">{step.num}</span>
@@ -67,7 +64,7 @@ export default function PersonalizeSection() {
         </div>
 
         {/* Texto final */}
-        <p className="v2-section-desc v2-reveal v2-delay-3">
+        <p className="v2-section-desc">
           Você cuida da operação do seu provedor enquanto nós entregamos sua
           comunicação visual 100% finalizada.
         </p>

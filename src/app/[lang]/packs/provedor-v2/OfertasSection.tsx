@@ -42,9 +42,14 @@ function RadioCircle({ selected }: { selected: boolean }) {
         xmlns="http://www.w3.org/2000/svg"
       >
         <circle cx="19" cy="19" r="18.5" stroke="#F1F2EC" />
-        {selected && (
-          <circle cx="19" cy="19" r="12.6667" fill="#D4FF5E" />
-        )}
+        <circle
+          cx="19"
+          cy="19"
+          r="12.6667"
+          fill="#D4FF5E"
+          className="v2-nova-radio-dot"
+          style={{ opacity: selected ? 1 : 0, transform: selected ? 'scale(1)' : 'scale(0)' }}
+        />
       </svg>
     </div>
   )
@@ -63,7 +68,7 @@ export default function OfertasSection() {
 
       <div className="v2-ofertas-content">
         {/* Título com Chapéu */}
-        <div className="v2-ofertas-title-block v2-reveal">
+        <div className="v2-ofertas-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--green">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
@@ -80,14 +85,13 @@ export default function OfertasSection() {
         {/* Wrapper centralizado */}
         <div className="v2-nova-oferta-wrapper">
           {/* Opções de Oferta */}
-          <div className="v2-nova-offer-items v2-reveal v2-delay-1">
+          <div className="v2-nova-offer-items">
             {/* Opção 1: Eu mesmo quero editar */}
             <div
-              className={`v2-nova-offer-card ${
-                isEditavelSelected
-                  ? 'v2-nova-offer-card--selected'
-                  : 'v2-nova-offer-card--unselected'
-              }`}
+              className={`v2-nova-offer-card ${isEditavelSelected
+                ? 'v2-nova-offer-card--selected'
+                : 'v2-nova-offer-card--unselected'
+                }`}
               onClick={() => setSelected('editavel')}
               role="button"
               tabIndex={0}
@@ -120,11 +124,10 @@ export default function OfertasSection() {
 
             {/* Opção 2: Quero pronto para postar (BLACK FRIDAY) */}
             <div
-              className={`v2-nova-offer-card ${
-                isProntoSelected
-                  ? 'v2-nova-offer-card--selected'
-                  : 'v2-nova-offer-card--unselected'
-              }`}
+              className={`v2-nova-offer-card ${isProntoSelected
+                ? 'v2-nova-offer-card--selected'
+                : 'v2-nova-offer-card--unselected'
+                }`}
               onClick={() => setSelected('pronto')}
               role="button"
               tabIndex={0}
@@ -159,9 +162,13 @@ export default function OfertasSection() {
           </div>
 
           {/* Lista de Benefícios */}
-          <div className="v2-nova-benefits-list v2-reveal v2-delay-2">
+          <div className="v2-nova-benefits-list" key={selected}>
             {benefits.map((item, i) => (
-              <div key={`${selected}-${i}`} className="v2-nova-benefit-item">
+              <div
+                key={`${selected}-${i}`}
+                className="v2-nova-benefit-item v2-benefit-fade-in"
+                style={{ animationDelay: `${i * 0.06}s` }}
+              >
                 <span className="v2-nova-benefit-check">
                   <img
                     src="/sales-pages/provedor-v2/icon-check-green.png"
@@ -169,9 +176,8 @@ export default function OfertasSection() {
                   />
                 </span>
                 <p
-                  className={`v2-nova-benefit-text${
-                    item.highlight ? ' v2-nova-benefit-text--highlight' : ''
-                  }`}
+                  className={`v2-nova-benefit-text${item.highlight ? ' v2-nova-benefit-text--highlight' : ''
+                    }`}
                 >
                   {item.text}
                 </p>
@@ -180,18 +186,18 @@ export default function OfertasSection() {
           </div>
 
           {/* Botão CTA */}
-          <a href="#" className="v2-nova-cta-btn v2-reveal-scale v2-delay-3">
-            <span className="v2-nova-cta-btn-text">
+          <a href="#" className="v2-nova-cta-btn">
+            <span className="v2-nova-cta-btn-text v2-cta-text-fade" key={`cta-${selected}`}>
               {CTA_DATA[selected]}
             </span>
           </a>
         </div>
 
         {/* Selos de Confiança */}
-        <div className="v2-nova-selos v2-reveal v2-delay-3">
+        <div className="v2-nova-selos">
           <div className="v2-nova-selo">
             <span className="v2-nova-selo-icon v2-nova-selo-icon--security">
-              <img src="/sales-pages/provedor-v2/selo-security.png" alt="" />
+              <img src="/sales-pages/provedor-v2/selo-security.png" alt="" loading="lazy" />
             </span>
             <p className="v2-nova-selo-text">
               Compra
@@ -202,7 +208,7 @@ export default function OfertasSection() {
 
           <div className="v2-nova-selo">
             <span className="v2-nova-selo-icon v2-nova-selo-icon--guaranteed">
-              <img src="/sales-pages/provedor-v2/selo-guaranteed.png" alt="" />
+              <img src="/sales-pages/provedor-v2/selo-guaranteed.png" alt="" loading="lazy" />
             </span>
             <p className="v2-nova-selo-text">
               Satisfação
@@ -213,7 +219,7 @@ export default function OfertasSection() {
 
           <div className="v2-nova-selo">
             <span className="v2-nova-selo-icon v2-nova-selo-icon--lock">
-              <img src="/sales-pages/provedor-v2/selo-lock.png" alt="" />
+              <img src="/sales-pages/provedor-v2/selo-lock.png" alt="" loading="lazy" />
             </span>
             <p className="v2-nova-selo-text">
               Privacidade

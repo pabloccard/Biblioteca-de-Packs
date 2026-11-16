@@ -115,7 +115,7 @@ export default function CarrosselSection() {
 
       <div className="v2-carrossel-content">
         {/* Título — cor verde #D4FF5E */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--green">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
@@ -128,18 +128,18 @@ export default function CarrosselSection() {
         </div>
 
         {/* Carrossel de artes — infinito, full width, draggable */}
-        <div ref={containerRef} className="v2-carousel-track-container v2-reveal v2-delay-1">
+        <div ref={containerRef} className="v2-carousel-track-container">
           <div ref={trackRef} className="v2-carousel-track">
             {duplicated.map((src, i) => (
               <div key={i} className="v2-carousel-card">
-                <img src={src} alt={`Arte ${(i % CARROSSEL_ARTES.length) + 1}`} />
+                <img src={src} alt={`Arte ${(i % CARROSSEL_ARTES.length) + 1}`} loading="lazy" />
               </div>
             ))}
           </div>
         </div>
 
         {/* Descrição */}
-        <p className="v2-section-desc v2-reveal v2-delay-2">
+        <p className="v2-section-desc">
           A parte mais pesada do design já foi resolvida para você. Toda a
           direção visual, equilíbrio de cores e organização de informações já
           estão prontos: basta aplicar sua marca ou pedir finalizado.

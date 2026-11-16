@@ -7,7 +7,7 @@ export default function SuporteSection() {
 
       <div className="v2-suporte-content">
         {/* Título com Badge */}
-        <div className="v2-section-title-block v2-reveal">
+        <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--blue" />
             <span className="v2-badge-text">Precisa de ajuda?</span>
@@ -19,16 +19,17 @@ export default function SuporteSection() {
         </div>
 
         {/* Banner WhatsApp */}
-        <div className="v2-suporte-banner-wrapper v2-reveal-scale v2-delay-1">
+        <div className="v2-suporte-banner-wrapper">
           <img
             src="/sales-pages/provedor-v2/suporte-banner.webp"
             alt="Suporte pelo WhatsApp"
             className="v2-suporte-banner"
+            loading="lazy"
           />
         </div>
 
         {/* Descrição */}
-        <p className="v2-section-desc v2-reveal v2-delay-2">
+        <p className="v2-section-desc">
           Nada de robôs ou e-mails sem resposta. Tanto para tirar dúvidas rápidas
           na opção <strong>Eu mesmo quero editar</strong> quanto para alinhar os
           dados do seu provedor na opção <strong>Quero pronto para postar</strong>
