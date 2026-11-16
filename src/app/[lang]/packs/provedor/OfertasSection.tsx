@@ -33,6 +33,11 @@ const CTA_DATA = {
   pronto: 'Quero pronto para postar',
 }
 
+const CHECKOUT_LINKS: Record<OfferOption, string> = {
+  editavel: 'https://pay.hotmart.com/L108519462J?checkoutMode=10',
+  pronto: 'https://pay.hotmart.com/O108520110I?checkoutMode=10',
+}
+
 function RadioCircle({ selected }: { selected: boolean }) {
   return (
     <div className="v2-nova-offer-radio">
@@ -186,7 +191,12 @@ export default function OfertasSection() {
           </div>
 
           {/* Botão CTA */}
-          <a href="#" className="v2-nova-cta-btn">
+          <a
+            href={CHECKOUT_LINKS[selected]}
+            className="v2-nova-cta-btn"
+            target={CHECKOUT_LINKS[selected] !== '#' ? '_blank' : undefined}
+            rel={CHECKOUT_LINKS[selected] !== '#' ? 'noopener noreferrer' : undefined}
+          >
             <span className="v2-nova-cta-btn-text v2-cta-text-fade" key={`cta-${selected}`}>
               {CTA_DATA[selected]}
             </span>

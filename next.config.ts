@@ -39,6 +39,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/:lang/packs/provedor-v2',
+        destination: '/:lang/packs/provedor',
+        permanent: true,
+      },
+      {
+        source: '/packs/provedor-v2',
+        destination: '/packs/provedor',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -90,23 +90,44 @@ export async function POST(request: Request) {
       .is('parent_pack_id', null)
       .single()
 
-    // Se não encontrou como pack principal, tentar como complemento
-    let complement: { id: string; pack_id: string; type: string; hotmart_id: string } | null = null
+    // Se não encontrou como pack principal, tentar como complemento (verificando ID principal e secundário)
+    let complement: { id: string; pack_id: string; type: string; hotmart_id: string | null; hotmart_id_secondary?: string | null } | null = null
     let complementParentPack: { id: string; name: string; language: string } | null = null
 
     if (!pack) {
+      // 1. Match direto por hotmart_id ou hotmart_id_secondary
       const { data: comp } = await supabaseAdmin
         .from('pack_complements')
-        .select('id, pack_id, type, hotmart_id')
-        .eq('hotmart_id', productId)
-        .single()
+        .select('id, pack_id, type, hotmart_id, hotmart_id_secondary')
+        .or(`hotmart_id.eq.${productId},hotmart_id_secondary.eq.${productId}`)
+        .maybeSingle()
 
-      if (comp) {
-        complement = comp
+      let matchedComp = comp
+
+      // 2. Fallback: caso haja múltiplos IDs separados por vírgula ou espaço
+      if (!matchedComp) {
+        const { data: potentialComps } = await supabaseAdmin
+          .from('pack_complements')
+          .select('id, pack_id, type, hotmart_id, hotmart_id_secondary')
+          .or(`hotmart_id.ilike.%${productId}%,hotmart_id_secondary.ilike.%${productId}%`)
+
+        if (potentialComps && potentialComps.length > 0) {
+          matchedComp = potentialComps.find(c => {
+            const ids = [
+              ...(c.hotmart_id ? c.hotmart_id.split(/[\s,;/]+/) : []),
+              ...(c.hotmart_id_secondary ? c.hotmart_id_secondary.split(/[\s,;/]+/) : []),
+            ].map(s => s.trim())
+            return ids.includes(productId)
+          }) || null
+        }
+      }
+
+      if (matchedComp) {
+        complement = matchedComp
         const { data: parentPack } = await supabaseAdmin
           .from('packs')
           .select('id, name, language')
-          .eq('id', comp.pack_id)
+          .eq('id', matchedComp.pack_id)
           .single()
         complementParentPack = parentPack
       }
@@ -128,12 +149,30 @@ export async function POST(request: Request) {
 
       // Handle legacy child pack as complement purchase
       if (legacyPack.parent_pack_id) {
-        const { data: comp } = await supabaseAdmin
+        let { data: comp } = await supabaseAdmin
           .from('pack_complements')
-          .select('id, pack_id, type, hotmart_id')
+          .select('id, pack_id, type, hotmart_id, hotmart_id_secondary')
           .eq('pack_id', legacyPack.parent_pack_id)
-          .eq('hotmart_id', productId)
-          .single()
+          .or(`hotmart_id.eq.${productId},hotmart_id_secondary.eq.${productId}`)
+          .maybeSingle()
+
+        if (!comp) {
+          const { data: potentialComps } = await supabaseAdmin
+            .from('pack_complements')
+            .select('id, pack_id, type, hotmart_id, hotmart_id_secondary')
+            .eq('pack_id', legacyPack.parent_pack_id)
+            .or(`hotmart_id.ilike.%${productId}%,hotmart_id_secondary.ilike.%${productId}%`)
+
+          if (potentialComps && potentialComps.length > 0) {
+            comp = potentialComps.find(c => {
+              const ids = [
+                ...(c.hotmart_id ? c.hotmart_id.split(/[\s,;/]+/) : []),
+                ...(c.hotmart_id_secondary ? c.hotmart_id_secondary.split(/[\s,;/]+/) : []),
+              ].map(s => s.trim())
+              return ids.includes(productId)
+            }) || null
+          }
+        }
 
         if (comp) {
           complement = comp
@@ -156,8 +195,12 @@ export async function POST(request: Request) {
     const effectivePack = pack || complementParentPack
     const effectivePackId = isComplementPurchase ? complement!.pack_id : pack!.id
 
+    const matchedSource = complement
+      ? (complement.hotmart_id === productId ? 'ID principal' : 'ID secundário')
+      : 'ID principal'
+
     console.log(isComplementPurchase
-      ? `🔗 Webhook: productId=${productId} → complemento ${complement!.type} do pack "${effectivePack?.name}"`
+      ? `🔗 Webhook: productId=${productId} → complemento ${complement!.type} do pack "${effectivePack?.name}" (${matchedSource})`
       : `🔗 Webhook: productId=${productId} → pack_id=${pack!.id} (${pack!.name})`
     )
 

@@ -63,6 +63,7 @@ export interface PackComplement {
   pack_id: string
   type: 'stories' | 'custom'
   hotmart_id: string | null
+  hotmart_id_secondary?: string | null
   buy_link: string | null
   price: number | null
   is_active: boolean
@@ -371,6 +372,7 @@ export default function EditPackForm({
     id: existingStoriesComp?.id,
     is_active: existingStoriesComp ? existingStoriesComp.is_active : false,
     hotmart_id: existingStoriesComp?.hotmart_id || '',
+    hotmart_id_secondary: existingStoriesComp?.hotmart_id_secondary || '',
     buy_link: existingStoriesComp?.buy_link || '',
     price: existingStoriesComp?.price != null ? String(existingStoriesComp.price) : '',
   })
@@ -379,6 +381,7 @@ export default function EditPackForm({
     id: existingCustomComp?.id,
     is_active: existingCustomComp ? existingCustomComp.is_active : false,
     hotmart_id: existingCustomComp?.hotmart_id || '',
+    hotmart_id_secondary: existingCustomComp?.hotmart_id_secondary || '',
     buy_link: existingCustomComp?.buy_link || '',
     price: existingCustomComp?.price != null ? String(existingCustomComp.price) : '',
   })
@@ -430,6 +433,7 @@ export default function EditPackForm({
           id: storiesComplement.id,
           is_active: storiesComplement.is_active,
           hotmart_id: storiesComplement.hotmart_id,
+          hotmart_id_secondary: storiesComplement.hotmart_id_secondary,
           buy_link: storiesComplement.buy_link,
           price: storiesComplement.price,
         },
@@ -437,6 +441,7 @@ export default function EditPackForm({
           id: customComplement.id,
           is_active: customComplement.is_active,
           hotmart_id: customComplement.hotmart_id,
+          hotmart_id_secondary: customComplement.hotmart_id_secondary,
           buy_link: customComplement.buy_link,
           price: customComplement.price,
         },
@@ -797,7 +802,7 @@ export default function EditPackForm({
 
                 <div style={{ opacity: customComplement.is_active ? 1 : 0.45, transition: 'opacity 0.2s ease', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div className="input-group">
-                    <label style={{ fontSize: '0.8rem' }}>ID na Hotmart (Personalização) *</label>
+                    <label style={{ fontSize: '0.8rem' }}>ID na Hotmart (Principal) *</label>
                     <input
                       type="text"
                       className="input-field"
@@ -805,6 +810,20 @@ export default function EditPackForm({
                       onChange={e => setCustomComplement(prev => ({ ...prev, hotmart_id: e.target.value }))}
                       placeholder="Ex: 7654321 (usado para criar o pedido via webhook)"
                     />
+                  </div>
+
+                  <div className="input-group">
+                    <label style={{ fontSize: '0.8rem' }}>ID Secundário na Hotmart (Opcional)</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={customComplement.hotmart_id_secondary}
+                      onChange={e => setCustomComplement(prev => ({ ...prev, hotmart_id_secondary: e.target.value }))}
+                      placeholder="Ex: 108520110 (para vendas vindas de outro checkout/oferta)"
+                    />
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      Permite que compras vindas de um 2º ID da Hotmart liberem a personalização automaticamente.
+                    </span>
                   </div>
 
                   <div className="input-group">

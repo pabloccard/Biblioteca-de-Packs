@@ -17,7 +17,7 @@ export default async function WebhookTestPage() {
       .order('name'),
     supabase
       .from('pack_complements')
-      .select('id, pack_id, type, hotmart_id, packs(id, name, version)')
+      .select('id, pack_id, type, hotmart_id, hotmart_id_secondary, packs(id, name, version)')
       .eq('is_active', true)
       .order('type'),
   ])

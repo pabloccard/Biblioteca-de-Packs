@@ -1,15 +1,29 @@
 import type { Metadata } from 'next'
-import { Urbanist } from 'next/font/google'
+import { Urbanist, Sora } from 'next/font/google'
 import HeroSection from './HeroSection'
-import ArtesSection from './ArtesSection'
-import CoresSection from './CoresSection'
-import './provedor.css'
+import CarrosselSection from './CarrosselSection'
+import VersoesSection from './VersoesSection'
+import FaixaSection from './FaixaSection'
+import EditeSection from './EditeSection'
+import PersonalizeSection from './PersonalizeSection'
+import FeedbacksSection from './FeedbacksSection'
+import OfertasSection from './OfertasSection'
+import SuporteSection from './SuporteSection'
+import FaqSection from './FaqSection'
+import './vendas.css'
 
 const urbanist = Urbanist({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-urbanist',
+})
+
+const sora = Sora({
+  subsets: ['latin'],
+  weight: ['300', '400'],
+  display: 'swap',
+  variable: '--font-sora',
 })
 
 export const metadata: Metadata = {
@@ -26,12 +40,49 @@ export default async function ProvedorSalesPage({
   const { lang } = await params
 
   return (
-    <main className={`provedor-sales-page ${urbanist.className} ${urbanist.variable}`}>
-      <div className="provedor-container">
+    <main className={`vendas-page ${urbanist.className} ${urbanist.variable} ${sora.variable}`}>
+      <div className="vendas-container">
+        {/* 1. HERO */}
         <HeroSection />
-        <ArtesSection />
-        <CoresSection />
-        {/* As próximas seções serão adicionadas aqui uma a uma */}
+
+        {/* 2. CARROSSEL DE ARTES */}
+        <CarrosselSection />
+
+        {/* 3. VERSÕES DE CORES */}
+        <VersoesSection />
+
+        {/* FAIXA: CANVA E PHOTOSHOP */}
+        <FaixaSection
+          text="CANVA E PHOTOSHOP • CANVA E PHOTOSHOP • CANVA E PHOTOSHOP • CANVA E PHOTOSHOP"
+          variant="light"
+        />
+
+        {/* 4. EDITE ONDE QUISER */}
+        <EditeSection />
+
+        {/* 5. PERSONALIZE (Passos 1-2-3) */}
+        <PersonalizeSection />
+
+        {/* FAIXA: FEEDBACKS */}
+        <FaixaSection text="FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS" />
+
+        {/* 6. FEEDBACKS */}
+        <FeedbacksSection />
+
+        {/* 7. OFERTAS (Preços + CTA) */}
+        <OfertasSection />
+
+        {/* 8. SUPORTE WHATSAPP */}
+        <SuporteSection />
+
+        {/* FAIXA: PERGUNTAS FREQUENTES */}
+        <FaixaSection
+          text="PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES"
+          variant="light"
+        />
+
+        {/* 9. FAQ (PERGUNTAS FREQUENTES) */}
+        <FaqSection />
       </div>
     </main>
   )

@@ -323,6 +323,7 @@ interface ComplementsInput {
     id?: string
     is_active: boolean
     hotmart_id?: string
+    hotmart_id_secondary?: string
     buy_link?: string
     price?: number | string | null
   }
@@ -330,6 +331,7 @@ interface ComplementsInput {
     id?: string
     is_active: boolean
     hotmart_id?: string
+    hotmart_id_secondary?: string
     buy_link?: string
     price?: number | string | null
   }
@@ -436,15 +438,17 @@ async function savePackVersionsAndComplements(
           await supabase.from('pack_complements').update({
             is_active: !!s.is_active,
             hotmart_id: s.hotmart_id?.trim() || null,
+            hotmart_id_secondary: s.hotmart_id_secondary?.trim() || null,
             buy_link: s.buy_link?.trim() || null,
             price: isNaN(priceNum as number) ? null : priceNum,
           }).eq('id', existingStories.id)
-        } else if (s.is_active || s.hotmart_id || s.buy_link) {
+        } else if (s.is_active || s.hotmart_id || s.hotmart_id_secondary || s.buy_link) {
           await supabase.from('pack_complements').insert({
             pack_id: packId,
             type: 'stories',
             is_active: !!s.is_active,
             hotmart_id: s.hotmart_id?.trim() || null,
+            hotmart_id_secondary: s.hotmart_id_secondary?.trim() || null,
             buy_link: s.buy_link?.trim() || null,
             price: isNaN(priceNum as number) ? null : priceNum,
             display_order: 1,
@@ -467,15 +471,17 @@ async function savePackVersionsAndComplements(
           await supabase.from('pack_complements').update({
             is_active: !!c.is_active,
             hotmart_id: c.hotmart_id?.trim() || null,
+            hotmart_id_secondary: c.hotmart_id_secondary?.trim() || null,
             buy_link: c.buy_link?.trim() || null,
             price: isNaN(priceNum as number) ? null : priceNum,
           }).eq('id', existingCustom.id)
-        } else if (c.is_active || c.hotmart_id || c.buy_link) {
+        } else if (c.is_active || c.hotmart_id || c.hotmart_id_secondary || c.buy_link) {
           await supabase.from('pack_complements').insert({
             pack_id: packId,
             type: 'custom',
             is_active: !!c.is_active,
             hotmart_id: c.hotmart_id?.trim() || null,
+            hotmart_id_secondary: c.hotmart_id_secondary?.trim() || null,
             buy_link: c.buy_link?.trim() || null,
             price: isNaN(priceNum as number) ? null : priceNum,
             display_order: 2,

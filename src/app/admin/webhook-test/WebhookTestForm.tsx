@@ -15,6 +15,7 @@ interface Complement {
   pack_id: string
   type: 'stories' | 'custom'
   hotmart_id: string | null
+  hotmart_id_secondary?: string | null
   packs: { id: string; name: string; version: string } | any
 }
 
@@ -27,14 +28,16 @@ export default function WebhookTestForm({ packs, complements }: WebhookTestFormP
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [whatsapp, setWhatsapp] = useState('')
-  const [selectedKey, setSelectedKey] = useState('') // 'pack:ID' ou 'comp:ID'
+  const [selectedKey, setSelectedKey] = useState('') // 'pack:ID' ou 'comp:ID' ou 'comp:ID:secondary'
   const [status, setStatus] = useState('APPROVED')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<{ success: boolean; data: string } | null>(null)
 
   const isPack = selectedKey.startsWith('pack:')
   const isComplement = selectedKey.startsWith('comp:')
-  const selectedId = selectedKey.replace(/^(pack|comp):/, '')
+  const parts = selectedKey.split(':')
+  const selectedId = parts[1] || ''
+  const selectedVariant = parts[2] || 'primary'
 
   const selectedPack = isPack ? packs.find(p => p.id === selectedId) : null
   const selectedComplement = isComplement ? complements.find(c => c.id === selectedId) : null
@@ -42,13 +45,13 @@ export default function WebhookTestForm({ packs, complements }: WebhookTestFormP
   const selectedHotmartId = selectedPack
     ? selectedPack.hotmart_id
     : selectedComplement
-      ? selectedComplement.hotmart_id
+      ? (selectedVariant === 'secondary' ? selectedComplement.hotmart_id_secondary : selectedComplement.hotmart_id)
       : null
 
   const selectedItemLabel = selectedPack
     ? `Pack: ${selectedPack.name} (${selectedPack.version || '1.0'})`
     : selectedComplement
-      ? `Complemento: ${selectedComplement.type === 'stories' ? '📱 Stories' : '👑 Personalizado'} — ${selectedComplement.packs?.name || 'Pack vinculado'}`
+      ? `Complemento: ${selectedComplement.type === 'stories' ? '📱 Stories' : '👑 Personalizado'} — ${selectedComplement.packs?.name || 'Pack vinculado'}${selectedVariant === 'secondary' ? ' (ID Secundário)' : ''}`
       : null
 
   async function handleTest() {
@@ -183,11 +186,27 @@ export default function WebhookTestForm({ packs, complements }: WebhookTestFormP
                   </optgroup>
 
                   <optgroup label="✨ Complementos (Stories / Personalizado)">
-                    {complements.map(c => (
-                      <option key={`comp:${c.id}`} value={`comp:${c.id}`}>
-                        {c.type === 'stories' ? '📱 [Stories]' : '👑 [Personalizado]'} — {c.packs?.name} ({c.packs?.version || '1.0'}) {c.hotmart_id ? `— Hotmart ID: ${c.hotmart_id}` : '— (sem Hotmart ID)'}
-                      </option>
-                    ))}
+                    {complements.flatMap(c => {
+                      const compLabel = c.type === 'stories' ? '📱 [Stories]' : '👑 [Personalizado]'
+                      const packName = `${c.packs?.name || 'Pack'} (${c.packs?.version || '1.0'})`
+
+                      if (c.hotmart_id_secondary) {
+                        return [
+                          <option key={`comp:${c.id}:primary`} value={`comp:${c.id}:primary`}>
+                            {compLabel} — {packName} — ID Principal: {c.hotmart_id || '(não informado)'}
+                          </option>,
+                          <option key={`comp:${c.id}:secondary`} value={`comp:${c.id}:secondary`}>
+                            {compLabel} — {packName} — ID Secundário: {c.hotmart_id_secondary}
+                          </option>,
+                        ]
+                      }
+
+                      return (
+                        <option key={`comp:${c.id}:primary`} value={`comp:${c.id}:primary`}>
+                          {compLabel} — {packName} {c.hotmart_id ? `— Hotmart ID: ${c.hotmart_id}` : '— (sem Hotmart ID)'}
+                        </option>
+                      )
+                    })}
                   </optgroup>
                 </select>
               </div>

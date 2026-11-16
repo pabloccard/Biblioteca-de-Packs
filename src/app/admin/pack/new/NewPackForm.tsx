@@ -159,6 +159,7 @@ export default function NewPackForm({ categories }: Props) {
   const [storiesComplement, setStoriesComplement] = useState({
     is_active: false,
     hotmart_id: '',
+    hotmart_id_secondary: '',
     buy_link: '',
     price: '',
   })
@@ -166,6 +167,7 @@ export default function NewPackForm({ categories }: Props) {
   const [customComplement, setCustomComplement] = useState({
     is_active: false,
     hotmart_id: '',
+    hotmart_id_secondary: '',
     buy_link: '',
     price: '',
   })
@@ -563,7 +565,7 @@ export default function NewPackForm({ categories }: Props) {
 
                 <div style={{ opacity: customComplement.is_active ? 1 : 0.45, transition: 'opacity 0.2s ease', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <div className="input-group">
-                    <label style={{ fontSize: '0.8rem' }}>ID na Hotmart (Personalização) *</label>
+                    <label style={{ fontSize: '0.8rem' }}>ID na Hotmart (Principal) *</label>
                     <input
                       type="text"
                       className="input-field"
@@ -571,6 +573,20 @@ export default function NewPackForm({ categories }: Props) {
                       onChange={e => setCustomComplement(prev => ({ ...prev, hotmart_id: e.target.value }))}
                       placeholder="Ex: 7654321"
                     />
+                  </div>
+
+                  <div className="input-group">
+                    <label style={{ fontSize: '0.8rem' }}>ID Secundário na Hotmart (Opcional)</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={customComplement.hotmart_id_secondary}
+                      onChange={e => setCustomComplement(prev => ({ ...prev, hotmart_id_secondary: e.target.value }))}
+                      placeholder="Ex: 108520110 (para vendas vindas de outro checkout/oferta)"
+                    />
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      Permite que compras vindas de um 2º ID da Hotmart liberem a personalização automaticamente.
+                    </span>
                   </div>
 
                   <div className="input-group">

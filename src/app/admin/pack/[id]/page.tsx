@@ -228,7 +228,10 @@ export default async function AdminPackViewPage({ params }: Props) {
                 </div>
               </div>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div>Hotmart ID: <code className="admin-code">{customComp?.hotmart_id || 'Não informado'}</code></div>
+                <div>Hotmart ID (Principal): <code className="admin-code">{customComp?.hotmart_id || 'Não informado'}</code></div>
+                {customComp?.hotmart_id_secondary && (
+                  <div>Hotmart ID (Secundário): <code className="admin-code">{customComp.hotmart_id_secondary}</code></div>
+                )}
                 <div>Preço: <strong>{customComp?.price ? `R$ ${customComp.price}` : 'Não informado'}</strong></div>
                 {customComp?.buy_link && (
                   <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
