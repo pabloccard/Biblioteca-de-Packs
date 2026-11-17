@@ -61,7 +61,7 @@ function RadioCircle({ selected }: { selected: boolean }) {
 }
 
 export default function OfertasSection() {
-  const [selected, setSelected] = useState<OfferOption>('pronto')
+  const [selected, setSelected] = useState<OfferOption>('editavel')
 
   const benefits = selected === 'editavel' ? BENEFITS_EDITAVEL : BENEFITS_PRONTO
   const isEditavelSelected = selected === 'editavel'
