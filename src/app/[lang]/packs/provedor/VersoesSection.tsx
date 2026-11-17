@@ -120,8 +120,8 @@ export default function VersoesSection() {
             </span>
           </div>
           <h2 className="v2-section-title">
-            Receba o pack em <span className="v2-highlight">15 versões</span>{' '}
-            de cores.
+            Receba o pack em <br />
+            <span className="v2-highlight" style={{ whiteSpace: 'nowrap' }}>10 versões</span> de cores.
           </h2>
         </div>
 
@@ -143,7 +143,7 @@ export default function VersoesSection() {
         {/* Descrição */}
         <p className="v2-versoes-desc">
           Recolorir uma arte cheia de efeitos dá trabalho. Por isso, já
-          preparamos <span className="v2-highlight">15 versões</span> com as
+          preparamos <span className="v2-highlight">10 versões</span> com as
           principais cores do mercado para você ter opções prontas de uso.
         </p>
       </div>

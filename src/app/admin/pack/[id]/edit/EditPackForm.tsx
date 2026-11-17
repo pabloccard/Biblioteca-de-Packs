@@ -13,6 +13,12 @@ interface DriveArtItem {
   name: string
   thumbnailUrl: string
 }
+export interface ArtCustomField {
+  id: string
+  label: string
+  placeholder?: string
+}
+
 interface Pack {
   id: string
   hotmart_id: string
@@ -29,6 +35,7 @@ interface Pack {
   drive_arts_folder_id?: string | null
   arts_folder: string | null
   art_captions: Record<string, string> | null
+  art_custom_fields?: Record<string, ArtCustomField[]> | null
 }
 
 interface ParentPackOption { id: string; name: string }
@@ -201,6 +208,67 @@ export default function EditPackForm({
     }
     return captions
   })
+
+  // Campos de personalização por arte
+  const [artCustomFields, setArtCustomFields] = useState<Record<string, ArtCustomField[]>>(() => {
+    return (pack.art_custom_fields as Record<string, ArtCustomField[]>) || {}
+  })
+  const [editingFieldsArtNum, setEditingFieldsArtNum] = useState<number | null>(null)
+  const [tempCustomFields, setTempCustomFields] = useState<ArtCustomField[]>([])
+  const [copyFromArtNum, setCopyFromArtNum] = useState<string>('')
+
+  function handleOpenFieldsModal(num: number) {
+    setEditingFieldsArtNum(num)
+    const existing = artCustomFields[String(num)] || []
+    setTempCustomFields(JSON.parse(JSON.stringify(existing)))
+    setCopyFromArtNum('')
+  }
+
+  function handleSaveFieldsModal() {
+    if (editingFieldsArtNum !== null) {
+      const cleaned = tempCustomFields
+        .map(f => ({ ...f, label: f.label.trim(), placeholder: f.placeholder?.trim() || '' }))
+        .filter(f => f.label.length > 0)
+
+      setArtCustomFields(prev => {
+        const copy = { ...prev }
+        if (cleaned.length > 0) {
+          copy[String(editingFieldsArtNum)] = cleaned
+        } else {
+          delete copy[String(editingFieldsArtNum)]
+        }
+        return copy
+      })
+    }
+    setEditingFieldsArtNum(null)
+  }
+
+  function handleAddFieldToModal() {
+    setTempCustomFields(prev => [
+      ...prev,
+      {
+        id: `field_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        label: '',
+        placeholder: '',
+      },
+    ])
+  }
+
+  function handleRemoveFieldFromModal(idx: number) {
+    setTempCustomFields(prev => prev.filter((_, i) => i !== idx))
+  }
+
+  function handleCopyFieldsFromOtherArt(targetNumStr: string) {
+    if (!targetNumStr) return
+    const source = artCustomFields[targetNumStr] || []
+    if (source.length > 0) {
+      setTempCustomFields(source.map(f => ({
+        ...f,
+        id: `field_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      })))
+    }
+  }
+
   const [hasCover, setHasCover] = useState(false)
   const [scanLoading, setScanLoading] = useState(false)
   const [scanError, setScanError] = useState<string | null>(null)
@@ -397,6 +465,7 @@ export default function EditPackForm({
 
     formData.set('arts_folder', artsFolder.trim())
     formData.set('local_art_captions', JSON.stringify(localArtCaptions))
+    formData.set('art_custom_fields', JSON.stringify(artCustomFields))
 
     const sectionsData = {
       subsections: [],
@@ -1113,6 +1182,48 @@ export default function EditPackForm({
                             }}
                           />
                         </div>
+
+                        {/* Botão para Configurar Inputs de Personalização da Arte */}
+                        {(() => {
+                          const fieldsCount = (artCustomFields[String(num)] || []).length
+                          return (
+                            <button
+                              type="button"
+                              onClick={() => handleOpenFieldsModal(num)}
+                              style={{
+                                marginTop: '8px',
+                                padding: '8px 10px',
+                                borderRadius: '8px',
+                                border: fieldsCount > 0 ? '1px solid rgba(168, 85, 247, 0.45)' : '1px solid rgba(255, 255, 255, 0.1)',
+                                background: fieldsCount > 0 ? 'rgba(168, 85, 247, 0.12)' : 'rgba(255, 255, 255, 0.03)',
+                                color: fieldsCount > 0 ? '#d8b4fe' : 'var(--text-muted)',
+                                fontSize: '0.78rem',
+                                fontWeight: 600,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                              }}
+                              title="Configurar inputs de personalização para esta arte"
+                            >
+                              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <span>⚙️</span> Personalização
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: '0.7rem',
+                                  padding: '2px 6px',
+                                  borderRadius: '6px',
+                                  background: fieldsCount > 0 ? 'rgba(168, 85, 247, 0.25)' : 'rgba(255, 255, 255, 0.06)',
+                                  color: fieldsCount > 0 ? '#f3e8ff' : '#71717a',
+                                }}
+                              >
+                                {fieldsCount > 0 ? `✓ ${fieldsCount} input(s)` : 'Sem campos'}
+                              </span>
+                            </button>
+                          )
+                        })()}
                       </div>
                     </div>
                   )
@@ -1120,6 +1231,217 @@ export default function EditPackForm({
               </div>
             )}
           </div>
+
+          {/* Modal de Configuração de Campos de Personalização */}
+          {editingFieldsArtNum !== null && (
+            <div
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'rgba(0, 0, 0, 0.75)',
+                backdropFilter: 'blur(6px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 9999,
+                padding: '16px',
+              }}
+              onClick={() => setEditingFieldsArtNum(null)}
+            >
+              <div
+                style={{
+                  background: '#121214',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '16px',
+                  width: '100%',
+                  maxWidth: '560px',
+                  maxHeight: '85vh',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+                }}
+                onClick={e => e.stopPropagation()}
+              >
+                {/* Modal Header */}
+                <div style={{ padding: '18px 22px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#fff', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span>⚙️</span> Inputs da Arte #{editingFieldsArtNum}
+                    </h3>
+                    <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      Defina os campos que o cliente poderá preencher no formulário para esta arte.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditingFieldsArtNum(null)}
+                    style={{ background: 'transparent', border: 'none', color: '#a1a1aa', fontSize: '1.2rem', cursor: 'pointer', padding: '4px 8px' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div style={{ padding: '20px 22px', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ padding: '10px 14px', background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.2)', borderRadius: '8px', fontSize: '0.78rem', color: '#93c5fd', lineHeight: 1.4 }}>
+                    💡 <strong>Regra:</strong> Se você não adicionar nenhum campo aqui, esta arte será marcada como <em>sem alteração de texto</em> para o cliente. Não haverá campo para observações genéricas.
+                  </div>
+
+                  {/* Opção para copiar de outra arte */}
+                  {(() => {
+                    const artsWithFields = Object.keys(artCustomFields).filter(
+                      k => k !== String(editingFieldsArtNum) && (artCustomFields[k] || []).length > 0
+                    )
+                    if (artsWithFields.length === 0) return null
+                    return (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                          📋 Copiar de:
+                        </span>
+                        <select
+                          className="input-field"
+                          value={copyFromArtNum}
+                          onChange={e => setCopyFromArtNum(e.target.value)}
+                          style={{ fontSize: '0.8rem', padding: '4px 8px', flex: 1 }}
+                        >
+                          <option value="">Selecione outra arte...</option>
+                          {artsWithFields.map(artK => (
+                            <option key={artK} value={artK}>
+                              Arte #{artK} ({artCustomFields[artK].length} campos)
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          type="button"
+                          className="btn-admin-secondary"
+                          disabled={!copyFromArtNum}
+                          onClick={() => handleCopyFieldsFromOtherArt(copyFromArtNum)}
+                          style={{ fontSize: '0.78rem', padding: '5px 10px', whiteSpace: 'nowrap' }}
+                        >
+                          Aplicar
+                        </button>
+                      </div>
+                    )
+                  })()}
+
+                  {/* Lista de campos */}
+                  {tempCustomFields.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '24px 16px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '10px', border: '1px dashed rgba(255, 255, 255, 0.1)' }}>
+                      <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: '0 0 12px 0' }}>
+                        Nenhum input configurado para esta arte.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={handleAddFieldToModal}
+                        className="btn-admin-primary"
+                        style={{ fontSize: '0.82rem' }}
+                      >
+                        + Adicionar Primeiro Input
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {tempCustomFields.map((field, idx) => (
+                        <div
+                          key={field.id || idx}
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.03)',
+                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            borderRadius: '10px',
+                            padding: '12px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px',
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c084fc' }}>
+                              Input #{idx + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveFieldFromModal(idx)}
+                              style={{ background: 'transparent', border: 'none', color: '#ef4444', fontSize: '0.8rem', cursor: 'pointer', padding: '2px 6px' }}
+                              title="Remover este campo"
+                            >
+                              🗑️ Remover
+                            </button>
+                          </div>
+
+                          <div>
+                            <label style={{ display: 'block', fontSize: '0.75rem', color: '#e4e4e7', marginBottom: '4px', fontWeight: 600 }}>
+                              Rótulo / Label (o que o cliente verá) *
+                            </label>
+                            <input
+                              type="text"
+                              className="input-field"
+                              value={field.label}
+                              onChange={e => {
+                                const v = e.target.value
+                                setTempCustomFields(prev => prev.map((f, i) => (i === idx ? { ...f, label: v } : f)))
+                              }}
+                              placeholder="Ex: Plano 1 (Mega e Preço), Preço em Destaque, etc."
+                              style={{ fontSize: '0.84rem' }}
+                            />
+                          </div>
+
+                          <div>
+                            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                              Exemplo / Placeholder (Opcional)
+                            </label>
+                            <input
+                              type="text"
+                              className="input-field"
+                              value={field.placeholder || ''}
+                              onChange={e => {
+                                const v = e.target.value
+                                setTempCustomFields(prev => prev.map((f, i) => (i === idx ? { ...f, placeholder: v } : f)))
+                              }}
+                              placeholder="Ex: 400 Mega por R$ 79,90"
+                              style={{ fontSize: '0.84rem' }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={handleAddFieldToModal}
+                        className="btn-admin-secondary"
+                        style={{ fontSize: '0.82rem', alignSelf: 'flex-start', marginTop: '4px' }}
+                      >
+                        + Adicionar Outro Input
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Modal Footer */}
+                <div style={{ padding: '14px 22px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', background: 'rgba(0, 0, 0, 0.25)', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setEditingFieldsArtNum(null)}
+                    className="btn-admin-secondary"
+                    style={{ fontSize: '0.85rem' }}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveFieldsModal}
+                    className="btn-admin-primary"
+                    style={{ fontSize: '0.85rem', background: '#9333ea', borderColor: '#a855f7' }}
+                  >
+                    Salvar Inputs da Arte #{editingFieldsArtNum}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* BOTÃO SALVAR */}
           <button type="submit" className="btn-primary btn-submit" disabled={loading} style={{ marginTop: '24px', padding: '14px 28px', fontSize: '1rem', fontWeight: 700 }}>

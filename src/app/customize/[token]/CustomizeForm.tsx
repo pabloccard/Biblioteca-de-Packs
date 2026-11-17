@@ -5,6 +5,12 @@ import { motion, AnimatePresence } from 'motion/react'
 import { submitCustomizationAction } from '@/app/admin/customization-actions'
 import ModalProgressiveImage from '@/components/ModalProgressiveImage'
 
+export interface ArtCustomField {
+  id: string
+  label: string
+  placeholder?: string
+}
+
 interface Art {
   id: string
   file_name: string
@@ -12,11 +18,13 @@ interface Art {
   thumbnail_url: string | null
   display_order: number
   client_instructions?: string | null
+  client_inputs?: Record<string, string> | null
 }
 
 interface CustomizeFormProps {
   accessToken: string
   arts: Art[]
+  artCustomFields?: Record<string, ArtCustomField[]>
   packName: string
   coverImage: string
   clientFirstName: string
@@ -93,10 +101,12 @@ const successVariants = {
 function ArtGridCard({
   art,
   isFilled,
+  hasFields,
   onClick,
 }: {
   art: Art
   isFilled: boolean
+  hasFields: boolean
   onClick: () => void
 }) {
   const [loaded, setLoaded] = useState(false)
@@ -114,6 +124,7 @@ function ArtGridCard({
       role="button"
       tabIndex={0}
       aria-label={art.file_name}
+      style={{ position: 'relative' }}
     >
       <div className="cust-art-grid-img-wrap">
         {!loaded && !hasError && (
@@ -148,6 +159,27 @@ function ArtGridCard({
         )}
       </div>
 
+      {/* Badge no canto inferior indicando que a arte é padrão (sem textos para alterar) */}
+      {!hasFields && (
+        <span
+          style={{
+            position: 'absolute',
+            bottom: '8px',
+            right: '8px',
+            background: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(4px)',
+            color: '#a1a1aa',
+            fontSize: '0.66rem',
+            fontWeight: 600,
+            padding: '2px 6px',
+            borderRadius: '4px',
+            pointerEvents: 'none',
+          }}
+        >
+          Padrão
+        </span>
+      )}
+
       {/* Checkzinho no canto superior esquerdo com animação fluida de entrada e saída */}
       <AnimatePresence>
         {isFilled && (
@@ -180,6 +212,7 @@ function ArtGridCard({
 export default function CustomizeForm({
   accessToken,
   arts,
+  artCustomFields = {},
   packName,
   coverImage,
   clientFirstName,
@@ -188,6 +221,24 @@ export default function CustomizeForm({
   lang = 'pt',
 }: CustomizeFormProps) {
   const isEs = lang === 'es'
+
+  function getArtNumber(art: Art): number {
+    const numMatch = art.file_name.match(/^(\d+)/) || art.file_name.match(/(\d+)/)
+    return numMatch ? parseInt(numMatch[1], 10) : (art.display_order != null ? art.display_order + 1 : 1)
+  }
+
+  function getFieldsForArt(art: Art): ArtCustomField[] {
+    if (!artCustomFields) return []
+    const num = getArtNumber(art)
+    return (
+      artCustomFields[String(num)] ||
+      artCustomFields[String(art.display_order + 1)] ||
+      artCustomFields[String(art.display_order)] ||
+      artCustomFields[art.file_name] ||
+      artCustomFields[art.file_name.replace(/\.[^.]+$/, '')] ||
+      []
+    )
+  }
 
   const texts = {
     badge: isEs ? 'PERSONALIZACIÓN' : 'PERSONALIZAÇÃO',
@@ -231,12 +282,30 @@ export default function CustomizeForm({
     return initial
   })
 
+  // Valores estruturados dos inputs por arte: { [artId]: { [fieldId]: 'valor' } }
+  const [artFieldValues, setArtFieldValues] = useState<Record<string, Record<string, string>>>(() => {
+    const initial: Record<string, Record<string, string>> = {}
+    for (const art of arts) {
+      if (art.client_inputs && typeof art.client_inputs === 'object') {
+        initial[art.id] = { ...art.client_inputs }
+      }
+    }
+    return initial
+  })
+
   const [generalNotes, setGeneralNotes] = useState(initialGeneralNotes)
   const [editingArt, setEditingArt] = useState<Art | null>(null)
-  const [tempText, setTempText] = useState('')
+  const [tempFieldValues, setTempFieldValues] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(alreadySubmitted)
   const [error, setError] = useState('')
+
+  function isArtFilled(art: Art): boolean {
+    const fields = getFieldsForArt(art)
+    if (fields.length === 0) return false
+    const values = artFieldValues[art.id] || {}
+    return fields.some(f => values[f.id] && values[f.id].trim().length > 0)
+  }
 
   // 1. Persistência de Dados: Recupera rascunho salvo no navegador ao abrir
   useEffect(() => {
@@ -249,6 +318,12 @@ export default function CustomizeForm({
           setInstructions(prev => ({
             ...prev,
             ...parsed.instructions,
+          }))
+        }
+        if (parsed.artFieldValues && typeof parsed.artFieldValues === 'object') {
+          setArtFieldValues(prev => ({
+            ...prev,
+            ...parsed.artFieldValues,
           }))
         }
         if (typeof parsed.generalNotes === 'string' && parsed.generalNotes.trim().length > 0) {
@@ -266,13 +341,14 @@ export default function CustomizeForm({
     try {
       const dataToSave = {
         instructions,
+        artFieldValues,
         generalNotes,
       }
       localStorage.setItem(`cust_draft_${accessToken}`, JSON.stringify(dataToSave))
     } catch (err) {
       console.warn('Erro ao salvar rascunho no localStorage:', err)
     }
-  }, [instructions, generalNotes, accessToken, submitted])
+  }, [instructions, artFieldValues, generalNotes, accessToken, submitted])
 
   // Controla overflow do body para manter o mesmo scroll ao fechar o modal
   useEffect(() => {
@@ -286,27 +362,37 @@ export default function CustomizeForm({
 
   function handleOpenArtModal(art: Art) {
     setEditingArt(art)
-    setTempText(instructions[art.id] || '')
+    const existing = artFieldValues[art.id] || {}
+    setTempFieldValues({ ...existing })
   }
 
   function handleSaveAndCloseArtModal() {
     if (editingArt) {
+      const currentValues = { ...tempFieldValues }
+      setArtFieldValues(prev => ({
+        ...prev,
+        [editingArt.id]: currentValues,
+      }))
+
+      // Formatar instructions legíveis com rótulo e valor
+      const fields = getFieldsForArt(editingArt)
+      const lines: string[] = []
+      for (const f of fields) {
+        const val = currentValues[f.id]?.trim()
+        if (val) {
+          lines.push(`${f.label}: ${val}`)
+        }
+      }
       setInstructions(prev => ({
         ...prev,
-        [editingArt.id]: tempText.trim(),
+        [editingArt.id]: lines.join('\n'),
       }))
     }
     setEditingArt(null)
   }
 
   function handleCloseArtModal() {
-    if (editingArt && tempText.trim() !== (instructions[editingArt.id] || '').trim()) {
-      setInstructions(prev => ({
-        ...prev,
-        [editingArt.id]: tempText.trim(),
-      }))
-    }
-    setEditingArt(null)
+    handleSaveAndCloseArtModal()
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -316,18 +402,27 @@ export default function CustomizeForm({
     setSubmitting(true)
     setError('')
 
+    const payload = arts.map(art => {
+      const fields = getFieldsForArt(art)
+      const values = artFieldValues[art.id] || {}
+      const lines: string[] = []
+      for (const f of fields) {
+        const val = values[f.id]?.trim()
+        if (val) {
+          lines.push(`${f.label}: ${val}`)
+        }
+      }
+      return {
+        art_id: art.id,
+        instructions: lines.join('\n'),
+        inputs: values,
+      }
+    })
+
     const formData = new FormData()
     formData.append('access_token', accessToken)
     formData.append('general_notes', generalNotes.trim())
-    formData.append(
-      'arts_instructions',
-      JSON.stringify(
-        arts.map(art => ({
-          art_id: art.id,
-          instructions: (instructions[art.id] || '').trim(),
-        }))
-      )
-    )
+    formData.append('arts_instructions', JSON.stringify(payload))
 
     try {
       const result = await submitCustomizationAction(formData)
@@ -347,6 +442,9 @@ export default function CustomizeForm({
       setSubmitting(false)
     }
   }
+
+  const modalFields = editingArt ? getFieldsForArt(editingArt) : []
+  const hasModalFields = modalFields.length > 0
 
   return (
     <>
@@ -427,11 +525,14 @@ export default function CustomizeForm({
             ) : (
               <div className="cust-arts-grid">
                 {arts.map((art) => {
-                  const isFilled = (instructions[art.id] || '').trim().length > 0
+                  const fields = getFieldsForArt(art)
+                  const hasFields = fields.length > 0
+                  const isFilled = isArtFilled(art) || (instructions[art.id] || '').trim().length > 0
                   return (
                     <ArtGridCard
                       key={art.id}
                       art={art}
+                      hasFields={hasFields}
                       isFilled={isFilled}
                       onClick={() => handleOpenArtModal(art)}
                     />
@@ -528,39 +629,154 @@ export default function CustomizeForm({
 
               {/* Painel lateral direito no desktop (ou abaixo no mobile) */}
               <div className="custom-art-modal-sidebar cust-briefing-modal-sidebar">
-                <div className="cust-briefing-sidebar-header">
-                  <h3 className="cust-briefing-sidebar-title">
-                    {isEs ? 'Instrucciones para este diseño' : 'Instruções para esta arte'}
-                  </h3>
-                  <p className="cust-briefing-sidebar-desc">
-                    {isEs
-                      ? 'Escribe qué información debe cambiarse: planes, precios, datos de contacto o textos. Si este diseño no necesita cambios, puedes dejarlo vacío.'
-                      : 'Digite quais informações devem ser alteradas: planos, preços, contatos ou textos. Se esta arte não precisar de alterações, pode deixar em branco.'}
-                  </p>
-                </div>
+                {hasModalFields ? (
+                  <>
+                    <div className="cust-briefing-sidebar-header">
+                      <h3 className="cust-briefing-sidebar-title">
+                        {isEs ? 'Información para este diseño' : 'Informações para esta arte'}
+                      </h3>
+                      <p className="cust-briefing-sidebar-desc">
+                        {isEs
+                          ? 'Completa los campos abajo con los textos que deseas en este diseño.'
+                          : 'Preencha os campos abaixo com os textos que deseja nesta arte.'}
+                      </p>
+                    </div>
 
-                {/* Input para as informações */}
-                <div className="cust-modal-input-area">
-                  <textarea
-                    value={tempText}
-                    onChange={e => setTempText(e.target.value)}
-                    placeholder={texts.modalPlaceholder}
-                    className="cust-modal-textarea"
-                    rows={6}
-                    autoFocus
-                  />
-                </div>
+                    {/* Inputs dinâmicos para as informações configuradas */}
+                    <div
+                      className="cust-modal-input-area"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '14px',
+                        maxHeight: '52vh',
+                        overflowY: 'auto',
+                        paddingRight: '4px',
+                        marginBottom: '16px',
+                      }}
+                    >
+                      {modalFields.map((field, idx) => (
+                        <div key={field.id} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          <label
+                            htmlFor={`cust-field-${field.id}`}
+                            style={{
+                              fontSize: '0.84rem',
+                              fontWeight: 600,
+                              color: '#E4E4E7',
+                            }}
+                          >
+                            {field.label}
+                          </label>
+                          <input
+                            id={`cust-field-${field.id}`}
+                            type="text"
+                            placeholder={field.placeholder || (isEs ? 'Escribe aquí...' : 'Digite aqui...')}
+                            value={tempFieldValues[field.id] || ''}
+                            onChange={e =>
+                              setTempFieldValues(prev => ({
+                                ...prev,
+                                [field.id]: e.target.value,
+                              }))
+                            }
+                            autoFocus={idx === 0}
+                            style={{
+                              width: '100%',
+                              padding: '11px 14px',
+                              borderRadius: '10px',
+                              backgroundColor: '#18181B',
+                              border: '1px solid #27272A',
+                              color: '#FAFAFA',
+                              fontSize: '0.9rem',
+                              outline: 'none',
+                              boxSizing: 'border-box',
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
 
-                {/* Botão branco 'Concluir' */}
-                <motion.button
-                  type="button"
-                  className="cust-modal-conclude-btn"
-                  onClick={handleSaveAndCloseArtModal}
-                  whileHover={{ scale: 1.015 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {texts.modalConclude}
-                </motion.button>
+                    {/* Botão branco 'Concluir' */}
+                    <motion.button
+                      type="button"
+                      className="cust-modal-conclude-btn"
+                      onClick={handleSaveAndCloseArtModal}
+                      whileHover={{ scale: 1.015 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {texts.modalConclude}
+                    </motion.button>
+                  </>
+                ) : (
+                  <>
+                    <div className="cust-briefing-sidebar-header" style={{ marginBottom: '16px' }}>
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '4px 10px',
+                          borderRadius: '999px',
+                          backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          color: '#A1A1AA',
+                          fontSize: '0.75rem',
+                          fontWeight: 600,
+                          marginBottom: '12px',
+                          width: 'fit-content',
+                        }}
+                      >
+                        <span>🎨 {isEs ? 'Diseño Estándar' : 'Arte Padrão'}</span>
+                      </div>
+                      <h3 className="cust-briefing-sidebar-title" style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>
+                        {isEs ? 'Diseño sin textos para alterar' : 'Arte sem textos para alteração'}
+                      </h3>
+                      <p className="cust-briefing-sidebar-desc" style={{ color: '#A1A1AA', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                        {isEs
+                          ? 'Este diseño no requiere textos ni información adicional. Se personalizará aplicando el logotipo y la identidad visual oficial de su marca.'
+                          : 'Esta arte não requer textos ou informações adicionais. Ela será personalizada aplicando o logotipo e a identidade visual oficial da sua marca.'}
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        padding: '16px',
+                        borderRadius: '12px',
+                        backgroundColor: 'rgba(24, 24, 27, 0.6)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        color: '#A1A1AA',
+                        fontSize: '0.85rem',
+                        lineHeight: 1.5,
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '12px',
+                        marginBottom: '20px',
+                      }}
+                    >
+                      <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>✨</span>
+                      <div>
+                        <strong style={{ color: '#E4E4E7', display: 'block', marginBottom: '3px' }}>
+                          {isEs ? 'Todo listo para este diseño' : 'Tudo pronto para esta arte'}
+                        </strong>
+                        <span>
+                          {isEs
+                            ? 'No necesitas escribir nada. Haz clic en Entendido para continuar.'
+                            : 'Você não precisa digitar nada aqui. Basta clicar em Entendido para continuar.'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Botão Entendido */}
+                    <motion.button
+                      type="button"
+                      className="cust-modal-conclude-btn"
+                      onClick={handleSaveAndCloseArtModal}
+                      whileHover={{ scale: 1.015 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {isEs ? 'Entendido' : 'Entendido'}
+                    </motion.button>
+                  </>
+                )}
               </div>
             </motion.div>
           </motion.div>

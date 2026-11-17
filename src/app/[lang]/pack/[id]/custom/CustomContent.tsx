@@ -394,23 +394,40 @@ export default function CustomContent({
             </div>
             <p className="pack-header-description">
               {lang === 'en'
-                ? 'Your ready-to-post arts with your identity'
+                ? "Get all the arts ready to post with your company's information:"
                 : lang === 'es'
-                  ? 'Tus artes listas con tu identidad de marca'
-                  : 'Suas artes prontas com a sua identidade visual'}
+                  ? 'Recibe todas las artes listas para publicar con la información de tu empresa:'
+                  : 'Receba todas as artes prontas para postar com as informações da sua empresa:'}
             </p>
           </div>
 
           {/* 3. Conteúdo direto (sem abas e sem espaçador vazio) */}
           <motion.div className="custom-body" initial="hidden" animate="visible" variants={contentVariants}>
-            <h3 className="custom-section-title">
-              {lang === 'en' ? 'Get all the arts with your identity:' : lang === 'es' ? 'Recibe todas las artes con tu identidad:' : 'Receba todas as artes com a sua identidade:'}
-            </h3>
             <ul className="custom-features-list">
-              <li><span className="custom-check">✓</span> {lang === 'en' ? 'Your company logo' : lang === 'es' ? 'Logo de tu empresa' : 'Logo da sua empresa'}</li>
-              <li><span className="custom-check">✓</span> {lang === 'en' ? 'Color palette' : lang === 'es' ? 'Paleta de colores' : 'Paleta de cores'}</li>
-              <li><span className="custom-check">✓</span> {lang === 'en' ? 'Contact and address' : lang === 'es' ? 'Contacto y dirección' : 'Contato e endereço'}</li>
-              <li><span className="custom-check">✓</span> {lang === 'en' ? 'Plans (speed and price)' : lang === 'es' ? 'Planes (velocidad y precio)' : 'Planos (velocidade e preço)'}</li>
+              <li>
+                <span className="custom-check">✓</span>
+                {lang === 'en'
+                  ? 'High-definition ready images (just download and post)'
+                  : lang === 'es'
+                    ? 'Imágenes listas en alta definición (solo descargar y publicar)'
+                    : 'Imagens fechadas em alta definição (é só baixar e postar)'}
+              </li>
+              <li>
+                <span className="custom-check">✓</span>
+                {lang === 'en'
+                  ? 'Zero editing work for you or your team'
+                  : lang === 'es'
+                    ? 'Cero trabajo de edición para ti o tu equipo'
+                    : 'Zero trabalho de edição para você ou sua equipe'}
+              </li>
+              <li>
+                <span className="custom-check">✓</span>
+                {lang === 'en'
+                  ? 'Fast delivery (maximum 2 business days)'
+                  : lang === 'es'
+                    ? 'Entrega rápida (máximo 2 días hábiles)'
+                    : 'Entrega rápida (máximo 2 dias úteis)'}
+              </li>
             </ul>
 
             <div className="custom-price-section">

@@ -12,7 +12,7 @@ type BenefitItem = {
 
 const BENEFITS_EDITAVEL: BenefitItem[] = [
   { text: '24 artes profissionais prontas para personalizar' },
-  { text: '15 versões de cores inclusas' },
+  { text: '10 versões de cores inclusas' },
   { text: 'Arquivos para Canva (edite no PC ou celular)' },
   { text: 'Arquivos para Photoshop' },
   { text: 'Acesso imediato e uso vitalício sem mensalidades' },

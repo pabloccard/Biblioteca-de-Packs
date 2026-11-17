@@ -71,6 +71,10 @@ export async function createPackAction(formData: FormData) {
   const artCaptionsRaw = formData.get('local_art_captions') as string
   const artCaptions = artCaptionsRaw ? JSON.parse(artCaptionsRaw) : {}
 
+  // Campos de personalização por arte: salvar como JSON
+  const artCustomFieldsRaw = formData.get('art_custom_fields') as string
+  const artCustomFields = artCustomFieldsRaw ? JSON.parse(artCustomFieldsRaw) : {}
+
   const coverImageUrl = (formData.get('cover_image_url') as string)?.trim() || null
 
   const packData = {
@@ -83,6 +87,7 @@ export async function createPackAction(formData: FormData) {
     drive_arts_folder_id: driveArtsFolderId,
     arts_folder: artsFolder,
     art_captions: artCaptions,
+    art_custom_fields: artCustomFields,
     section_order: sectionOrderRaw ? JSON.parse(sectionOrderRaw) : ['files', 'legends'],
     buy_link: (formData.get('buy_link') as string) || '',
     parent_pack_id: (formData.get('parent_pack_id') as string) || null,
@@ -173,6 +178,9 @@ export async function updatePackAction(formData: FormData) {
   const artCaptionsRaw = formData.get('local_art_captions') as string
   const artCaptions = artCaptionsRaw ? JSON.parse(artCaptionsRaw) : {}
 
+  // Campos de personalização por arte: salvar como JSON
+  const artCustomFieldsRaw = formData.get('art_custom_fields') as string
+
   const coverImageUrl = (formData.get('cover_image_url') as string)?.trim() || null
 
   const updates: Record<string, unknown> = {
@@ -189,6 +197,9 @@ export async function updatePackAction(formData: FormData) {
     drive_arts_folder_id: driveArtsFolderId,
     arts_folder: artsFolder,
     art_captions: artCaptions,
+  }
+  if (artCustomFieldsRaw !== null) {
+    updates.art_custom_fields = artCustomFieldsRaw ? JSON.parse(artCustomFieldsRaw) : {}
   }
   if (sectionOrderRaw) {
     updates.section_order = JSON.parse(sectionOrderRaw)

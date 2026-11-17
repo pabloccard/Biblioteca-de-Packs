@@ -97,7 +97,22 @@ export async function notifyNewCustomizationOrder({
 
   const clientFirstName = clientName ? clientName.split(' ')[0] : 'Cliente'
 
-  const whatsappMessage = `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo da Biblioteca de Packs 🎨\n\nPara começarmos a personalizar as suas artes do *${packName}*, preparei este link exclusivo para você preencher os dados de cada arte:\n\n👉 ${customizeLink}\n\nAssim que você preencher, já coloco em produção para você!`
+  const whatsappMessage = `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo!
+
+Estou entrando em contato para darmos início à personalização das suas artes. 😊
+
+Para começarmos, preciso que me envie *seu logotipo na melhor qualidade possível*.
+
+Também preparei um link exclusivo para você preencher as informações que deverão aparecer nas artes.
+
+É bem simples: basta clicar em cada arte e preencher os campos solicitados.
+
+*Uma dica:* se alguma informação se repetir em todas as artes, como o número do WhatsApp, por exemplo, não precisa preencher várias vezes. Basta informar em uma delas!
+
+*Acesse aqui para preencher:*
+${customizeLink}
+
+Assim que receber seu logotipo e você finalizar o preenchimento, já daremos início à personalização das artes! 😊`
 
   const whatsappUrl = formattedPhone
     ? `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappMessage)}`

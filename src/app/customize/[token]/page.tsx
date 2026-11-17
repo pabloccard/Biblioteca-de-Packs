@@ -19,7 +19,7 @@ export default async function CustomizePage({
 
   let query = supabase
     .from('customization_orders')
-    .select('*, packs(id, name, cover_image_url, arts_folder, version, language), members(language)')
+    .select('*, packs(id, name, cover_image_url, arts_folder, version, language, art_custom_fields), members(language)')
 
   if (parsed.isUuid && parsed.uuid) {
     query = query.eq('access_token', parsed.uuid)
@@ -46,6 +46,7 @@ export default async function CustomizePage({
     arts_folder: string | null
     version: string | null
     language?: string
+    art_custom_fields?: Record<string, { id: string; label: string; placeholder?: string }[]>
   } | null
 
   const rawPackName = packData?.name || 'Pack'
@@ -60,6 +61,7 @@ export default async function CustomizePage({
       <CustomizeForm
         accessToken={order.access_token}
         arts={arts || []}
+        artCustomFields={packData?.art_custom_fields || {}}
         packName={packName}
         coverImage={coverImage}
         clientFirstName={clientFirstName}

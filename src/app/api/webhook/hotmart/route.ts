@@ -552,68 +552,100 @@ export async function POST(request: Request) {
       // 6. Enviar e-mail de boas-vindas
       const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://seuprojeto.com'
       const loginUrl = `${baseUrl}/${packLanguage}/login?email=${encodeURIComponent(email)}`
-      let emailContent: Record<string, { subject: string; greeting: string; title: string; body: string; btn: string; fallback: string; footer: string }>
+      const buyerFirstName = buyerName ? buyerName.trim().split(' ')[0] : ''
+      const packName = effectivePack?.name || 'artes'
 
-      const packName = effectivePack?.name || ''
+      const whatsappLeadMsg = packLanguage === 'es'
+        ? `Hola, acabo de adquirir la personalización del pack para ${packName}`
+        : packLanguage === 'en'
+          ? `Hello, I just purchased the customization for the ${packName} pack`
+          : `Olá, acabei de adquirir a personalização do pack para ${packName}`
+      const whatsappSupportUrl = `https://wa.me/5564993237320?text=${encodeURIComponent(whatsappLeadMsg)}`
+
+      let emailContent: Record<string, EmailTexts>
 
       if (isComplementPurchase) {
         if (complement!.type === 'custom') {
           // E-mail para personalização de artes
           emailContent = {
             pt: {
-              subject: `Personalização do Pack ${packName} Confirmada!`,
-              greeting: buyerName ? `Olá, ${buyerName}!` : 'Olá!',
-              title: 'Pedido de Personalização Recebido!',
-              body: `Seu pedido de personalização para o pack <strong>${packName}</strong> foi recebido com sucesso! Nossa equipe entrará em contato ou iniciará os ajustes. Você poderá acompanhar o status e acessar suas artes personalizadas diretamente na aba "Personalizado" dentro do seu pack na biblioteca.`,
-              btn: 'Acessar Biblioteca →',
+              fromName: 'Recebemos seu pedido de personalização!',
+              subject: 'Personalização',
+              greeting: buyerFirstName ? `Olá, ${buyerFirstName}!` : 'Olá!',
+              title: 'Pedido de personalização recebido! 🎉',
+              body: `<p style="margin: 0 0 16px 0;">Recebemos suas informações e agora o próximo passo é iniciar a personalização das suas artes.</p>
+<p style="margin: 0 0 16px 0;">Em breve, nossa equipe entrará em contato com você pelo WhatsApp, utilizando o número informado no momento da compra.</p>
+<p style="margin: 0 0 16px 0; color: #f5f5f7; font-weight: 600;">Quer adiantar o processo?</p>
+<p style="margin: 0 0 0 0;">Se preferir, você já pode falar diretamente com nossa equipe pelo botão abaixo. Ele também é útil caso tenha informado algum número incorreto no pedido.</p>`,
+              btn: 'Falar no WhatsApp',
+              closing: `<p style="margin: 0 0 16px 0;">Estamos prontos para preparar suas artes e deixar tudo do jeito que você precisa!</p>
+<p style="margin: 0 0 0 0;">Até breve!</p>`,
               fallback: 'Se o botão não funcionar, copie e cole o link no navegador:',
               footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
+              isWhatsApp: true,
             },
             es: {
-              subject: `¡Personalización del Pack "${packName}" Confirmada!`,
-              greeting: buyerName ? `¡Hola, ${buyerName}!` : '¡Hola!',
-              title: '¡Pedido de Personalización Recibido!',
-              body: `Tu pedido de personalización para el pack <strong>"${packName}"</strong> ha sido recibido con éxito. Podrás seguir el avance y acceder a tus artes personalizadas directamente en la pestaña "Personalizado" dentro de tu pack.`,
-              btn: 'Acceder a la Biblioteca →',
+              fromName: '¡Recibimos tu pedido de personalización!',
+              subject: 'Personalización',
+              greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
+              title: '¡Pedido de Personalización Recibido! 🎉',
+              body: `<p style="margin: 0 0 16px 0;">Recibimos tu información y el siguiente paso es comenzar la personalización de tus diseños.</p>
+<p style="margin: 0 0 16px 0;">Muy pronto nuestro equipo se comunicará contigo por WhatsApp, usando el número ingresado en la compra.</p>
+<p style="margin: 0 0 16px 0; color: #f5f5f7; font-weight: 600;">¿Quieres adelantar el proceso?</p>
+<p style="margin: 0 0 0 0;">Si prefieres, puedes hablar directamente con nuestro equipo haciendo clic en el botón de abajo. También te sirve por si necesitas corregir tu número.</p>`,
+              btn: 'Hablar por WhatsApp',
+              closing: `<p style="margin: 0 0 16px 0;">¡Estamos listos para preparar tus diseños exactamente como los necesitas!</p>
+<p style="margin: 0 0 0 0;">¡Hasta pronto!</p>`,
               fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
               footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
+              isWhatsApp: true,
             },
             en: {
-              subject: `Customization for "${packName}" Confirmed!`,
-              greeting: buyerName ? `Hello, ${buyerName}!` : 'Hello!',
-              title: 'Customization Order Received!',
-              body: `Your customization order for the <strong>"${packName}"</strong> pack has been received! You can track status and view your customized files directly in the "Custom" tab of your pack.`,
-              btn: 'Access Library →',
+              fromName: 'We received your customization order!',
+              subject: 'Customization',
+              greeting: buyerFirstName ? `Hello, ${buyerFirstName}!` : 'Hello!',
+              title: 'Customization Order Received! 🎉',
+              body: `<p style="margin: 0 0 16px 0;">We received your details and our team is ready to begin customizing your templates.</p>
+<p style="margin: 0 0 16px 0;">Shortly, our team will reach out to you via WhatsApp using the phone number provided at checkout.</p>
+<p style="margin: 0 0 16px 0; color: #f5f5f7; font-weight: 600;">Want to speed up the process?</p>
+<p style="margin: 0 0 0 0;">You can message our team directly using the button below. This is also helpful if you need to update your phone number.</p>`,
+              btn: 'Chat on WhatsApp',
+              closing: `<p style="margin: 0 0 16px 0;">We are ready to prepare your templates and make everything look great!</p>
+<p style="margin: 0 0 0 0;">See you soon!</p>`,
               fallback: 'If the button doesn\'t work, copy and paste the link below into your browser:',
               footer: 'This is an automated email. If you need help, please contact support.',
+              isWhatsApp: true,
             },
           }
         } else {
           // E-mail para Stories desbloqueado
           emailContent = {
             pt: {
+              fromName: 'Conteúdo Extra Liberado',
               subject: `Versão para Stories Liberada!`,
-              greeting: buyerName ? `Olá, ${buyerName}!` : 'Olá!',
+              greeting: buyerFirstName ? `Olá, ${buyerFirstName}!` : 'Olá!',
               title: 'Conteúdo extra Liberado!',
-              body: `As artes para stories do pack para <strong>${packName}</strong> foram liberadas com sucesso! Acesse sua biblioteca e confira na aba de arquivos.`,
+              body: `<p style="margin: 0 0 0 0;">As artes para stories do pack para <strong>${packName}</strong> foram liberadas com sucesso! Acesse sua biblioteca e confira na aba de arquivos.</p>`,
               btn: 'Acessar →',
               fallback: 'Se o botão não funcionar, copie e cole o link no navegador:',
               footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
             },
             es: {
+              fromName: 'Contenido Extra Liberado',
               subject: `🔓 ¡Contenido Extra Liberado en el Pack "${packName}"!`,
-              greeting: buyerName ? `¡Hola, ${buyerName}!` : '¡Hola!',
+              greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
               title: '¡Contenido extra desbloqueado!',
-              body: `El contenido extra del pack <strong>"${packName}"</strong> ha sido liberado con éxito. Accede a tu biblioteca y revisa el nuevo contenido disponible.`,
+              body: `<p style="margin: 0 0 0 0;">El contenido extra del pack <strong>"${packName}"</strong> ha sido liberado con éxito. Accede a tu biblioteca y revisa el nuevo contenido disponible.</p>`,
               btn: 'Acceder →',
               fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
               footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
             },
             en: {
+              fromName: 'Extra Content Unlocked',
               subject: `Extra Content Unlocked!`,
-              greeting: buyerName ? `Hello, ${buyerName}!` : 'Hello!',
+              greeting: buyerFirstName ? `Hello, ${buyerFirstName}!` : 'Hello!',
               title: 'Extra content unlocked!',
-              body: `The Story templates for the <strong>"${packName}"</strong> pack are now available. Access your library and find them under the Files tab.`,
+              body: `<p style="margin: 0 0 0 0;">The Story templates for the <strong>"${packName}"</strong> pack are now available. Access your library and find them under the Files tab.</p>`,
               btn: 'Access Your Files →',
               fallback: 'If the button doesn\'t work, copy and paste the link below into your browser:',
               footer: 'This is an automated email. If you need help, please contact support.',
@@ -624,29 +656,41 @@ export async function POST(request: Request) {
         // E-mail para pack PRINCIPAL
         emailContent = {
           pt: {
-            subject: `Pack para ${packName} Liberado!`,
-            greeting: buyerName ? `Olá, ${buyerName}!` : 'Olá!',
+            fromName: 'Seu pack de artes já está disponível!',
+            subject: 'Acesso liberado!',
+            greeting: buyerFirstName ? `Olá, ${buyerFirstName}!` : 'Olá!',
             title: 'Seu pack foi liberado!',
-            body: `O pack de artes para <strong>${packName}</strong> já está disponível na sua biblioteca. Para acessar, basta clicar no botão abaixo e inserir o e-mail utilizado no momento da compra.`,
-            btn: 'Acessar →',
+            body: `<p style="margin: 0 0 16px 0;">Seu pack de artes já está disponível na sua biblioteca!</p>
+<p style="margin: 0 0 0 0;">Para acessar todos os arquivos e começar a utilizar suas artes, basta clicar no botão abaixo e informar o mesmo e-mail utilizado no momento da compra.</p>`,
+            btn: 'Acessar biblioteca',
+            closing: `<p style="margin: 0 0 16px 0;">Pronto! Agora é só aproveitar seu pack e transformar suas redes sociais com artes profissionais.</p>
+<p style="margin: 0 0 0 0;">Boas criações!</p>`,
             fallback: 'Se o botão não funcionar, copie e cole o link no navegador:',
             footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
           },
           es: {
-            subject: `🎨 Pack "${packName}" Disponible!`,
-            greeting: buyerName ? `¡Hola, ${buyerName}!` : '¡Hola!',
+            fromName: '¡Tu pack de diseños ya está disponible!',
+            subject: '¡Acceso liberado!',
+            greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
             title: '¡Tu pack ha sido liberado!',
-            body: `El pack <strong>"${packName}"</strong> ya está disponible en tu biblioteca. Para acceder, haz clic en el botón de abajo e ingresa el correo utilizado al momento de la compra.`,
-            btn: 'Acceder →',
+            body: `<p style="margin: 0 0 16px 0;">¡Tu pack de diseños ya está disponible en tu biblioteca!</p>
+<p style="margin: 0 0 0 0;">Para acceder a todos los archivos y comenzar a usarlos, haz clic en el botón de abajo e ingresa el correo utilizado al momento de la compra.</p>`,
+            btn: 'Acceder a la biblioteca',
+            closing: `<p style="margin: 0 0 16px 0;">¡Listo! Ahora aprovecha tu pack y transforma tus redes sociales con diseños profesionales.</p>
+<p style="margin: 0 0 0 0;">¡Buenas creaciones!</p>`,
             fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
             footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
           },
           en: {
-            subject: `Your "${packName}" Pack is Ready!`,
-            greeting: buyerName ? `Hello, ${buyerName}!` : 'Hello!',
-            title: 'Your pack has been unlocked!',
-            body: `Your <strong>"${packName}"</strong> pack is now available in your library. To access it, click the button below and enter the email address you used at checkout.`,
-            btn: 'Access Your Pack →',
+            fromName: 'Your design pack is now ready!',
+            subject: 'Access unlocked!',
+            greeting: buyerFirstName ? `Hello, ${buyerFirstName}!` : 'Hello!',
+            title: 'Your pack is unlocked!',
+            body: `<p style="margin: 0 0 16px 0;">Your design pack is now available in your library!</p>
+<p style="margin: 0 0 0 0;">To access all files and get started, click the button below and enter the email address used during purchase.</p>`,
+            btn: 'Access library',
+            closing: `<p style="margin: 0 0 16px 0;">All set! Now enjoy your pack and transform your social media with professional designs.</p>
+<p style="margin: 0 0 0 0;">Happy designing!</p>`,
             fallback: 'If the button doesn\'t work, copy and paste the link below into your browser:',
             footer: 'This is an automated email. If you need help, please contact support.',
           },
@@ -654,13 +698,16 @@ export async function POST(request: Request) {
       }
 
       const t = emailContent[packLanguage as keyof typeof emailContent] || emailContent.pt
+      const targetUrl = (isComplementPurchase && complement!.type === 'custom') ? whatsappSupportUrl : loginUrl
 
       try {
+        const fromHeader = `"${t.fromName.replace(/"/g, '')}" <send@pablocastilho.com>`
+
         await sendEmailWithFailover({
-          from: 'Acesso Liberado <send@pablocastilho.com>',
+          from: fromHeader,
           to: email,
           subject: t.subject,
-          html: buildEmailHtml(t, loginUrl, packLanguage),
+          html: buildEmailHtml(t, targetUrl, packLanguage),
         })
         console.log(`📧 E-mail enviado para: ${email}`)
       } catch (emailError) {
@@ -687,15 +734,23 @@ export async function POST(request: Request) {
 // ========================
 
 interface EmailTexts {
+  fromName: string
+  subject: string
   greeting: string
   title: string
   body: string
+  closing?: string
   btn: string
   fallback: string
   footer: string
+  isWhatsApp?: boolean
 }
 
-function buildEmailHtml(t: EmailTexts, loginUrl: string, lang: string): string {
+function buildEmailHtml(t: EmailTexts, actionUrl: string, lang: string): string {
+  const btnGradient = t.isWhatsApp
+    ? 'linear-gradient(90deg, #25D366 0%, #128C7E 100%)'
+    : 'linear-gradient(90deg, #0052FF 0%, #00B2FF 100%)'
+
   return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -713,35 +768,42 @@ function buildEmailHtml(t: EmailTexts, loginUrl: string, lang: string): string {
             <td style="padding: 48px 40px 40px 40px;">
 
               <!-- Greeting -->
-              <p style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; margin: 0 0 8px 0; font-weight: 400;">
+              <p style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 12px 0; font-weight: 400;">
                 ${t.greeting}
               </p>
 
               <!-- Title -->
-              <h1 style="color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 20px 0; letter-spacing: -0.3px;">
+              <h1 style="color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 24px 0; letter-spacing: -0.3px; line-height: 1.3;">
                 ${t.title}
               </h1>
 
               <!-- Body -->
-              <p style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 36px 0; line-height: 1.7;">
+              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 32px 0; line-height: 1.7;">
                 ${t.body}
-              </p>
+              </div>
 
               <!-- CTA BUTTON -->
               <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
                 <tr>
                   <td align="center">
-                    <a href="${loginUrl}" target="_blank" style="display: inline-block; padding: 14px 36px; background: linear-gradient(90deg, #0052FF 0%, #00B2FF 100%); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 10px; letter-spacing: 0.2px;">
+                    <a href="${actionUrl}" target="_blank" style="display: inline-block; padding: 14px 36px; background: ${btnGradient}; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 10px; letter-spacing: 0.2px;">
                       ${t.btn}
                     </a>
                   </td>
                 </tr>
               </table>
 
+              ${t.closing ? `
+              <!-- Closing -->
+              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 32px 0 0 0; line-height: 1.7;">
+                ${t.closing}
+              </div>
+              ` : ''}
+
               <!-- Fallback Link -->
-              <p style="color: #52525b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; margin: 28px 0 0 0; text-align: center; line-height: 1.6;">
+              <p style="color: #52525b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; margin: 32px 0 0 0; text-align: center; line-height: 1.6;">
                 ${t.fallback}<br/>
-                <a href="${loginUrl}" style="color: #71717a; text-decoration: underline; word-break: break-all;">${loginUrl}</a>
+                <a href="${actionUrl}" style="color: #71717a; text-decoration: underline; word-break: break-all;">${actionUrl}</a>
               </p>
 
             </td>

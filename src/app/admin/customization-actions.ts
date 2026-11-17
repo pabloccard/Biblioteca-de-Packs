@@ -109,16 +109,21 @@ export async function submitCustomizationAction(formData: FormData) {
 
   if (updateError) return { error: `Erro ao salvar: ${updateError.message}` }
 
-  // Update arts with client instructions
+  // Update arts with client instructions and inputs
   if (artsInstructionsRaw) {
-    const instructions = JSON.parse(artsInstructionsRaw) as { art_id: string; instructions: string }[]
+    const instructions = JSON.parse(artsInstructionsRaw) as {
+      art_id: string
+      instructions: string
+      inputs?: Record<string, string>
+    }[]
     for (const item of instructions) {
-      if (item.instructions.trim()) {
-        await supabase
-          .from('customization_arts')
-          .update({ client_instructions: item.instructions.trim() })
-          .eq('id', item.art_id)
-      }
+      await supabase
+        .from('customization_arts')
+        .update({
+          client_instructions: item.instructions?.trim() || null,
+          client_inputs: item.inputs || {},
+        })
+        .eq('id', item.art_id)
     }
   }
 
