@@ -7,7 +7,7 @@ import { listDriveFiles, createCustomizationFolders } from '@/lib/google-drive'
 import { getCachedDriveFiles } from '@/lib/pack-arts'
 
 // =====================
-// CUSTOMIZATION ORDERS
+// CUSTOMIZATIsON ORDERS
 // =====================
 
 export async function createCustomizationOrderAction(formData: FormData) {
