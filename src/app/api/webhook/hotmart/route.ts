@@ -569,8 +569,8 @@ export async function POST(request: Request) {
           // E-mail para personalização de artes
           emailContent = {
             pt: {
-              fromName: 'Recebemos seu pedido de personalização!',
-              subject: 'Personalização',
+              fromName: 'Personalização',
+              subject: 'Recebemos seu pedido de personalização!',
               greeting: buyerFirstName ? `Olá, ${buyerFirstName}!` : 'Olá!',
               title: 'Pedido de personalização recebido! 🎉',
               body: `<p style="margin: 0 0 16px 0;">Recebemos suas informações e agora o próximo passo é iniciar a personalização das suas artes.</p>
@@ -585,8 +585,8 @@ export async function POST(request: Request) {
               isWhatsApp: true,
             },
             es: {
-              fromName: '¡Recibimos tu pedido de personalización!',
-              subject: 'Personalización',
+              fromName: 'Personalización',
+              subject: '¡Recibimos tu pedido de personalización!',
               greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
               title: '¡Pedido de Personalización Recibido! 🎉',
               body: `<p style="margin: 0 0 16px 0;">Recibimos tu información y el siguiente paso es comenzar la personalización de tus diseños.</p>
@@ -601,8 +601,8 @@ export async function POST(request: Request) {
               isWhatsApp: true,
             },
             en: {
-              fromName: 'We received your customization order!',
-              subject: 'Customization',
+              fromName: 'Customization',
+              subject: 'We received your customization order!',
               greeting: buyerFirstName ? `Hello, ${buyerFirstName}!` : 'Hello!',
               title: 'Customization Order Received! 🎉',
               body: `<p style="margin: 0 0 16px 0;">We received your details and our team is ready to begin customizing your templates.</p>
@@ -656,8 +656,8 @@ export async function POST(request: Request) {
         // E-mail para pack PRINCIPAL
         emailContent = {
           pt: {
-            fromName: 'Seu pack de artes já está disponível!',
-            subject: 'Acesso liberado!',
+            fromName: 'Acesso liberado!',
+            subject: 'Seu pack de artes já está disponível!',
             greeting: buyerFirstName ? `Olá, ${buyerFirstName}!` : 'Olá!',
             title: 'Seu pack foi liberado!',
             body: `<p style="margin: 0 0 16px 0;">Seu pack de artes já está disponível na sua biblioteca!</p>
@@ -669,8 +669,8 @@ export async function POST(request: Request) {
             footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
           },
           es: {
-            fromName: '¡Tu pack de diseños ya está disponible!',
-            subject: '¡Acceso liberado!',
+            fromName: '¡Acceso liberado!',
+            subject: '¡Tu pack de diseños ya está disponible!',
             greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
             title: '¡Tu pack ha sido liberado!',
             body: `<p style="margin: 0 0 16px 0;">¡Tu pack de diseños ya está disponible en tu biblioteca!</p>
@@ -682,8 +682,8 @@ export async function POST(request: Request) {
             footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
           },
           en: {
-            fromName: 'Your design pack is now ready!',
-            subject: 'Access unlocked!',
+            fromName: 'Access unlocked!',
+            subject: 'Your design pack is now ready!',
             greeting: buyerFirstName ? `Hello, ${buyerFirstName}!` : 'Hello!',
             title: 'Your pack is unlocked!',
             body: `<p style="margin: 0 0 16px 0;">Your design pack is now available in your library!</p>
@@ -765,27 +765,27 @@ function buildEmailHtml(t: EmailTexts, actionUrl: string, lang: string): string 
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 560px;" role="presentation">
 
           <tr>
-            <td style="padding: 48px 40px 40px 40px;">
+            <td style="padding: 48px 40px 40px 40px; text-align: left;">
 
               <!-- Greeting -->
-              <p style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 12px 0; font-weight: 400;">
+              <p style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 12px 0; font-weight: 400; text-align: left;">
                 ${t.greeting}
               </p>
 
               <!-- Title -->
-              <h1 style="color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 24px 0; letter-spacing: -0.3px; line-height: 1.3;">
+              <h1 style="color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 24px 0; letter-spacing: -0.3px; line-height: 1.3; text-align: left;">
                 ${t.title}
               </h1>
 
               <!-- Body -->
-              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 32px 0; line-height: 1.7;">
+              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 0 0 32px 0; line-height: 1.7; text-align: left;">
                 ${t.body}
               </div>
 
               <!-- CTA BUTTON -->
               <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
                 <tr>
-                  <td align="center">
+                  <td align="left">
                     <a href="${actionUrl}" target="_blank" style="display: inline-block; padding: 14px 36px; background: ${btnGradient}; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 10px; letter-spacing: 0.2px;">
                       ${t.btn}
                     </a>
@@ -795,13 +795,13 @@ function buildEmailHtml(t: EmailTexts, actionUrl: string, lang: string): string 
 
               ${t.closing ? `
               <!-- Closing -->
-              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 32px 0 0 0; line-height: 1.7;">
+              <div style="color: #a1a1aa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; margin: 32px 0 0 0; line-height: 1.7; text-align: left;">
                 ${t.closing}
               </div>
               ` : ''}
 
               <!-- Fallback Link -->
-              <p style="color: #52525b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; margin: 32px 0 0 0; text-align: center; line-height: 1.6;">
+              <p style="color: #52525b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; margin: 32px 0 0 0; text-align: left; line-height: 1.6;">
                 ${t.fallback}<br/>
                 <a href="${actionUrl}" style="color: #71717a; text-decoration: underline; word-break: break-all;">${actionUrl}</a>
               </p>
@@ -811,8 +811,8 @@ function buildEmailHtml(t: EmailTexts, actionUrl: string, lang: string): string 
 
           <!-- FOOTER -->
           <tr>
-            <td style="padding: 0 40px 32px; text-align: center;">
-              <p style="color: #3f3f46; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 11px; line-height: 1.6; margin: 0;">
+            <td style="padding: 0 40px 32px; text-align: left;">
+              <p style="color: #3f3f46; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 11px; line-height: 1.6; margin: 0; text-align: left;">
                 ${t.footer}<br/>
                 © ${new Date().getFullYear()} Pablo Castilho
               </p>
