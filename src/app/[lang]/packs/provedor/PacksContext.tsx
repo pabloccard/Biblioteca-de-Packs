@@ -6,6 +6,7 @@ import { CARROSSEL_ARTES, SECTION_BG_CARDS, SectionBgName } from './cardsConfig'
 interface PacksThemeConfig {
   theme?: string
   artesFolder?: string
+  mockupSrc?: string
   carrosselArtes?: string[]
   sectionBgCards?: Record<SectionBgName, string[]>
 }
@@ -13,6 +14,7 @@ interface PacksThemeConfig {
 const PacksContext = createContext<PacksThemeConfig>({
   theme: 'green',
   artesFolder: '/sales-pages/provedor-v2/artes',
+  mockupSrc: '/sales-pages/provedor-v2/mockup.webp',
   carrosselArtes: CARROSSEL_ARTES,
   sectionBgCards: SECTION_BG_CARDS,
 })
@@ -21,15 +23,23 @@ export function PacksProvider({
   children,
   artesFolder = '/sales-pages/provedor-v2/artes',
   theme = 'green',
+  mockupSrc,
   cacheBust = true,
 }: {
   children: React.ReactNode
   artesFolder?: string
   theme?: string
+  mockupSrc?: string
   cacheBust?: boolean
 }) {
   // Query param para garantir que novas imagens nunca fiquem presas em cache do navegador
   const query = cacheBust ? `?v=${theme}` : ''
+
+  const defaultMockup =
+    theme === 'vermelho'
+      ? '/sales-pages/provedor-v2/mockup-vermelho.webp'
+      : '/sales-pages/provedor-v2/mockup.webp'
+  const resolvedMockup = `${mockupSrc || defaultMockup}${query}`
 
   const carrosselArtes = Array.from(
     { length: 24 },
@@ -48,7 +58,15 @@ export function PacksProvider({
   }
 
   return (
-    <PacksContext.Provider value={{ theme, artesFolder, carrosselArtes, sectionBgCards }}>
+    <PacksContext.Provider
+      value={{
+        theme,
+        artesFolder,
+        mockupSrc: resolvedMockup,
+        carrosselArtes,
+        sectionBgCards,
+      }}
+    >
       {children}
     </PacksContext.Provider>
   )

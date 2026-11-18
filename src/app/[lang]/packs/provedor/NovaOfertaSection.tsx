@@ -26,10 +26,8 @@ export default function NovaOfertaSection() {
           </div>
           <h2 className="v2-section-title">
             Garanta o pack <br />
-            <span className="v2-highlight">
-              com desconto <br />
-              de Black Friday
-            </span>
+            com desconto <br />
+            <span className="v2-highlight">de Black Friday</span>
           </h2>
         </div>
 

@@ -1,6 +1,13 @@
-import BgCards from './BgCards'
+'use client'
 
-export default function EditeSection() {
+import BgCards from './BgCards'
+import { usePacksContext } from './PacksContext'
+
+export default function EditeSection({ mockupSrc }: { mockupSrc?: string }) {
+  const context = usePacksContext()
+  const imageSrc =
+    mockupSrc || context?.mockupSrc || '/sales-pages/provedor-v2/mockup.webp'
+
   return (
     <section className="v2-edite">
       <BgCards section="edite" />
@@ -21,7 +28,7 @@ export default function EditeSection() {
 
         {/* Mockup único */}
         <img
-          src="/sales-pages/provedor-v2/mockup.webp"
+          src={imageSrc}
           alt="Mockup de edição em Canva e Photoshop"
           className="v2-edite-mockup"
           loading="lazy"
