@@ -9,7 +9,9 @@ export default function SuporteSection() {
         {/* Título com Badge */}
         <div className="v2-section-title-block">
           <div className="v2-badge">
-            <span className="v2-badge-icon v2-badge-icon--blue" />
+            <span className="v2-badge-icon v2-badge-icon--blue">
+              <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
+            </span>
             <span className="v2-badge-text">Precisa de ajuda?</span>
           </div>
           <h2 className="v2-section-title">
@@ -30,10 +32,9 @@ export default function SuporteSection() {
 
         {/* Descrição */}
         <p className="v2-section-desc">
-          Nada de robôs ou e-mails sem resposta. Tanto para tirar dúvidas rápidas
-          na opção <strong>Eu mesmo quero editar</strong> quanto para alinhar os
-          dados do seu provedor na opção <strong>Quero pronto para postar</strong>
-          , você fala diretamente com a gente no WhatsApp.
+          Nada de robôs ou e-mails sem resposta. Se surgir qualquer dúvida para
+          acessar as artes, inserir a sua logo ou editar suas informações, você
+          fala diretamente com a gente no WhatsApp para resolver na hora.
         </p>
       </div>
     </section>

@@ -3,10 +3,10 @@ export default function FaixaSection({
   variant = 'green',
 }: {
   text: string
-  variant?: 'green' | 'light'
+  variant?: 'green' | 'light' | 'dark'
 }) {
   return (
-    <div className={`v2-faixa${variant === 'light' ? ' v2-faixa--light' : ''}`}>
+    <div className={`v2-faixa${variant !== 'green' ? ` v2-faixa--${variant}` : ''}`}>
       <p className="v2-faixa-text">{text}</p>
     </div>
   )

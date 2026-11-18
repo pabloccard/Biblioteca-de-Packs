@@ -20,6 +20,8 @@ export type SectionBgName =
   | 'ofertas'
   | 'suporte'
   | 'garantia'
+  | 'edite'
+  | 'faq'
 
 /**
  * 🎨 SEGMENTAÇÃO DE ARTES DOS COVERS POR SEÇÃO:
@@ -44,6 +46,12 @@ export const SECTION_COVER_IDS: Record<SectionBgName, number[]> = {
 
   // Seção de garantia (se utilizada)
   garantia: [2, 4, 6, 8, 10, 12],
+
+  // Seção "Edite onde quiser"
+  edite: [7, 12, 15, 18, 23, 24],
+
+  // Seção FAQ
+  faq: [3, 6, 14, 17, 20, 22],
 }
 
 /**

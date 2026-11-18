@@ -109,10 +109,10 @@ export default function VersoesSection() {
   return (
     <section className="v2-versoes">
       <div className="v2-versoes-content">
-        {/* Título — cor azul #0557EE */}
+        {/* Título — cor verde #D4FF5E */}
         <div className="v2-section-title-block">
           <div className="v2-badge">
-            <span className="v2-badge-icon v2-badge-icon--blue">
+            <span className="v2-badge-icon v2-badge-icon--green">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
             </span>
             <span className="v2-badge-text v2-badge-text--semibold">
@@ -142,9 +142,9 @@ export default function VersoesSection() {
 
         {/* Descrição */}
         <p className="v2-versoes-desc">
-          Recolorir uma arte cheia de efeitos dá trabalho. Por isso, já
-          preparamos <span className="v2-highlight">10 versões</span> com as
-          principais cores do mercado para você ter opções prontas de uso.
+          Recolorir uma arte no Canva cheia de efeitos dá trabalho. Por isso, já
+          preparamos 10 versões com as principais cores do mercado para você ter
+          opções prontas para usar.
         </p>
       </div>
     </section>

@@ -1,35 +1,27 @@
 import type { Metadata } from 'next'
-import { Urbanist, Sora } from 'next/font/google'
+import { Urbanist } from 'next/font/google'
 import HeroSection from './HeroSection'
-import CarrosselSection from './CarrosselSection'
 import VersoesSection from './VersoesSection'
-import FaixaSection from './FaixaSection'
 import EditeSection from './EditeSection'
-import PersonalizeSection from './PersonalizeSection'
-import FeedbacksSection from './FeedbacksSection'
-import OfertasSection from './OfertasSection'
+import FaixaSection from './FaixaSection'
+import FacilEdicaoSection from './FacilEdicaoSection'
 import SuporteSection from './SuporteSection'
+import FeedbacksSection from './FeedbacksSection'
+import NovaOfertaSection from './NovaOfertaSection'
+import AutoralSection from './AutoralSection'
 import FaqSection from './FaqSection'
 import './vendas.css'
 
 const urbanist = Urbanist({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-urbanist',
-})
-
-const sora = Sora({
-  subsets: ['latin'],
-  weight: ['300', '400'],
-  display: 'swap',
-  variable: '--font-sora',
 })
 
 export const metadata: Metadata = {
   title: 'Pack de Artes para Provedor de Internet | Artes Editáveis',
   description:
-    'O próximo post do seu provedor está aqui. Um pack completo de criativos para destacar seus planos de internet nas redes sociais.',
+    'Pack de Artes Editáveis para Provedor de Internet. Um pacote completo pronto para você abrir no celular ou computador, colocar a sua logo e os seus planos e baixar para postar em menos de 5 minutos.',
 }
 
 export default async function ProvedorSalesPage({
@@ -40,28 +32,28 @@ export default async function ProvedorSalesPage({
   const { lang } = await params
 
   return (
-    <main className={`vendas-page ${urbanist.className} ${urbanist.variable} ${sora.variable}`}>
+    <main className={`vendas-page ${urbanist.className} ${urbanist.variable}`}>
       <div className="vendas-container">
-        {/* 1. HERO */}
+        {/* 1. HERO (com carrossel de artes integrado) */}
         <HeroSection />
 
-        {/* 2. CARROSSEL DE ARTES */}
-        <CarrosselSection />
-
-        {/* 3. VERSÕES DE CORES */}
+        {/* 2. VERSÕES DE CORES */}
         <VersoesSection />
 
-        {/* FAIXA: CANVA E PHOTOSHOP */}
+        {/* 3. EDITE ONDE QUISER (Canva e Photoshop) */}
+        <EditeSection />
+
+        {/* FAIXA: FÁCIL EDIÇÃO */}
         <FaixaSection
-          text="CANVA E PHOTOSHOP • CANVA E PHOTOSHOP • CANVA E PHOTOSHOP • CANVA E PHOTOSHOP"
+          text="FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO"
           variant="light"
         />
 
-        {/* 4. EDITE ONDE QUISER */}
-        <EditeSection />
+        {/* 4. FÁCIL EDIÇÃO */}
+        <FacilEdicaoSection />
 
-        {/* 5. PERSONALIZE (Passos 1-2-3) */}
-        <PersonalizeSection />
+        {/* 5. SUPORTE WHATSAPP */}
+        <SuporteSection />
 
         {/* FAIXA: FEEDBACKS */}
         <FaixaSection text="FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS" />
@@ -69,19 +61,19 @@ export default async function ProvedorSalesPage({
         {/* 6. FEEDBACKS */}
         <FeedbacksSection />
 
-        {/* 7. OFERTAS (Preços + CTA) */}
-        <OfertasSection />
+        {/* 7. NOVA OFERTA (Black Friday R$ 29,90) */}
+        <NovaOfertaSection />
 
-        {/* 8. SUPORTE WHATSAPP */}
-        <SuporteSection />
-
-        {/* FAIXA: PERGUNTAS FREQUENTES */}
+        {/* FAIXA: CRIAÇÃO 100% AUTORAL */}
         <FaixaSection
-          text="PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES • PERGUNTAS FREQUENTES"
-          variant="light"
+          text="CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL"
+          variant="dark"
         />
 
-        {/* 9. FAQ (PERGUNTAS FREQUENTES) */}
+        {/* 8. 100% AUTORAL */}
+        <AutoralSection />
+
+        {/* 9. FAQ (Perguntas Frequentes) */}
         <FaqSection />
       </div>
     </main>

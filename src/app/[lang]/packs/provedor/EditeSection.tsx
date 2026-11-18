@@ -1,6 +1,9 @@
+import BgCards from './BgCards'
+
 export default function EditeSection() {
   return (
     <section className="v2-edite">
+      <BgCards section="edite" />
       <div className="v2-edite-content">
         {/* Título */}
         <div className="v2-section-title-block">
@@ -11,8 +14,8 @@ export default function EditeSection() {
             <span className="v2-badge-text">Edite onde quiser</span>
           </div>
           <h2 className="v2-section-title">
-            Arquivos prontos para{' '}
-            <span className="v2-highlight">Canva e Photoshop.</span>
+            Arquivos prontos <br />
+            para <span className="v2-highlight">Canva e <br />Photoshop.</span>
           </h2>
         </div>
 
@@ -26,10 +29,11 @@ export default function EditeSection() {
 
         {/* Descrição */}
         <p className="v2-section-desc">
-          Não precisa ser designer profissional nem ter programas pesados. Os
-          arquivos já vêm 100% organizados para você alterar as informações em
-          poucos cliques, seja na praticidade do Canva ou no controle avançado
-          do Photoshop.
+          Não precisa ser designer nem instalar programas pesados: pelo Canva,
+          você altera planos, preços, logo e demais informações em poucos
+          cliques, direto no celular ou computador. E caso você ou sua equipe
+          queiram fazer edições mais complexas, os arquivos originais para
+          Photoshop também vão inclusos.
         </p>
       </div>
     </section>

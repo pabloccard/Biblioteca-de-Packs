@@ -19,7 +19,9 @@ export default function FeedbacksSection() {
             <span className="v2-badge-text">Quem comprou, aprovou</span>
           </div>
           <h2 className="v2-section-title">
-            O que dizem os provedores que já usam o pack
+            O que dizem os <br />
+            provedores que já <br />
+            usam o pack
           </h2>
         </div>
 
@@ -40,9 +42,9 @@ export default function FeedbacksSection() {
 
         {/* Descrição */}
         <p className="v2-section-desc">
-          Nada melhor do que a palavra de quem vive a mesma rotina que você.
-          Veja a reação real de quem já recebeu os arquivos, aprovou a qualidade
-          com a equipe e colocou as artes para rodar.
+          Quem já usa nossos pacotes no dia a dia sabe que na prática não tem
+          segredo nem perda de tempo: você recebe o acesso na hora, coloca os
+          dados do seu provedor em poucos cliques e já bota as artes para rodar.
         </p>
       </div>
     </section>
