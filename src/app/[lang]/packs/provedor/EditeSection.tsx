@@ -32,6 +32,7 @@ export default function EditeSection({ mockupSrc }: { mockupSrc?: string }) {
           alt="Mockup de edição em Canva e Photoshop"
           className="v2-edite-mockup"
           loading="lazy"
+          decoding="async"
         />
 
         {/* Descrição */}

@@ -34,6 +34,7 @@ export default function FeedbacksSection() {
                   src={src}
                   alt={`Feedback de cliente ${(i % FEEDBACK_CARDS.length) + 1}`}
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}

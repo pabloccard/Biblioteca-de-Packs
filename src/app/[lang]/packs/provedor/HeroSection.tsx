@@ -145,11 +145,20 @@ export default function HeroSection() {
         {/* Carrossel de artes — infinito, full width, draggable */}
         <div ref={containerRef} className="v2-carousel-track-container v2-hero-enter v2-hero-enter-4">
           <div ref={trackRef} className="v2-carousel-track">
-            {duplicated.map((src, i) => (
-              <div key={i} className="v2-carousel-card">
-                <img src={src} alt={`Arte ${(i % CARROSSEL_ARTES.length) + 1}`} loading="lazy" />
-              </div>
-            ))}
+            {duplicated.map((src, i) => {
+              const isPriority = i < 2
+              return (
+                <div key={i} className="v2-carousel-card">
+                  <img
+                    src={src}
+                    alt={`Arte ${(i % artes.length) + 1}`}
+                    loading={isPriority ? 'eager' : 'lazy'}
+                    fetchPriority={isPriority ? 'high' : 'low'}
+                    decoding="async"
+                  />
+                </div>
+              )
+            })}
           </div>
         </div>
 

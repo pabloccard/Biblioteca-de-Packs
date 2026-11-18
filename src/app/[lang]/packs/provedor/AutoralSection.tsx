@@ -7,6 +7,7 @@ export default function AutoralSection() {
           src="/sales-pages/provedor-v2/autoral-bg.webp"
           alt=""
           loading="lazy"
+          decoding="async"
         />
       </div>
       <div className="v2-autoral-shadow" />

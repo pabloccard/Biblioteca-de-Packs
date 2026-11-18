@@ -25,6 +25,7 @@ export default function FacilEdicaoSection() {
             src="/sales-pages/provedor-v2/facil-edicao-screenshot.webp"
             alt="Screenshot de edição no Canva com camadas organizadas"
             loading="lazy"
+            decoding="async"
           />
         </div>
 

@@ -27,6 +27,7 @@ export default function SuporteSection() {
             alt="Suporte pelo WhatsApp"
             className="v2-suporte-banner"
             loading="lazy"
+            decoding="async"
           />
         </div>
 

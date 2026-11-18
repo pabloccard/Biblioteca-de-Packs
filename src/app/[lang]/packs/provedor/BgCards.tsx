@@ -33,7 +33,7 @@ export default function BgCards({ section, cards }: BgCardsProps) {
           <div className="v2-bg-cards-grid">
             {cardList.map((src, i) => (
               <div key={i} className={`v2-bg-card v2-bg-card-${i + 1}`}>
-                <img src={src} alt="" loading="lazy" />
+                <img src={src} alt="" loading="lazy" decoding="async" />
               </div>
             ))}
           </div>

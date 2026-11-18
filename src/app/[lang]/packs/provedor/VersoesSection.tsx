@@ -134,6 +134,7 @@ export default function VersoesSection() {
                   src={src}
                   alt={`Versão de cores ${(i % VERSOES_COVERS.length) + 1}`}
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}
