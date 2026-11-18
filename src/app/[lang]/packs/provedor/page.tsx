@@ -61,7 +61,7 @@ export default async function ProvedorSalesPage({
         {/* 6. FEEDBACKS */}
         <FeedbacksSection />
 
-        {/* 7. NOVA OFERTA (Black Friday R$ 29,90) */}
+        {/* 7. NOVA OFERTA (Black Friday R$ 37,90) */}
         <NovaOfertaSection />
 
         {/* FAIXA: CRIAÇÃO 100% AUTORAL */}

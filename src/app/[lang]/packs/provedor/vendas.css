@@ -1226,22 +1226,6 @@
   border-radius: calc(33 * var(--s));
 }
 
-.v2-facil-edicao-img-shadow {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(
-    180deg,
-    rgba(1, 1, 1, 0) 0%,
-    rgba(1, 1, 1, 0.3) 30%,
-    rgba(1, 1, 1, 0.76) 60%,
-    rgb(1, 1, 1) 100%
-  );
-  pointer-events: none;
-}
-
 /* ============================================= */
 /* ===== SEÇÃO: NOVA OFERTA (Black Friday) ===== */
 /* ============================================= */

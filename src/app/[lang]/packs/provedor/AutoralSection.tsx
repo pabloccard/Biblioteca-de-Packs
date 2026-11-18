@@ -36,7 +36,7 @@ export default function AutoralSection() {
           não está comprando um pacote genérico de revenda com artes catadas da
           internet: cada peça deste pack foi desenhada do zero por mim, pensando
           especificamente no que faz um provedor de internet chamar atenção e
-          vender planos na sua cidade, desde a iluminação e o destaque dos megas
+          vender planos na sua cidade, desde a iluminação e o destaque dos planos
           até a organização limpa das camadas para facilitar a sua edição.
         </p>
       </div>

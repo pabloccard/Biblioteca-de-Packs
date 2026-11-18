@@ -51,9 +51,9 @@ export default function NovaOfertaSection() {
         {/* Price */}
         <div className="v2-nova-oferta-price">
           <p className="v2-nova-oferta-price-old">
-            de <s>R$ 46,00</s> por
+            de <s>R$ 67,90</s> por
           </p>
-          <p className="v2-nova-oferta-price-current">R$ 29,90</p>
+          <p className="v2-nova-oferta-price-current">R$ 37,90</p>
           <p className="v2-nova-oferta-price-unique">pagamento único</p>
         </div>
 

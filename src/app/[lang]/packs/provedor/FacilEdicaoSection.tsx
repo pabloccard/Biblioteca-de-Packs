@@ -19,14 +19,13 @@ export default function FacilEdicaoSection() {
           </h2>
         </div>
 
-        {/* Screenshot image with gradient shadow */}
+        {/* Screenshot image */}
         <div className="v2-facil-edicao-img-wrapper">
           <img
             src="/sales-pages/provedor-v2/facil-edicao-screenshot.webp"
             alt="Screenshot de edição no Canva com camadas organizadas"
             loading="lazy"
           />
-          <div className="v2-facil-edicao-img-shadow" />
         </div>
 
         {/* Description */}
