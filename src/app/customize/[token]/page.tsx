@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { parseCustomizeParam } from '@/lib/customization-slug'
 import CustomizeForm from './CustomizeForm'
-import WhatsAppButton from '@/components/WhatsAppButton'
 
 export default async function CustomizePage({
   params,
@@ -33,11 +32,18 @@ export default async function CustomizePage({
 
   if (!order) notFound()
 
-  const { data: arts } = await supabase
-    .from('customization_arts')
-    .select('*')
-    .eq('order_id', order.id)
-    .order('display_order')
+  const [{ data: arts }, { data: versions }] = await Promise.all([
+    supabase
+      .from('customization_arts')
+      .select('*')
+      .eq('order_id', order.id)
+      .order('display_order'),
+    supabase
+      .from('pack_versions')
+      .select('id, name, cover_image_url, display_order')
+      .eq('pack_id', order.pack_id)
+      .order('display_order', { ascending: true }),
+  ])
 
   const memberData = order.members as { language?: string } | null
   const packData = order.packs as {
@@ -68,8 +74,10 @@ export default async function CustomizePage({
         alreadySubmitted={alreadySubmitted}
         initialGeneralNotes={order.general_notes || ''}
         lang={effectiveLang}
+        versions={versions || []}
+        initialChosenVersionId={order.chosen_version_id || null}
+        initialChosenVersionName={order.chosen_version_name || ''}
       />
-      <WhatsAppButton />
     </div>
   )
 }

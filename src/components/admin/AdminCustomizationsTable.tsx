@@ -9,6 +9,7 @@ export interface CustomizationOrderRow {
   client_name: string | null
   client_email: string | null
   pack_name: string
+  chosen_version_name?: string | null
   created_at: string
 }
 
@@ -161,9 +162,29 @@ export default function AdminCustomizationsTable({ orders }: AdminCustomizations
                 <tr key={order.id}>
                   {/* Pack Name */}
                   <td>
-                    <span className="admin-pack-title-text primary" style={{ fontWeight: 600 }}>
-                      {order.pack_name}
-                    </span>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '5px' }}>
+                      <span className="admin-pack-title-text primary" style={{ fontWeight: 600 }}>
+                        {order.pack_name}
+                      </span>
+                      {order.chosen_version_name && (
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            letterSpacing: '0.04em',
+                            color: '#38bdf8',
+                            background: 'rgba(56, 189, 248, 0.12)',
+                            padding: '2px 8px',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(56, 189, 248, 0.25)',
+                          }}
+                        >
+                          {order.chosen_version_name}
+                        </span>
+                      )}
+                    </div>
                   </td>
 
                   {/* Client Info */}

@@ -2,13 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { submitCustomizationAction } from '@/app/admin/customization-actions'
+import {
+  submitCustomizationAction,
+  saveOrderChosenVersionAction,
+} from '@/app/admin/customization-actions'
 import ModalProgressiveImage from '@/components/ModalProgressiveImage'
 
 export interface ArtCustomField {
   id: string
   label: string
   placeholder?: string
+}
+
+export interface VersionItem {
+  id: string
+  name: string
+  cover_image_url: string | null
+  display_order: number
 }
 
 interface Art {
@@ -31,6 +41,9 @@ interface CustomizeFormProps {
   alreadySubmitted?: boolean
   initialGeneralNotes?: string
   lang?: string
+  versions?: VersionItem[]
+  initialChosenVersionId?: string | null
+  initialChosenVersionName?: string | null
 }
 
 const pageVariants = {
@@ -219,8 +232,12 @@ export default function CustomizeForm({
   alreadySubmitted = false,
   initialGeneralNotes = '',
   lang = 'pt',
+  versions = [],
+  initialChosenVersionId = null,
+  initialChosenVersionName = '',
 }: CustomizeFormProps) {
   const isEs = lang === 'es'
+  const hasVersions = !!versions && versions.length > 0
 
   function getArtNumber(art: Art): number {
     const numMatch = art.file_name.match(/^(\d+)/) || art.file_name.match(/(\d+)/)
@@ -242,15 +259,27 @@ export default function CustomizeForm({
 
   const texts = {
     badge: isEs ? 'PERSONALIZACIÓN' : 'PERSONALIZAÇÃO',
+    step1Badge: isEs ? 'PASO 1 DE 2 • COLORES' : 'ETAPA 1 DE 2 • CORES',
+    step1Title: isEs ? 'Elige la versión de colores' : 'Escolha a versão de cores',
+    step1Desc: isEs
+      ? 'Selecciona la combinación de colores que mejor combine con tu marca. En el siguiente paso podrás indicar las informaciones de cada diseño.'
+      : 'Selecione a combinação de cores que melhor combina com o seu provedor. Na próxima etapa você poderá preencher as informações de cada arte.',
+    step1Btn: isEs ? 'Continuar con esta versión' : 'Continuar com esta versão',
+    step2Badge: isEs ? 'PASO 2 DE 2 • INFORMACIÓN' : 'ETAPA 2 DE 2 • INFORMAÇÕES',
+    step2ChangeColor: isEs ? 'Cambiar color' : 'Trocar cor',
     greeting: clientFirstName
       ? (isEs ? `¡Bienvenido, ${clientFirstName}!` : `Bem-vindo, ${clientFirstName}!`)
       : (isEs ? '¡Bienvenido!' : 'Bem-vindo!'),
     description: isEs
       ? 'Completa los datos que deben reemplazar la información de cada diseño, como planes, precios y datos de contacto. Si algún diseño no necesita cambios, no es necesario completar sus datos.'
       : 'Preencha os dados que devem substituir as informações de cada arte, como planos, preços e contatos. Se alguma arte não precisar de alterações, não é necessário preenchê-la.',
-    gridHint: isEs
-      ? 'Haz clic en un diseño para completar la información.'
-      : 'Clique em uma arte para preencher as informações.',
+    gridHint: hasVersions
+      ? (isEs
+          ? 'Haz clic en un diseño para completar la información. Los colores de estos diseños son solo ilustrativos para la recopilación de datos (tu pack final será entregado en la versión que elegiste).'
+          : 'Clique em uma arte para preencher as informações. As cores destas artes são apenas ilustrativas para a coleta dos dados (seu pack final será entregue na versão que você escolheu).')
+      : (isEs
+          ? 'Haz clic en un diseño para completar la información.'
+          : 'Clique em uma arte para preencher as informações.'),
     emptyArts: isEs
       ? 'Los diseños de este pack están siendo preparados por nuestro equipo. ¡Pronto podrás completar los detalles aquí!'
       : 'As artes deste pack estão sendo preparadas pela nossa equipe. Em breve você poderá preencher os detalhes aqui!',
@@ -270,6 +299,14 @@ export default function CustomizeForm({
       ? 'Error al enviar la información. Inténtalo de nuevo.'
       : 'Erro ao enviar informações. Tente novamente.',
   }
+
+  // Versão de cor escolhida e controle de etapa
+  const [chosenVersionId, setChosenVersionId] = useState<string | null>(initialChosenVersionId || null)
+  const [chosenVersionName, setChosenVersionName] = useState<string>(initialChosenVersionName || '')
+  const [step, setStep] = useState<'color' | 'arts'>(() => {
+    if (!hasVersions) return 'arts'
+    return 'color'
+  })
 
   // Inicializa as instruções das artes com dados vindos do banco
   const [instructions, setInstructions] = useState<Record<string, string>>(() => {
@@ -295,10 +332,26 @@ export default function CustomizeForm({
 
   const [generalNotes, setGeneralNotes] = useState(initialGeneralNotes)
   const [editingArt, setEditingArt] = useState<Art | null>(null)
+  const [previewingVersion, setPreviewingVersion] = useState<VersionItem | null>(null)
   const [tempFieldValues, setTempFieldValues] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(alreadySubmitted)
   const [error, setError] = useState('')
+
+  const chosenVersionCover =
+    versions.find(v => v.id === chosenVersionId)?.cover_image_url ||
+    coverImage
+
+  async function handleConfirmVersion(v: VersionItem) {
+    setChosenVersionId(v.id)
+    setChosenVersionName(v.name)
+    saveOrderChosenVersionAction(accessToken, v.id, v.name).catch(console.error)
+    setPreviewingVersion(null)
+    setStep('arts')
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   function isArtFilled(art: Art): boolean {
     const fields = getFieldsForArt(art)
@@ -329,11 +382,17 @@ export default function CustomizeForm({
         if (typeof parsed.generalNotes === 'string' && parsed.generalNotes.trim().length > 0) {
           setGeneralNotes(parsed.generalNotes)
         }
+        if (parsed.chosenVersionId && !initialChosenVersionId) {
+          setChosenVersionId(parsed.chosenVersionId)
+        }
+        if (parsed.chosenVersionName && !initialChosenVersionName) {
+          setChosenVersionName(parsed.chosenVersionName)
+        }
       }
     } catch (err) {
       console.warn('Erro ao carregar rascunho do localStorage:', err)
     }
-  }, [accessToken])
+  }, [accessToken, initialChosenVersionId, initialChosenVersionName])
 
   // 2. Persistência de Dados: Salva rascunho automaticamente a cada alteração
   useEffect(() => {
@@ -343,22 +402,24 @@ export default function CustomizeForm({
         instructions,
         artFieldValues,
         generalNotes,
+        chosenVersionId,
+        chosenVersionName,
       }
       localStorage.setItem(`cust_draft_${accessToken}`, JSON.stringify(dataToSave))
     } catch (err) {
       console.warn('Erro ao salvar rascunho no localStorage:', err)
     }
-  }, [instructions, artFieldValues, generalNotes, accessToken, submitted])
+  }, [instructions, artFieldValues, generalNotes, chosenVersionId, chosenVersionName, accessToken, submitted])
 
-  // Controla overflow do body para manter o mesmo scroll ao fechar o modal
+  // Controla overflow do body para manter o mesmo scroll ao fechar qualquer modal
   useEffect(() => {
-    if (!editingArt) return
+    if (!editingArt && !previewingVersion) return
     const originalOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = originalOverflow
     }
-  }, [editingArt])
+  }, [editingArt, previewingVersion])
 
   function handleOpenArtModal(art: Art) {
     setEditingArt(art)
@@ -395,9 +456,18 @@ export default function CustomizeForm({
     handleSaveAndCloseArtModal()
   }
 
+  const modalFields = editingArt ? getFieldsForArt(editingArt) : []
+  const hasModalFields = modalFields.length > 0
+
+  const hasAtLeastOneFilled =
+    arts.some(art => isArtFilled(art) || (instructions[art.id] || '').trim().length > 0) ||
+    Object.values(artFieldValues).some(values =>
+      Object.values(values).some(val => typeof val === 'string' && val.trim().length > 0)
+    )
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (submitting) return
+    if (submitting || !hasAtLeastOneFilled) return
 
     setSubmitting(true)
     setError('')
@@ -423,6 +493,12 @@ export default function CustomizeForm({
     formData.append('access_token', accessToken)
     formData.append('general_notes', generalNotes.trim())
     formData.append('arts_instructions', JSON.stringify(payload))
+    if (chosenVersionId) {
+      formData.append('chosen_version_id', chosenVersionId)
+    }
+    if (chosenVersionName) {
+      formData.append('chosen_version_name', chosenVersionName)
+    }
 
     try {
       const result = await submitCustomizationAction(formData)
@@ -442,9 +518,6 @@ export default function CustomizeForm({
       setSubmitting(false)
     }
   }
-
-  const modalFields = editingArt ? getFieldsForArt(editingArt) : []
-  const hasModalFields = modalFields.length > 0
 
   return (
     <>
@@ -473,6 +546,86 @@ export default function CustomizeForm({
               </div>
             </div>
           </motion.div>
+        ) : step === 'color' && hasVersions ? (
+          <motion.div
+            key="customize-step-color"
+            className="cust-flow-container"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={pageVariants}
+          >
+            {/* 1. Backdrop de Capa e Sombra */}
+            <div className="pack-hero-backdrop">
+              <img src={coverImage} alt={packName} className="pack-cover-img" />
+              <img src="/sombra-cover.webp" alt="" className="pack-cover-shadow" aria-hidden="true" />
+            </div>
+
+            {/* 2. Header Etapa 1 */}
+            <motion.div className="pack-header-section" variants={headerVariants}>
+              <div className="pack-cover-header">
+                <img src="/premium.webp" alt="" className="pack-crown-icon" />
+                <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: '#FFB742' }}>
+                  {texts.step1Badge}
+                </span>
+              </div>
+              <h1 className="pack-cover-title" style={{ marginTop: '2px' }}>
+                {texts.step1Title}
+              </h1>
+              <p className="pack-header-description" style={{ marginTop: '8px' }}>
+                {texts.step1Desc}
+              </p>
+            </motion.div>
+
+            {/* 3. Dica da Etapa */}
+            <div className="cust-grid-hint">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="cust-grid-hint-icon">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span className="cust-grid-hint-text">
+                {isEs ? 'Haz clic en una versión para verla y seleccionarla.' : 'Clique em uma versão para ver e selecionar.'}
+              </span>
+            </div>
+
+            {/* 4. Grade das Versões de Cores (Estilo PackCard Dashboard - 1 coluna no mobile) */}
+            <div className="cust-versions-grid">
+              {versions.map((ver) => (
+                <div
+                  key={ver.id}
+                  onClick={() => setPreviewingVersion(ver)}
+                  className="pack-card unlocked cust-version-card"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setPreviewingVersion(ver)
+                    }
+                  }}
+                >
+                  <div className="pack-card-media">
+                    <img
+                      src={ver.cover_image_url || coverImage}
+                      alt={ver.name}
+                      className="pack-card-img"
+                      loading="lazy"
+                    />
+                    <img
+                      src="/sombra-card.webp"
+                      alt=""
+                      className="pack-card-shadow-img"
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  <div className="pack-card-footer">
+                    <h3 className="pack-card-title">{ver.name}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         ) : (
           <motion.form
             key="customize-form"
@@ -485,7 +638,7 @@ export default function CustomizeForm({
           >
             {/* 1. Backdrop de Capa e Sombra (sem botão voltar no topo da página) */}
             <div className="pack-hero-backdrop">
-              <img src={coverImage} alt={packName} className="pack-cover-img" />
+              <img src={chosenVersionCover || coverImage} alt={packName} className="pack-cover-img" />
               <img src="/sombra-cover.webp" alt="" className="pack-cover-shadow" aria-hidden="true" />
             </div>
 
@@ -494,7 +647,7 @@ export default function CustomizeForm({
               <div className="pack-cover-header">
                 <img src="/premium.webp" alt="" className="pack-crown-icon" />
                 <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: '#FFB742' }}>
-                  {texts.badge}
+                  {hasVersions ? texts.step2Badge : texts.badge}
                 </span>
               </div>
               <h1 className="pack-cover-title" style={{ marginTop: '2px' }}>
@@ -504,6 +657,33 @@ export default function CustomizeForm({
                 {texts.description}
               </p>
             </motion.div>
+
+            {/* Indicação da cor escolhida (clicável para trocar) */}
+            {hasVersions && chosenVersionName && (
+              <div className="cust-chosen-version-wrap">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep('color')
+                    if (typeof window !== 'undefined') {
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                  }}
+                  className="cust-chosen-version-btn"
+                  title={isEs ? 'Haz clic para cambiar de color' : 'Clique para trocar a versão de cor'}
+                  aria-label={isEs ? 'Cambiar versión de color' : 'Trocar versão de cor'}
+                >
+                  {chosenVersionCover && (
+                    <img
+                      src={chosenVersionCover}
+                      alt={chosenVersionName}
+                      className="cust-chosen-version-thumb"
+                    />
+                  )}
+                  <span className="cust-chosen-version-name">{chosenVersionName}</span>
+                </button>
+              </div>
+            )}
 
             {/* 3. Dica com ícone (i) */}
             <div className="cust-grid-hint">
@@ -551,10 +731,11 @@ export default function CustomizeForm({
 
               <motion.button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || !hasAtLeastOneFilled}
                 className="cust-main-submit-btn"
-                whileHover={!submitting ? { scale: 1.015 } : undefined}
-                whileTap={!submitting ? { scale: 0.98 } : undefined}
+                whileHover={!submitting && hasAtLeastOneFilled ? { scale: 1.015 } : undefined}
+                whileTap={!submitting && hasAtLeastOneFilled ? { scale: 0.98 } : undefined}
+                title={!hasAtLeastOneFilled ? (isEs ? 'Completa los datos de al menos un diseño para enviar' : 'Preencha as informações de pelo menos uma arte para enviar') : undefined}
               >
                 {submitting ? (
                   <>
@@ -567,6 +748,74 @@ export default function CustomizeForm({
               </motion.button>
             </div>
           </motion.form>
+        )}
+      </AnimatePresence>
+
+      {/* Modal Isolado de Preview da Versão de Cores */}
+      <AnimatePresence>
+        {previewingVersion && (
+          <motion.div
+            key="cust-version-preview-overlay"
+            className="cust-version-preview-overlay"
+            onClick={() => setPreviewingVersion(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              className="cust-version-preview-container"
+              onClick={e => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 12 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 340 }}
+            >
+              {/* Botão fechar */}
+              <button
+                type="button"
+                className="cust-version-preview-close-btn"
+                onClick={() => setPreviewingVersion(null)}
+                aria-label={isEs ? 'Cerrar' : 'Fechar'}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+
+              {/* Card isolado */}
+              <div className="pack-card unlocked" style={{ width: '100%' }}>
+                <div className="pack-card-media">
+                  <img
+                    src={previewingVersion.cover_image_url || coverImage}
+                    alt={previewingVersion.name}
+                    className="pack-card-img"
+                  />
+                  <img
+                    src="/sombra-card.webp"
+                    alt=""
+                    className="pack-card-shadow-img"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="pack-card-footer">
+                  <h3 className="pack-card-title">{previewingVersion.name}</h3>
+                </div>
+              </div>
+
+              {/* Botão selecionar esta versão */}
+              <motion.button
+                type="button"
+                onClick={() => handleConfirmVersion(previewingVersion)}
+                className="cust-version-preview-select-btn"
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{isEs ? 'Seleccionar esta versión' : 'Selecionar esta versão'}</span>
+              </motion.button>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 

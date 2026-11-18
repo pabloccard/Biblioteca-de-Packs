@@ -19,6 +19,8 @@ interface Order {
   client_whatsapp: string | null
   general_notes: string | null
   custom_cover_url?: string | null
+  chosen_version_id?: string | null
+  chosen_version_name?: string | null
   delivery_links: {
     feed_url?: string
     stories_url?: string
@@ -257,6 +259,72 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
       {feedback && (
         <div className={feedback.type === 'success' ? 'admin-success' : 'login-error'}>
           {feedback.message}
+        </div>
+      )}
+
+      {/* Chosen Version Color Card */}
+      {order.chosen_version_name ? (
+        <div
+          className="admin-form-section"
+          style={{
+            border: '1px solid rgba(56, 189, 248, 0.4)',
+            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(14, 165, 233, 0.04) 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '16px',
+            padding: '20px 24px',
+          }}
+        >
+          <div>
+            <span
+              style={{
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                color: '#38bdf8',
+                textTransform: 'uppercase',
+                display: 'block',
+                marginBottom: '6px',
+              }}
+            >
+              Versão de Cor Escolhida pelo Cliente
+            </span>
+            <h2 style={{ margin: 0, fontSize: '1.45rem', fontWeight: 800, color: '#FFFFFF' }}>
+              {order.chosen_version_name}
+            </h2>
+          </div>
+
+          <span
+            style={{
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              color: '#bae6fd',
+              background: 'rgba(56, 189, 248, 0.15)',
+              padding: '6px 14px',
+              borderRadius: '999px',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+            }}
+          >
+            Aplicar esta paleta na personalização
+          </span>
+        </div>
+      ) : (
+        <div
+          className="admin-form-section"
+          style={{
+            border: '1px dashed rgba(255, 255, 255, 0.12)',
+            background: 'rgba(255, 255, 255, 0.01)',
+            padding: '14px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+            O cliente ainda não escolheu a versão de cores (aguardando envio do formulário).
+          </span>
         </div>
       )}
 

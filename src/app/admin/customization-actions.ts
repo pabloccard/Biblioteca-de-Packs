@@ -77,6 +77,8 @@ export async function submitCustomizationAction(formData: FormData) {
   const clientWhatsapp = (formData.get('client_whatsapp') as string)?.trim()
   const generalNotes = (formData.get('general_notes') as string)?.trim()
   const artsInstructionsRaw = formData.get('arts_instructions') as string
+  const chosenVersionId = (formData.get('chosen_version_id') as string)?.trim()
+  const chosenVersionName = (formData.get('chosen_version_name') as string)?.trim()
 
   if (!accessToken) {
     return { error: 'Token de acesso inválido.' }
@@ -101,6 +103,8 @@ export async function submitCustomizationAction(formData: FormData) {
   if (clientName) updatePayload.client_name = clientName
   if (clientEmail) updatePayload.client_email = clientEmail
   if (clientWhatsapp) updatePayload.client_whatsapp = clientWhatsapp
+  if (chosenVersionId) updatePayload.chosen_version_id = chosenVersionId
+  if (chosenVersionName) updatePayload.chosen_version_name = chosenVersionName
 
   const { error: updateError } = await supabase
     .from('customization_orders')
@@ -644,5 +648,32 @@ export async function syncOrderArtsFromPackAction(orderId: string) {
 
   const result = await populateOrderArtsFromPack(order.id, order.pack_id, supabase)
   return result
+}
+
+/**
+ * Salva a versão de cores escolhida pelo cliente no pedido
+ */
+export async function saveOrderChosenVersionAction(
+  accessToken: string,
+  chosenVersionId: string,
+  chosenVersionName: string
+) {
+  if (!accessToken) return { error: 'Token inválido' }
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from('customization_orders')
+    .update({
+      chosen_version_id: chosenVersionId || null,
+      chosen_version_name: chosenVersionName || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('access_token', accessToken)
+
+  if (error) {
+    console.error('Erro ao salvar versão de cores escolhida:', error)
+    return { error: error.message }
+  }
+  return { success: true }
 }
 

@@ -27,6 +27,7 @@ export default async function CustomizationsListPage() {
     client_name: order.client_name,
     client_email: order.client_email,
     pack_name: (order.packs as { name: string } | null)?.name || 'Pack não identificado',
+    chosen_version_name: order.chosen_version_name || null,
     created_at: order.created_at,
   }))
 
