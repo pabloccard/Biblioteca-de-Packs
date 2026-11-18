@@ -1,8 +1,11 @@
+'use client'
+
 import {
   SECTION_BG_CARDS,
   resolveArtPath,
   type SectionBgName,
 } from './cardsConfig'
+import { usePacksContext } from './PacksContext'
 
 interface BgCardsProps {
   section?: SectionBgName
@@ -12,9 +15,16 @@ interface BgCardsProps {
 const DEFAULT_CARDS = [1, 2, 3, 4, 5, 6].map(resolveArtPath)
 
 export default function BgCards({ section, cards }: BgCardsProps) {
+  const context = usePacksContext()
+  const sourceMap = context?.sectionBgCards || SECTION_BG_CARDS
+
   const cardList = cards
-    ? cards.map(resolveArtPath)
-    : (section && SECTION_BG_CARDS[section]) || DEFAULT_CARDS
+    ? cards.map((c) =>
+        typeof c === 'number' && context?.artesFolder
+          ? `${context.artesFolder}/${c}.webp`
+          : resolveArtPath(c)
+      )
+    : (section && sourceMap[section]) || DEFAULT_CARDS
 
   return (
     <div className="v2-bg-wrapper">

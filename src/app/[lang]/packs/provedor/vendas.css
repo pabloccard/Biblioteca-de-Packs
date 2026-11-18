@@ -1453,3 +1453,20 @@
   color: #f1f2ec;
   font-weight: 700;
 }
+
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: VERMELHO ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--vermelho .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam vermelhos */
+.vendas-page--vermelho .v2-badge-icon--blue::before,
+.vendas-page--vermelho .v2-badge-icon--green::before {
+  background-color: #E50914;
+}
+
+/* O verde (#D4FF5E) fica restrito aos checks da oferta, botão CTA e faixa dos feedbacks */

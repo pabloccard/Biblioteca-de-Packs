@@ -3,11 +3,14 @@
 import { useRef, useEffect } from 'react'
 import BgCards from './BgCards'
 import { CARROSSEL_ARTES } from './cardsConfig'
+import { usePacksContext } from './PacksContext'
 
 export default function HeroSection() {
   const trackRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const duplicated = [...CARROSSEL_ARTES, ...CARROSSEL_ARTES]
+  const context = usePacksContext()
+  const artes = context?.carrosselArtes || CARROSSEL_ARTES
+  const duplicated = [...artes, ...artes]
 
   useEffect(() => {
     const container = containerRef.current
