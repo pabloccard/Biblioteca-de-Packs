@@ -3,7 +3,7 @@ import BgCards from './BgCards'
 const BENEFITS = [
   '24 artes prontas para editar',
   '24 legendas prontas inclusas',
-  '10 versões de cores inclusas',
+  '12 versões de cores inclusas',
   'Use no Canva ou Photoshop',
   'Suporte direto no WhatsApp',
   'Acesso imediato e vitalício',

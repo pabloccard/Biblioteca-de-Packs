@@ -11,9 +11,9 @@ const FAQ_ITEMS = [
   },
   {
     question:
-      'Como funcionam as 10 versões de cores? Consigo mudar para qualquer cor?',
+      'Como funcionam as 12 versões de cores? Consigo mudar para qualquer cor?',
     answer:
-      'Depende do programa que você for usar: no Photoshop, as cores são 100% editáveis, você tem acesso total às camadas de luzes, brilhos e fundos para personalizar com qualquer cor que desejar. Já no Canva, como a iluminação de fundo é avançada, não é possível trocar a cor; por isso já entregamos o pack pronto nas 10 versões de cores mais utilizadas pelos provedores, bastando abrir a pasta da sua cor preferida e editar os textos e a logo.',
+      'Depende do programa que você for usar: no Photoshop, as cores são 100% editáveis, você tem acesso total às camadas de luzes, brilhos e fundos para personalizar com qualquer cor que desejar. Já no Canva, como a iluminação de fundo é avançada, não é possível trocar a cor; por isso já entregamos o pack pronto nas 12 versões de cores mais utilizadas pelos provedores, bastando abrir a pasta da sua cor preferida e editar os textos e a logo.',
   },
   {
     question: 'Quais informações eu consigo alterar nas artes?',

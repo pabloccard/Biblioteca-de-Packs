@@ -89,7 +89,7 @@ export const CARROSSEL_ARTES_IDS: number[] = Array.from(
 export const CARROSSEL_ARTES: string[] = CARROSSEL_ARTES_IDS.map(resolveArtPath)
 
 /**
- * 🌈 Capas das 10 versões de cores (Seção 3):
+ * 🌈 Capas das 12 versões de cores (Seção 3):
  */
 export const VERSOES_COVERS: string[] = [
   '/sales-pages/provedor-v2/versao-cover-1.webp',
@@ -102,6 +102,8 @@ export const VERSOES_COVERS: string[] = [
   '/sales-pages/provedor-v2/versao-cover-8.webp',
   '/sales-pages/provedor-v2/versao-cover-9.webp',
   '/sales-pages/provedor-v2/versao-cover-10.webp',
+  '/sales-pages/provedor-v2/versao-cover-11.webp',
+  '/sales-pages/provedor-v2/versao-cover-12.webp',
 ]
 
 /**

@@ -121,7 +121,7 @@ export default function VersoesSection() {
           </div>
           <h2 className="v2-section-title">
             Receba o pack em <br />
-            <span className="v2-highlight" style={{ whiteSpace: 'nowrap' }}>10 versões</span> de cores.
+            <span className="v2-highlight" style={{ whiteSpace: 'nowrap' }}>12 versões</span> de cores.
           </h2>
         </div>
 
@@ -144,7 +144,7 @@ export default function VersoesSection() {
         {/* Descrição */}
         <p className="v2-versoes-desc">
           Recolorir uma arte no Canva cheia de efeitos dá trabalho. Por isso, já
-          preparamos 10 versões com as principais cores do mercado para você ter
+          preparamos 12 versões com as principais cores do mercado para você ter
           opções prontas para usar.
         </p>
       </div>

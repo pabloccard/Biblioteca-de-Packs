@@ -27,7 +27,7 @@ export function proxy(request: NextRequest) {
   if (currentLocale) {
     // Se o usuário acessou uma rota com idioma X, mas o idioma registrado no cookie é Y,
     // e ele ESTÁ logado, redirecionamos para o idioma correto dele (exceto páginas de vendas /packs/).
-    if (memberLangCookie && memberLangCookie !== currentLocale && !pathname.includes('/packs/')) {
+    if (memberLangCookie && memberLangCookie !== currentLocale && !pathname.includes('/packs/') && !pathname.includes('provedor')) {
       request.nextUrl.pathname = pathname.replace(`/${currentLocale}`, `/${memberLangCookie}`)
       return NextResponse.redirect(request.nextUrl)
     }

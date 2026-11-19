@@ -1469,4 +1469,19 @@
   background-color: #E50914;
 }
 
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: LARANJA ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--laranja .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam laranja */
+.vendas-page--laranja .v2-badge-icon--blue::before,
+.vendas-page--laranja .v2-badge-icon--green::before {
+  background-color: #FF6B00;
+}
+
 /* O verde (#D4FF5E) fica restrito aos checks da oferta, botão CTA e faixa dos feedbacks */

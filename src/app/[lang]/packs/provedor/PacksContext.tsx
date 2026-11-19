@@ -38,7 +38,9 @@ export function PacksProvider({
   const defaultMockup =
     theme === 'vermelho'
       ? '/sales-pages/provedor-v2/mockup-vermelho.webp'
-      : '/sales-pages/provedor-v2/mockup.webp'
+      : theme === 'laranja'
+        ? '/sales-pages/provedor-v2/mockup-laranja.webp'
+        : '/sales-pages/provedor-v2/mockup.webp'
   const resolvedMockup = `${mockupSrc || defaultMockup}${query}`
 
   const carrosselArtes = Array.from(
