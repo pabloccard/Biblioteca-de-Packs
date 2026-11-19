@@ -267,11 +267,14 @@ export default function PackOverview({
                     href={`/${lang}/pack/${pack.id}/custom`}
                     className="pack-file-row pack-file-row-custom pack-version-row-mobile"
                   >
-                    <div className={isCustomPurchased ? 'pack-file-thumb' : 'pack-file-thumb pack-file-thumb-locked'}>
-                      <img src={customCover} alt="" className="pack-file-thumb-img" />
+                    <div className="pack-file-thumb pack-file-thumb-custom">
+                      <img src={customCover} alt="" className="pack-file-thumb-img pack-file-thumb-img-custom" />
+                      <div className="pack-file-thumb-crown-center" aria-hidden="true">
+                        <img src="/premium.webp" alt="" className="pack-file-thumb-crown-center-img" />
+                      </div>
                       {!isCustomPurchased && (
-                        <div className="pack-file-lock-badge">
-                          <svg width="26" height="26" viewBox="0 0 24 24" className="pack-file-lock-svg">
+                        <div className="pack-file-lock-badge-corner" aria-hidden="true">
+                          <svg width="14" height="14" viewBox="0 0 24 24" className="pack-file-lock-svg">
                             <path
                               fillRule="evenodd"
                               clipRule="evenodd"
@@ -282,12 +285,9 @@ export default function PackOverview({
                       )}
                     </div>
                     <div className="pack-file-info">
-                      <div className="pack-file-title-row">
-                        <img src="/premium.webp" alt="" className="pack-crown-icon" />
-                        <h4 className="pack-file-title">
-                          {dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
-                        </h4>
-                      </div>
+                      <h4 className="pack-file-title" style={{ color: '#FFB742' }}>
+                        {dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
+                      </h4>
                       <p className="pack-file-desc">
                         {isCustomPurchased
                           ? customComplement.customStatus === 'delivered'
@@ -315,12 +315,12 @@ export default function PackOverview({
                     href={`/${lang}/pack/${pack.id}/custom`}
                     className="pack-card-link pack-version-card-desktop"
                   >
-                    <div className={`pack-card ${isCustomPurchased ? 'unlocked' : 'locked'}`}>
+                    <div className={`pack-card ${isCustomPurchased ? 'unlocked' : 'locked'} pack-card-custom`}>
                       <div className="pack-card-media">
                         <img
                           src={customCover}
                           alt={dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
-                          className="pack-card-img"
+                          className="pack-card-img pack-card-img-custom"
                         />
                         <img
                           src="/sombra-card.webp"
@@ -328,9 +328,13 @@ export default function PackOverview({
                           className="pack-card-shadow-img"
                           aria-hidden="true"
                         />
+                        {/* Crown in the center of the cover */}
+                        <div className="pack-card-center-crown" aria-hidden="true">
+                          <img src="/premium.webp" alt="" className="pack-card-center-crown-img" />
+                        </div>
                         {!isCustomPurchased && (
-                          <div className="pack-card-lock-center" aria-hidden="true">
-                            <svg width="44" height="44" viewBox="0 0 24 24" className="pack-lock-svg">
+                          <div className="pack-card-lock-badge-corner" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" className="pack-lock-svg">
                               <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
@@ -340,12 +344,9 @@ export default function PackOverview({
                           </div>
                         )}
                         <div className="pack-card-footer">
-                          <div className="pack-file-title-row">
-                            <img src="/premium.webp" alt="" className="pack-crown-icon" />
-                            <h3 className="pack-card-title" style={{ color: '#FFB742' }}>
-                              {dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
-                            </h3>
-                          </div>
+                          <h3 className="pack-card-title" style={{ color: '#FFB742' }}>
+                            {dict?.customCardTitle || (lang === 'en' ? 'Custom' : 'Personalizado')}
+                          </h3>
                         </div>
                       </div>
                     </div>

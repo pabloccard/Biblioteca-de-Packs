@@ -414,6 +414,46 @@
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
 }
 
+.pack-file-thumb-img-custom,
+.pack-file-row-custom .pack-file-thumb-img {
+  filter: blur(3px) brightness(0.52) contrast(1.05) !important;
+  transform: scale(1.1) !important;
+}
+
+.pack-file-thumb-crown-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.pack-file-thumb-crown-center-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 10px rgba(255, 183, 66, 0.45));
+}
+
+.pack-file-lock-badge-corner {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(15, 15, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
 .pack-file-info {
   display: flex;
   flex-direction: column;
@@ -1300,6 +1340,61 @@
     height: 18px;
     object-fit: contain;
     flex-shrink: 0;
+  }
+
+  .pack-card-img-custom,
+  .pack-overview-custom-item .pack-card-img {
+    filter: blur(4px) brightness(0.52) contrast(1.05) !important;
+    transform: scale(1.08) !important;
+  }
+
+  .pack-card-custom:hover .pack-card-img-custom,
+  .pack-overview-custom-item .pack-card:hover .pack-card-img {
+    filter: blur(3.5px) brightness(0.58) contrast(1.05) !important;
+    transform: scale(1.11) !important;
+  }
+
+  .pack-card-center-crown {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .pack-card-center-crown-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 24px rgba(255, 183, 66, 0.45));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  }
+
+  .pack-card:hover .pack-card-center-crown-img {
+    transform: scale(1.12);
+    filter: drop-shadow(0 8px 26px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 32px rgba(255, 183, 66, 0.65));
+  }
+
+  .pack-card-lock-badge-corner {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(15, 15, 18, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
   }
 
   /* ---- PACK OVERVIEW: LEGENDS GRID ---- */
