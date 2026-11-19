@@ -39,7 +39,7 @@ export const SECTION_COVER_IDS: Record<SectionBgName, number[]> = {
   personalize: [9, 20, 17, 10, 21, 22],
 
   // 7. Seção "Escolha como prefere receber" (Oferta)
-  ofertas: [5, 1, 16, 4, 9, 3],
+  ofertas: [19, 1, 16, 4, 9, 3],
 
   // 8. Seção "Suporte direto pelo WhatsApp"
   suporte: [2, 23, 8, 10, 21, 1],

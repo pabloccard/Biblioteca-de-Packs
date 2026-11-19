@@ -10,6 +10,7 @@ import FeedbacksSection from './FeedbacksSection'
 import NovaOfertaSection from './NovaOfertaSection'
 import AutoralSection from './AutoralSection'
 import FaqSection from './FaqSection'
+import { PacksProvider } from './PacksContext'
 import './vendas.css'
 
 const urbanist = Urbanist({
@@ -32,50 +33,52 @@ export default async function ProvedorSalesPage({
   const { lang } = await params
 
   return (
-    <main className={`vendas-page ${urbanist.className} ${urbanist.variable}`}>
-      <div className="vendas-container">
-        {/* 1. HERO (com carrossel de artes integrado) */}
-        <HeroSection />
+    <PacksProvider artesFolder="/sales-pages/provedor-v2/artes" theme="green">
+      <main className={`vendas-page ${urbanist.className} ${urbanist.variable}`}>
+        <div className="vendas-container">
+          {/* 1. HERO (com carrossel de artes integrado) */}
+          <HeroSection />
 
-        {/* 2. VERSÕES DE CORES */}
-        <VersoesSection />
+          {/* 2. VERSÕES DE CORES */}
+          <VersoesSection />
 
-        {/* 3. EDITE ONDE QUISER (Canva e Photoshop) */}
-        <EditeSection />
+          {/* 3. EDITE ONDE QUISER (Canva e Photoshop) */}
+          <EditeSection />
 
-        {/* FAIXA: FÁCIL EDIÇÃO */}
-        <FaixaSection
-          text="FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO"
-          variant="light"
-        />
+          {/* FAIXA: FÁCIL EDIÇÃO */}
+          <FaixaSection
+            text="FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO"
+            variant="light"
+          />
 
-        {/* 4. FÁCIL EDIÇÃO */}
-        <FacilEdicaoSection />
+          {/* 4. FÁCIL EDIÇÃO */}
+          <FacilEdicaoSection />
 
-        {/* 5. SUPORTE WHATSAPP */}
-        <SuporteSection />
+          {/* 5. SUPORTE WHATSAPP */}
+          <SuporteSection />
 
-        {/* FAIXA: FEEDBACKS */}
-        <FaixaSection text="FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS" />
+          {/* FAIXA: FEEDBACKS */}
+          <FaixaSection text="FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS" />
 
-        {/* 6. FEEDBACKS */}
-        <FeedbacksSection />
+          {/* 6. FEEDBACKS */}
+          <FeedbacksSection />
 
-        {/* 7. NOVA OFERTA (Black Friday R$ 37,90) */}
-        <NovaOfertaSection />
+          {/* 7. NOVA OFERTA (Black Friday R$ 37,90) */}
+          <NovaOfertaSection />
 
-        {/* FAIXA: CRIAÇÃO 100% AUTORAL */}
-        <FaixaSection
-          text="CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL"
-          variant="dark"
-        />
+          {/* FAIXA: CRIAÇÃO 100% AUTORAL */}
+          <FaixaSection
+            text="CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL"
+            variant="dark"
+          />
 
-        {/* 8. 100% AUTORAL */}
-        <AutoralSection />
+          {/* 8. 100% AUTORAL */}
+          <AutoralSection />
 
-        {/* 9. FAQ (Perguntas Frequentes) */}
-        <FaqSection />
-      </div>
-    </main>
+          {/* 9. FAQ (Perguntas Frequentes) */}
+          <FaqSection />
+        </div>
+      </main>
+    </PacksProvider>
   )
 }
