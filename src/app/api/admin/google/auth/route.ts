@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateGoogleAuthUrl } from '@/lib/google-oauth'
+import { generateGoogleAuthUrl, getSafeOrigin } from '@/lib/google-oauth'
 import { isAdminAuthenticated } from '@/app/admin/actions'
 
 export async function GET(request: NextRequest) {
@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const origin = request.nextUrl.origin
+    const origin = getSafeOrigin(request)
+    console.log(`[Google OAuth] Iniciando login. redirect_uri=${origin}/api/admin/google/callback`)
     const authUrl = generateGoogleAuthUrl(origin)
     return NextResponse.redirect(authUrl)
   } catch (error: any) {

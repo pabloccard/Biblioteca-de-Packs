@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { exchangeCodeAndSaveTokens } from '@/lib/google-oauth'
+import { exchangeCodeAndSaveTokens, getSafeOrigin } from '@/lib/google-oauth'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const code = searchParams.get('code')
   const errorParam = searchParams.get('error')
 
-  const origin = request.nextUrl.origin
+  const origin = getSafeOrigin(request)
 
   if (errorParam) {
     return NextResponse.redirect(
@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    console.log(`[Google OAuth] Processando callback com redirect_uri=${origin}/api/admin/google/callback`)
     await exchangeCodeAndSaveTokens(code, origin)
     return NextResponse.redirect(
       new URL('/admin/customizations?google_success=true', origin)

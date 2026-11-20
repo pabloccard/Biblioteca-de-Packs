@@ -916,7 +916,7 @@
   aspect-ratio: 4 / 5;
   border-radius: 16px;
   overflow: hidden;
-  background: transparent !important;
+  background: #000000;
   border: none !important;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8);
   isolation: isolate;
@@ -928,10 +928,8 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  transform: scale(1.02);
-  transform-origin: center;
 }
 
 .custom-art-modal-img-thumb {
@@ -1549,41 +1547,49 @@
 
   /* Modal no Desktop: 2 Colunas lado a lado */
   .custom-art-modal-container {
-    max-width: 840px;
+    max-width: 860px;
     width: 100%;
+    height: min(560px, calc(100vh - 48px));
+    max-height: calc(100vh - 48px);
     flex-direction: row;
     align-items: stretch;
-    gap: 32px;
+    gap: 28px;
     background: #141416;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 24px;
-    padding: 28px;
+    padding: 24px 28px;
     box-shadow: 0 32px 100px rgba(0, 0, 0, 0.85);
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .custom-art-modal-img-wrap {
-    flex: 0 0 380px;
-    width: 380px;
-    max-width: 48%;
+    flex: 0 0 auto;
+    height: 100%;
     aspect-ratio: 4 / 5;
+    max-width: 48%;
     border-radius: 18px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    background: #000000;
   }
 
   .custom-art-modal-sidebar {
-    flex: 1;
+    flex: 1 1 0;
     min-width: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    max-height: 100%;
+    overflow: hidden;
   }
 
   .custom-art-modal-sidebar-top {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .custom-art-modal-header-meta {
@@ -1595,10 +1601,10 @@
   }
 
   .custom-art-modal-caption {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
     height: 100%;
-    max-height: none;
+    max-height: 100%;
     overflow-y: auto;
     margin: 0;
     padding: 20px 22px;
@@ -1606,6 +1612,26 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 18px;
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+  }
+
+  .custom-art-modal-caption::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-art-modal-caption::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+  }
+
+  .custom-art-modal-caption::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+  }
+
+  .custom-art-modal-caption::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
   }
 
   .custom-art-modal-caption-label {
@@ -1637,25 +1663,36 @@
   }
 
   .custom-art-modal-btn-download {
-    height: 50px;
+    height: 48px;
     font-size: 15px;
   }
 
   .custom-art-modal-btn-copy {
-    height: 50px;
+    height: 48px;
     font-size: 15px;
   }
 
-  @media (max-height: 760px) {
+  @media (max-height: 720px) {
     .custom-art-modal-container {
-      max-width: 740px;
-      padding: 20px;
+      height: calc(100vh - 32px);
+      padding: 16px 20px;
       gap: 20px;
+      border-radius: 20px;
     }
 
-    .custom-art-modal-img-wrap {
-      flex: 0 0 300px;
-      width: 300px;
+    .custom-art-modal-caption {
+      padding: 14px 16px;
+    }
+
+    .custom-art-modal-actions-wrap {
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .custom-art-modal-btn-download,
+    .custom-art-modal-btn-copy {
+      height: 42px;
+      font-size: 14px;
     }
   }
 

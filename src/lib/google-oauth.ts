@@ -1,7 +1,20 @@
 import { OAuth2Client } from 'google-auth-library'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import type { NextRequest } from 'next/server'
 
 const SETTINGS_KEY = 'google_oauth'
+
+export function getSafeOrigin(request: NextRequest): string {
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
+  const proto =
+    request.headers.get('x-forwarded-proto') ||
+    (host && (host.includes('localhost') || host.includes('127.0.0.1')) ? 'http' : 'https')
+
+  if (host) {
+    return `${proto}://${host}`
+  }
+  return request.nextUrl.origin
+}
 
 export function getGoogleOAuthClient(customRedirectUri?: string): OAuth2Client {
   const clientId = process.env.GOOGLE_CLIENT_ID?.trim()

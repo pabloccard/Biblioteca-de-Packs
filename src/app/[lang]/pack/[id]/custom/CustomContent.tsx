@@ -824,7 +824,7 @@ export default function CustomContent({
                   {/* Caption (Legenda padrão do pack) */}
                   {selectedArt.caption && (
                     <div className="custom-art-modal-caption">
-                      <p>{selectedArt.caption.replace(/\s+/g, ' ').trim()}</p>
+                      <p>{selectedArt.caption.trim()}</p>
                     </div>
                   )}
                 </div>
