@@ -1484,4 +1484,79 @@
   background-color: #FF6B00;
 }
 
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: ROXO ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--roxo .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam roxos */
+.vendas-page--roxo .v2-badge-icon--blue::before,
+.vendas-page--roxo .v2-badge-icon--green::before {
+  background-color: #8B5CF6;
+}
+
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: AZUL ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--azul .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam azul */
+.vendas-page--azul .v2-badge-icon--blue::before,
+.vendas-page--azul .v2-badge-icon--green::before {
+  background-color: #0557EE;
+}
+
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: AMARELO ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--amarelo .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam amarelo */
+.vendas-page--amarelo .v2-badge-icon--blue::before,
+.vendas-page--amarelo .v2-badge-icon--green::before {
+  background-color: #FFC700;
+}
+
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: VERDE ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--verde .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) ficam verde */
+.vendas-page--verde .v2-badge-icon--blue::before,
+.vendas-page--verde .v2-badge-icon--green::before {
+  background-color: #D4FF5E;
+}
+
+/* ============================================= */
+/* ===== VARIAÇÃO DE TEMA: AZUL E LARANJA ===== */
+/* ============================================= */
+
+/* Títulos sem nenhuma cor (totalmente monocromáticos / brancos #F1F2EC) */
+.vendas-page--azul-laranja .v2-highlight {
+  color: inherit;
+}
+
+/* Todos os ícones de chapéu (badges) seguem azul conforme solicitado */
+.vendas-page--azul-laranja .v2-badge-icon--blue::before,
+.vendas-page--azul-laranja .v2-badge-icon--green::before {
+  background-color: #0557EE;
+}
+
 /* O verde (#D4FF5E) fica restrito aos checks da oferta, botão CTA e faixa dos feedbacks */

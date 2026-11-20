@@ -46,7 +46,17 @@ export function PacksProvider({
       ? '/sales-pages/provedor-v2/mockup-vermelho.webp'
       : theme === 'laranja'
         ? '/sales-pages/provedor-v2/mockup-laranja.webp'
-        : '/sales-pages/provedor-v2/mockup.webp'
+        : theme === 'roxo'
+          ? '/sales-pages/provedor-v2/mockup-roxo.webp'
+          : theme === 'azul'
+            ? '/sales-pages/provedor-v2/mockup-azul.webp'
+            : theme === 'amarelo'
+              ? '/sales-pages/provedor-v2/mockup-amarelo.webp'
+              : theme === 'verde'
+                ? '/sales-pages/provedor-v2/mockup-verde.webp'
+                : theme === 'azul-laranja'
+                  ? '/sales-pages/provedor-v2/mockup-azul-laranja.webp'
+                  : '/sales-pages/provedor-v2/mockup.webp'
   const resolvedMockup = `${mockupSrc || defaultMockup}${query}`
 
   // Carrossel de 24 artes respeitando o CARROSSEL_ARTES_IDS de cardsConfig.ts
