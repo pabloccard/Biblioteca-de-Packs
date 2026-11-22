@@ -1,4 +1,11 @@
+'use client'
+
+import { usePacksContext } from './PacksContext'
+
 export default function AutoralSection() {
+  const context = usePacksContext()
+  const content = context.content.autoral
+
   return (
     <section className="v2-autoral">
       {/* Background image with gradient shadows */}
@@ -20,25 +27,20 @@ export default function AutoralSection() {
             <span className="v2-badge-icon v2-badge-icon--blue">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
             </span>
-            <span className="v2-badge-text">Criação 100% autoral</span>
+            <span className="v2-badge-text">{content.badge}</span>
           </div>
           <h2 className="v2-section-title">
-            Feito do zero <br />
-            por um designer <br />
-            <span className="v2-highlight">especialista em provedores.</span>
+            {content.titleBefore} <br />
+            {content.titleBy} <br />
+            <span className="v2-highlight">{content.highlight}</span>
           </h2>
         </div>
 
         {/* Description with mixed styling */}
         <p className="v2-autoral-desc">
-          <span className="white">Prazer, meu nome é </span>
-          <span className="white-bold">Pablo </span>
-          e sou o designer por trás de todas as artes desta página. Aqui você
-          não está comprando um pacote genérico de revenda com artes catadas da
-          internet: cada peça deste pack foi desenhada do zero por mim, pensando
-          especificamente no que faz um provedor de internet chamar atenção e
-          vender planos na sua cidade, desde a iluminação e o destaque dos planos
-          até a organização limpa das camadas para facilitar a sua edição.
+          <span className="white">{content.intro}</span>
+          <span className="white-bold">{content.name}</span>
+          {content.desc}
         </p>
       </div>
     </section>

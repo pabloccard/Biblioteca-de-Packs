@@ -2,10 +2,13 @@
 
 import { useRef, useEffect } from 'react'
 import { VERSOES_COVERS } from './cardsConfig'
+import { usePacksContext } from './PacksContext'
 
 export default function VersoesSection() {
   const trackRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const context = usePacksContext()
+  const content = context.content.versoes
 
   useEffect(() => {
     const container = containerRef.current
@@ -109,19 +112,22 @@ export default function VersoesSection() {
   return (
     <section className="v2-versoes">
       <div className="v2-versoes-content">
-        {/* Título — cor verde #D4FF5E */}
+        {/* Título */}
         <div className="v2-section-title-block">
           <div className="v2-badge">
             <span className="v2-badge-icon v2-badge-icon--green">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
             </span>
             <span className="v2-badge-text v2-badge-text--semibold">
-              Várias versões inclusas
+              {content.badge}
             </span>
           </div>
           <h2 className="v2-section-title">
-            Receba o pack em <br />
-            <span className="v2-highlight" style={{ whiteSpace: 'nowrap' }}>12 versões</span> de cores.
+            {content.titleBefore} <br />
+            <span className="v2-highlight" style={{ whiteSpace: 'nowrap' }}>
+              {content.highlight}
+            </span>{' '}
+            {content.titleAfter}
           </h2>
         </div>
 
@@ -143,9 +149,7 @@ export default function VersoesSection() {
 
         {/* Descrição */}
         <p className="v2-versoes-desc">
-          Recolorir uma arte no Canva cheia de efeitos dá trabalho. Por isso, já
-          preparamos 12 versões com as principais cores do mercado para você ter
-          opções prontas para usar.
+          {content.desc}
         </p>
       </div>
     </section>

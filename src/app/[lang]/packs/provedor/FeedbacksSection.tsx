@@ -1,11 +1,12 @@
+'use client'
+
 import { FEEDBACK_CARDS } from './cardsConfig'
+import { usePacksContext } from './PacksContext'
 
 export default function FeedbacksSection() {
-  /* Duplicate images enough times for seamless infinite loop */
-  const duplicated = [
-    ...FEEDBACK_CARDS,
-    ...FEEDBACK_CARDS,
-  ]
+  const context = usePacksContext()
+  const content = context.content.feedbacks
+  const duplicated = [...FEEDBACK_CARDS, ...FEEDBACK_CARDS]
 
   return (
     <section className="v2-feedbacks">
@@ -16,16 +17,14 @@ export default function FeedbacksSection() {
             <span className="v2-badge-icon v2-badge-icon--blue">
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
             </span>
-            <span className="v2-badge-text">Quem comprou, aprovou</span>
+            <span className="v2-badge-text">{content.badge}</span>
           </div>
           <h2 className="v2-section-title">
-            O que dizem os <br />
-            provedores que já <br />
-            usam o pack
+            {content.title}
           </h2>
         </div>
 
-        {/* Carrossel infinito de feedbacks — auto-scroll, sem drag */}
+        {/* Carrossel infinito de feedbacks */}
         <div className="v2-feedback-carousel-container">
           <div className="v2-feedback-carousel-track">
             {duplicated.map((src, i) => (
@@ -43,9 +42,7 @@ export default function FeedbacksSection() {
 
         {/* Descrição */}
         <p className="v2-section-desc">
-          Quem já usa nossos pacotes no dia a dia sabe que na prática não tem
-          segredo nem perda de tempo: você recebe o acesso na hora, coloca os
-          dados do seu provedor em poucos cliques e já bota as artes para rodar.
+          {content.desc}
         </p>
       </div>
     </section>

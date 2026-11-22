@@ -9,6 +9,7 @@ export default function HeroSection() {
   const trackRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const context = usePacksContext()
+  const content = context.content.hero
   const artes = context?.carrosselArtes || CARROSSEL_ARTES
   const duplicated = [...artes, ...artes]
 
@@ -123,23 +124,23 @@ export default function HeroSection() {
               <img src="/sales-pages/provedor-v2/icon-rocket.png" alt="" />
             </span>
             <span className="v2-badge-text">
-              Pack de dezembro
+              {content.badge}
             </span>
           </div>
 
-          <h1 className="v2-hero-title">
-            Pack de Artes <br />
-            editáveis para <br />
+          <h1 className={`v2-hero-title ${context.lang === 'es' ? 'v2-hero-title--es' : ''}`}>
+            {content.titleBefore} <br />
+            {content.titleMid} <br />
             <span className="v2-highlight">
-              Provedor de <br />
-              Internet
+              {content.titleHighlight} <br />
+              {content.titleHighlight2}
             </span>
           </h1>
         </div>
 
         {/* Subtítulo */}
         <p className="v2-hero-subtitle v2-hero-enter v2-hero-enter-3">
-          Um pacote completo pronto para você abrir no celular ou computador, colocar a sua logo e os seus planos e baixar para postar em menos de 5 minutos.
+          {content.subtitle}
         </p>
 
         {/* Carrossel de artes — infinito, full width, draggable */}
@@ -155,6 +156,11 @@ export default function HeroSection() {
                     loading={isPriority ? 'eager' : 'lazy'}
                     fetchPriority={isPriority ? 'high' : 'low'}
                     decoding="async"
+                    onError={(e) => {
+                      if (!e.currentTarget.src.includes('/provedor-v2/artes/')) {
+                        e.currentTarget.src = src.replace('/provedor-v2-es/', '/provedor-v2/')
+                      }
+                    }}
                   />
                 </div>
               )
@@ -164,7 +170,7 @@ export default function HeroSection() {
 
         {/* Texto descritivo final */}
         <p className="v2-hero-desc">
-          A parte mais pesada do design já foi resolvida para você. Toda a direção visual, equilíbrio de cores e organização de informações já estão prontos: basta aplicar suas informações, baixar e postar.
+          {content.desc}
         </p>
       </div>
     </section>

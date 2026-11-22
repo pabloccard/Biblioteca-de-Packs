@@ -33,7 +33,20 @@ export default function BgCards({ section, cards }: BgCardsProps) {
           <div className="v2-bg-cards-grid">
             {cardList.map((src, i) => (
               <div key={i} className={`v2-bg-card v2-bg-card-${i + 1}`}>
-                <img src={src} alt="" loading="lazy" decoding="async" />
+                <img
+                  src={src}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    if (!e.currentTarget.src.includes('/provedor-v2/artes/')) {
+                      e.currentTarget.src = src.replace(
+                        '/provedor-v2-es/',
+                        '/provedor-v2/'
+                      )
+                    }
+                  }}
+                />
               </div>
             ))}
           </div>

@@ -221,6 +221,13 @@
   max-width: calc(737 * var(--s));
 }
 
+/* Versão em espanhol: reduz o título do hero para o mesmo tamanho das outras seções (94) */
+.v2-hero-title--es,
+.vendas-page--es .v2-hero-title {
+  font-size: calc(94 * var(--s));
+  line-height: 1.15;
+}
+
 .v2-highlight {
   color: #D4FF5E;
 }
@@ -945,12 +952,14 @@
   height: calc(67.9 * var(--s));
 }
 
-.v2-nova-selo-icon--guaranteed {
+.v2-nova-selo-icon--guaranteed,
+.v2-nova-selo-icon--guarantee {
   width: calc(56.9 * var(--s));
   height: calc(68.06 * var(--s));
 }
 
-.v2-nova-selo-icon--lock {
+.v2-nova-selo-icon--lock,
+.v2-nova-selo-icon--privacy {
   width: calc(51.13 * var(--s));
   height: calc(67.89 * var(--s));
 }
@@ -1307,11 +1316,8 @@
   font-size: calc(74.3 * var(--s));
   font-weight: 400;
   color: #959595;
-  line-height: calc(52 * var(--s));
-  height: calc(52 * var(--s));
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 1.2;
+  text-align: center;
   margin: 0;
 }
 
