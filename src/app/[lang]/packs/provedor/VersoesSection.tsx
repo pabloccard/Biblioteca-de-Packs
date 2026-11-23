@@ -9,6 +9,7 @@ export default function VersoesSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const context = usePacksContext()
   const content = context.content.versoes
+  const covers = context.versoesCovers || VERSOES_COVERS
 
   useEffect(() => {
     const container = containerRef.current
@@ -134,13 +135,18 @@ export default function VersoesSection() {
         {/* Carrossel de versões — infinito, full width, draggable */}
         <div ref={containerRef} className="v2-versoes-carousel-container">
           <div ref={trackRef} className="v2-versoes-carousel-track">
-            {[...VERSOES_COVERS, ...VERSOES_COVERS].map((src, i) => (
+            {[...covers, ...covers].map((src, i) => (
               <div key={i} className="v2-versoes-carousel-card">
                 <img
                   src={src}
-                  alt={`Versão de cores ${(i % VERSOES_COVERS.length) + 1}`}
+                  alt={`Versão de cores ${(i % covers.length) + 1}`}
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    if (!e.currentTarget.src.includes('/provedor-v2/versao-cover-')) {
+                      e.currentTarget.src = src.replace('/provedor-v2-es/', '/provedor-v2/')
+                    }
+                  }}
                 />
               </div>
             ))}

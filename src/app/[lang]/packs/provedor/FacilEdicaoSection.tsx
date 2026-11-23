@@ -37,8 +37,21 @@ export default function FacilEdicaoSection() {
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              e.currentTarget.src =
-                '/sales-pages/provedor-v2/facil-edicao-screenshot.webp'
+              if (
+                e.currentTarget.src.includes(
+                  '/provedor-v2-es/facil-edicao-screenshot.webp'
+                )
+              ) {
+                e.currentTarget.src =
+                  '/sales-pages/provedor-v2-es/facil-edicao-screenshot.png'
+              } else if (
+                !e.currentTarget.src.includes(
+                  '/provedor-v2/facil-edicao-screenshot.webp'
+                )
+              ) {
+                e.currentTarget.src =
+                  '/sales-pages/provedor-v2/facil-edicao-screenshot.webp'
+              }
             }}
           />
         </div>

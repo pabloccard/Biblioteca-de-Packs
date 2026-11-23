@@ -503,6 +503,7 @@ export async function POST(request: Request) {
                       clientEmail: email,
                       packName: effectivePack?.name || 'Pack',
                       customizeLink,
+                      language: packLanguage,
                     })
                     console.log(`📱 Notificação no Telegram enviada para o administrador`)
                   } catch (telegramErr) {
@@ -588,13 +589,13 @@ export async function POST(request: Request) {
               fromName: 'Personalización',
               subject: '¡Recibimos tu pedido de personalización!',
               greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
-              title: '¡Pedido de Personalización Recibido! 🎉',
-              body: `<p style="margin: 0 0 16px 0;">Recibimos tu información y el siguiente paso es comenzar la personalización de tus diseños.</p>
-<p style="margin: 0 0 16px 0;">Muy pronto nuestro equipo se comunicará contigo por WhatsApp, usando el número ingresado en la compra.</p>
-<p style="margin: 0 0 16px 0; color: #f5f5f7; font-weight: 600;">¿Quieres adelantar el proceso?</p>
-<p style="margin: 0 0 0 0;">Si prefieres, puedes hablar directamente con nuestro equipo haciendo clic en el botón de abajo. También te sirve por si necesitas corregir tu número.</p>`,
+              title: '¡Pedido de personalización recibido! 🎉',
+              body: `<p style="margin: 0 0 16px 0;">Recibimos tu información y el siguiente paso es comenzar con la personalización de tus diseños.</p>
+<p style="margin: 0 0 16px 0;">Muy pronto, nuestro equipo se pondrá en contacto contigo por WhatsApp, al número que registraste al momento de tu compra.</p>
+<p style="margin: 0 0 16px 0; color: #f5f5f7; font-weight: 600;">¿Quieres agilizar el proceso?</p>
+<p style="margin: 0 0 0 0;">Si prefieres, puedes escribirnos directamente haciendo clic en el botón de abajo. También te servirá en caso de que hayas ingresado un número incorrecto en tu pedido.</p>`,
               btn: 'Hablar por WhatsApp',
-              closing: `<p style="margin: 0 0 16px 0;">¡Estamos listos para preparar tus diseños exactamente como los necesitas!</p>
+              closing: `<p style="margin: 0 0 16px 0;">Estamos listos para preparar tus diseños y dejar todo tal como lo necesitas.</p>
 <p style="margin: 0 0 0 0;">¡Hasta pronto!</p>`,
               fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
               footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
@@ -669,17 +670,17 @@ export async function POST(request: Request) {
             footer: 'Este é um e-mail automático. Em caso de dúvida, entre em contato com o suporte.',
           },
           es: {
-            fromName: '¡Acceso liberado!',
-            subject: '¡Tu pack de diseños ya está disponible!',
-            greeting: buyerFirstName ? `¡Hola, ${buyerFirstName}!` : '¡Hola!',
-            title: '¡Tu pack ha sido liberado!',
-            body: `<p style="margin: 0 0 16px 0;">¡Tu pack de diseños ya está disponible en tu biblioteca!</p>
-<p style="margin: 0 0 0 0;">Para acceder a todos los archivos y comenzar a usarlos, haz clic en el botón de abajo e ingresa el correo utilizado al momento de la compra.</p>`,
+            fromName: 'Acceso liberado!',
+            subject: 'Tu pack de diseños ya está disponible!',
+            greeting: buyerFirstName ? `Hola, ${buyerFirstName}!` : 'Hola!',
+            title: 'Tu pack ya está liberado!',
+            body: `<p style="margin: 0 0 16px 0;">Tu pack de diseños ya está disponible en tu biblioteca!</p>
+<p style="margin: 0 0 0 0;">Para acceder a todos los archivos y empezar a usar tus diseños, solo tienes que hacer clic en el botón de abajo e ingresar el mismo correo electrónico que utilizaste al momento de tu compra.</p>`,
             btn: 'Acceder a la biblioteca',
-            closing: `<p style="margin: 0 0 16px 0;">¡Listo! Ahora aprovecha tu pack y transforma tus redes sociales con diseños profesionales.</p>
-<p style="margin: 0 0 0 0;">¡Buenas creaciones!</p>`,
-            fallback: 'Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:',
-            footer: 'Este es un correo electrónico automático. En caso de dudas, ponte en contacto con soporte.',
+            closing: `<p style="margin: 0 0 16px 0;">Listo! Ahora solo queda disfrutar tu pack y transformar tus redes sociales con diseños profesionales.</p>
+<p style="margin: 0 0 0 0;">Mucho éxito con tus creaciones!</p>`,
+            fallback: 'Si el botón no funciona, copia y pega el enlace en tu navegador:',
+            footer: 'Este es un correo automático. Si tienes alguna duda, comunícate con nuestro soporte.',
           },
           en: {
             fromName: 'Access unlocked!',

@@ -39,7 +39,9 @@ export default function EditeSection({ mockupSrc }: { mockupSrc?: string }) {
           loading="lazy"
           decoding="async"
           onError={(e) => {
-            if (!e.currentTarget.src.includes('/provedor-v2/mockup.webp')) {
+            if (e.currentTarget.src.includes('/provedor-v2-es/mockup.png')) {
+              e.currentTarget.src = '/sales-pages/provedor-v2-es/mockup.webp'
+            } else if (!e.currentTarget.src.includes('/provedor-v2/mockup.webp')) {
               e.currentTarget.src = '/sales-pages/provedor-v2/mockup.webp'
             }
           }}

@@ -361,12 +361,15 @@ export default function CustomContent({
   // STATE 1: Not purchased
   // ========================
   if (status === 'not_purchased') {
-    const priceFormatted = complement.price
-      ? new Intl.NumberFormat(lang === 'en' ? 'en-US' : lang === 'es' ? 'es-ES' : 'pt-BR', {
-          style: 'currency',
-          currency: lang === 'en' ? 'USD' : 'BRL',
-        }).format(complement.price)
-      : 'R$ 59,90'
+    const priceFormatted =
+      lang === 'es'
+        ? '14.99 USD'
+        : complement.price
+          ? new Intl.NumberFormat(lang === 'en' ? 'en-US' : 'pt-BR', {
+              style: 'currency',
+              currency: lang === 'en' ? 'USD' : 'BRL',
+            }).format(complement.price)
+          : 'R$ 59,90'
 
     return (
       <div className="pack-detail-wrapper">
@@ -396,7 +399,7 @@ export default function CustomContent({
               {lang === 'en'
                 ? "Get all the arts ready to post with your company's information:"
                 : lang === 'es'
-                  ? 'Recibe todas las artes listas para publicar con la información de tu empresa:'
+                  ? 'Recibe todos los diseños listos para publicar con los datos de tu empresa:'
                   : 'Receba todas as artes prontas para postar com as informações da sua empresa:'}
             </p>
           </div>
@@ -409,7 +412,7 @@ export default function CustomContent({
                 {lang === 'en'
                   ? 'High-definition ready images (just download and post)'
                   : lang === 'es'
-                    ? 'Imágenes listas en alta definición (solo descargar y publicar)'
+                    ? 'Imágenes en alta resolución (solo descargas y publicas)'
                     : 'Imagens fechadas em alta definição (é só baixar e postar)'}
               </li>
               <li>
@@ -431,7 +434,7 @@ export default function CustomContent({
             </ul>
 
             <div className="custom-price-section">
-              <span className="custom-price-label">{lang === 'en' ? 'For only' : lang === 'es' ? 'Por apenas' : 'Por apenas'}</span>
+              <span className="custom-price-label">{lang === 'en' ? 'For only' : lang === 'es' ? 'Por solo' : 'Por apenas'}</span>
               <span className="custom-price-value">{priceFormatted}</span>
             </div>
 
@@ -440,7 +443,7 @@ export default function CustomContent({
                 {lang === 'en' ? 'Hire service' : lang === 'es' ? 'Contratar servicio' : 'Contratar serviço'}
               </a>
               <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="custom-cta-secondary">
-                {lang === 'en' ? 'Ask on WhatsApp' : lang === 'es' ? 'Preguntar en WhatsApp' : 'Tirar dúvida no WhatsApp'}
+                {lang === 'en' ? 'Ask on WhatsApp' : lang === 'es' ? 'Consultar por WhatsApp' : 'Tirar dúvida no WhatsApp'}
               </a>
             </div>
           </motion.div>

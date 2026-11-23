@@ -5,16 +5,24 @@ import { usePacksContext } from './PacksContext'
 export default function AutoralSection() {
   const context = usePacksContext()
   const content = context.content.autoral
+  const autoralBg = context.autoralBg || '/sales-pages/provedor-v2/autoral-bg.webp'
 
   return (
     <section className="v2-autoral">
       {/* Background image with gradient shadows */}
       <div className="v2-autoral-bg">
         <img
-          src="/sales-pages/provedor-v2/autoral-bg.webp"
+          src={autoralBg}
           alt=""
           loading="lazy"
           decoding="async"
+          onError={(e) => {
+            if (e.currentTarget.src.includes('/provedor-v2-es/autoral-bg.png')) {
+              e.currentTarget.src = '/sales-pages/provedor-v2-es/autoral-bg.webp'
+            } else if (!e.currentTarget.src.includes('/provedor-v2/autoral-bg.webp')) {
+              e.currentTarget.src = '/sales-pages/provedor-v2/autoral-bg.webp'
+            }
+          }}
         />
       </div>
       <div className="v2-autoral-shadow" />

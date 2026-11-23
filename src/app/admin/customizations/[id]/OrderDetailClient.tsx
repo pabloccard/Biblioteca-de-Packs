@@ -89,13 +89,37 @@ export default function OrderDetailClient({
 
   const currentStatusInfo = statusConfig[status] || statusConfig.waiting
 
+  const isEs = order.packs?.language === 'es'
+
   // Format WhatsApp link
   const rawPhone = order.client_whatsapp ? order.client_whatsapp.replace(/\D/g, '') : ''
+  const formattedPhone = rawPhone
+    ? (!isEs && !rawPhone.startsWith('55') && (rawPhone.length === 10 || rawPhone.length === 11)
+        ? `55${rawPhone}`
+        : rawPhone)
+    : ''
   const clientFirstName = order.client_name ? order.client_name.split(' ')[0] : 'Cliente'
   const packTitle = order.packs?.name || 'Pack'
 
   // Mensagem humanizada e atenciosa com o link do formulário
-  const whatsappCustomMessage = `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo!
+  const whatsappCustomMessage = isEs
+    ? `Hola, ${clientFirstName}! Cómo estás? Soy Pablo.
+
+Te escribo para comenzar con la personalización de tus diseños. 😊
+
+Para empezar, necesito que me envíes *tu logotipo en la mejor calidad posible*.
+
+También preparé un enlace exclusivo para que completes los datos que aparecerán en los diseños.
+
+Es muy sencillo: solo tienes que hacer clic en cada diseño y completar los campos solicitados. Por favor, ten en cuenta que solo es posible modificar la velocidad y el precio de los planes, *sin agregar información adicional.*
+
+*Un consejo:* si algún dato se repite en todos los diseños, como tu número de WhatsApp, por ejemplo, no hace falta que lo escribas varias veces. ¡Con ponerlo en uno solo es suficiente!
+
+*Ingresa aquí para completarlo:*
+${customizeLink || ''}
+
+En cuanto reciba tu logotipo y termines de llenar los datos, ¡comenzaremos con la personalización de tus diseños! 😊`
+    : `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo!
 
 Estou entrando em contato para darmos início à personalização das suas artes. 😊
 
@@ -112,12 +136,12 @@ ${customizeLink || ''}
 
 Assim que receber seu logotipo e você finalizar o preenchimento, já daremos início à personalização das artes! 😊`
 
-  const whatsappSendFormUrl = rawPhone
-    ? `https://wa.me/${rawPhone.startsWith('55') ? rawPhone : `55${rawPhone}`}?text=${encodeURIComponent(whatsappCustomMessage)}`
+  const whatsappSendFormUrl = formattedPhone
+    ? `https://wa.me/${formattedPhone}?text=${encodeURIComponent(whatsappCustomMessage)}`
     : null
 
-  const whatsappDirectChatUrl = rawPhone
-    ? `https://wa.me/${rawPhone.startsWith('55') ? rawPhone : `55${rawPhone}`}`
+  const whatsappDirectChatUrl = formattedPhone
+    ? `https://wa.me/${formattedPhone}`
     : null
 
   function handleCopyCustomizeLink() {

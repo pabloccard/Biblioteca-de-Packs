@@ -6,7 +6,8 @@ import { usePacksContext } from './PacksContext'
 export default function FeedbacksSection() {
   const context = usePacksContext()
   const content = context.content.feedbacks
-  const duplicated = [...FEEDBACK_CARDS, ...FEEDBACK_CARDS]
+  const cards = context.feedbackCards || FEEDBACK_CARDS
+  const duplicated = [...cards, ...cards]
 
   return (
     <section className="v2-feedbacks">
@@ -31,9 +32,16 @@ export default function FeedbacksSection() {
               <div key={i} className="v2-feedback-card">
                 <img
                   src={src}
-                  alt={`Feedback de cliente ${(i % FEEDBACK_CARDS.length) + 1}`}
+                  alt={`Feedback de cliente ${(i % cards.length) + 1}`}
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    if (e.currentTarget.src.includes('/provedor-v2-es/feedbacks/feedback-') && e.currentTarget.src.includes('.webp')) {
+                      e.currentTarget.src = e.currentTarget.src.replace('.webp', '.png')
+                    } else if (!e.currentTarget.src.includes('/provedor-v2/feedback-')) {
+                      e.currentTarget.src = '/sales-pages/provedor-v2/feedback-1.webp'
+                    }
+                  }}
                 />
               </div>
             ))}

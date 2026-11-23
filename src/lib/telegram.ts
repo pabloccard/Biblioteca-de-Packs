@@ -81,6 +81,7 @@ export async function notifyNewCustomizationOrder({
   clientEmail,
   packName,
   customizeLink,
+  language = 'pt',
 }: {
   orderId: string
   clientName: string
@@ -88,16 +89,37 @@ export async function notifyNewCustomizationOrder({
   clientEmail: string
   packName: string
   customizeLink: string
+  language?: string
 }) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://bibliotecadepacks.com.br'
+  const isEs = language === 'es'
   const cleanPhone = clientWhatsapp ? clientWhatsapp.replace(/\D/g, '') : ''
   const formattedPhone = cleanPhone
-    ? (cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`)
+    ? (!isEs && !cleanPhone.startsWith('55') && (cleanPhone.length === 10 || cleanPhone.length === 11)
+        ? `55${cleanPhone}`
+        : cleanPhone)
     : ''
 
-  const clientFirstName = clientName ? clientName.split(' ')[0] : 'Cliente'
+  const clientFirstName = clientName ? clientName.trim().split(' ')[0] : 'Cliente'
 
-  const whatsappMessage = `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo!
+  const whatsappMessage = isEs
+    ? `Hola, ${clientFirstName}! Cómo estás? Soy Pablo.
+
+Te escribo para comenzar con la personalización de tus diseños. 😊
+
+Para empezar, necesito que me envíes *tu logotipo en la mejor calidad posible*.
+
+También preparé un enlace exclusivo para que completes los datos que aparecerán en los diseños.
+
+Es muy sencillo: solo tienes que hacer clic en cada diseño y completar los campos solicitados. Por favor, ten en cuenta que solo es posible modificar la velocidad y el precio de los planes, *sin agregar información adicional.*
+
+*Un consejo:* si algún dato se repite en todos los diseños, como tu número de WhatsApp, por ejemplo, no hace falta que lo escribas varias veces. ¡Con ponerlo en uno solo es suficiente!
+
+*Ingresa aquí para completarlo:*
+${customizeLink}
+
+En cuanto reciba tu logotipo y termines de llenar los datos, ¡comenzaremos con la personalización de tus diseños! 😊`
+    : `Olá, ${clientFirstName}! Tudo bem? Aqui é o Pablo!
 
 Estou entrando em contato para darmos início à personalização das suas artes. 😊
 
@@ -120,13 +142,13 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
 
   const adminOrderUrl = `${appUrl}/admin/customizations/${orderId}`
 
-  const text = `🎉 <b>NOVA PERSONALIZAÇÃO VENDIDA!</b>
+  const text = `🎉 <b>NOVA PERSONALIZAÇÃO VENDIDA!</b>${isEs ? ' 🇪🇸 (Espanhol)' : ' 🇧🇷'}
 
 📦 <b>Pack:</b> ${packName}
 👤 <b>Cliente:</b> ${clientName || 'Não informado'}
 📱 <b>WhatsApp:</b> ${clientWhatsapp || 'Não informado'}
 ✉️ <b>Email:</b> ${clientEmail}
-
+${isEs ? '🌐 <b>Idioma:</b> Espanhol\n' : ''}
 👉 <i>Toque no botão abaixo para abrir a conversa no WhatsApp do cliente com a mensagem e o link já preenchidos:</i>`
 
   const buttons: TelegramButton[][] = []
@@ -134,7 +156,7 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
   if (whatsappUrl) {
     buttons.push([
       {
-        text: '💬 Abrir WhatsApp e Enviar Link',
+        text: isEs ? '💬 Abrir WhatsApp (Mensagem em Espanhol)' : '💬 Abrir WhatsApp e Enviar Link',
         url: whatsappUrl,
       },
     ])
