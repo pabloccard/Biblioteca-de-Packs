@@ -1,1 +1,1 @@
-export { default, metadata } from '../packs/provedor-amarelo/page'
+export { default, generateMetadata } from '../packs/provedor-amarelo/page'

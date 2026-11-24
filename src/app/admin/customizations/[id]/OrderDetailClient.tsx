@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useMemo, Suspense } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   saveCustomizationDeliveryLinksAction,
@@ -52,6 +52,7 @@ interface ArtItem {
   thumbnail_url: string | null
   display_order: number
   client_instructions: string | null
+  client_inputs?: Record<string, string> | null
 }
 
 interface OrderDetailClientProps {
@@ -171,6 +172,157 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
     } finally {
       setSyncingArts(false)
     }
+  }
+
+  // Estados para o Modal de Extração de Informações das Artes
+  const [isExtractModalOpen, setIsExtractModalOpen] = useState(false)
+  const [selectedFields, setSelectedFields] = useState<string[]>([])
+  const [includeLabels, setIncludeLabels] = useState(false)
+  const [separator, setSeparator] = useState(' | ')
+  const [artPrefixFormat, setArtPrefixFormat] = useState<'padded' | 'simple' | 'none'>('padded')
+  const [preserveEmptySlots, setPreserveEmptySlots] = useState(false)
+  const [copiedExtract, setCopiedExtract] = useState(false)
+
+  // Descobre todos os campos únicos disponíveis no pack ou nas instruções
+  const availableFields = useMemo(() => {
+    const fieldSet = new Set<string>()
+
+    // 1. Campos pré-configurados no pack
+    const packFields = order.packs?.art_custom_fields as Record<string, { id: string; label: string }[]> | null | undefined
+    if (packFields && typeof packFields === 'object') {
+      Object.values(packFields).forEach(fieldsList => {
+        if (Array.isArray(fieldsList)) {
+          fieldsList.forEach(f => {
+            if (f.label?.trim()) {
+              fieldSet.add(f.label.trim())
+            }
+          })
+        }
+      })
+    }
+
+    // 2. Campos preenchidos nas instruções de cada arte
+    arts.forEach(art => {
+      if (art.client_instructions) {
+        const lines = art.client_instructions.split('\n')
+        lines.forEach(line => {
+          const colonIdx = line.indexOf(':')
+          if (colonIdx > 0) {
+            const lbl = line.substring(0, colonIdx).trim()
+            if (lbl) fieldSet.add(lbl)
+          }
+        })
+      }
+    })
+
+    return Array.from(fieldSet)
+  }, [order.packs?.art_custom_fields, arts])
+
+  function handleOpenExtractModal() {
+    if (selectedFields.length === 0 && availableFields.length > 0) {
+      setSelectedFields([...availableFields])
+    }
+    setIsExtractModalOpen(true)
+  }
+
+  function getArtFieldValue(art: ArtItem, index: number, targetLabel: string): string {
+    const normTarget = targetLabel.trim().toLowerCase()
+
+    // 1. Tentar pegar por art_custom_fields + client_inputs
+    const packFields = order.packs?.art_custom_fields as Record<string, { id: string; label: string }[]> | null | undefined
+    if (packFields && art.client_inputs && typeof art.client_inputs === 'object') {
+      const artNum = String(index + 1)
+      const fileNameNum = art.file_name?.match(/\d+/)?.[0]
+      const fieldsForArt = packFields[artNum] || (fileNameNum ? packFields[fileNameNum] : null) || []
+
+      const matchingFieldDef = fieldsForArt.find(f => f.label?.trim().toLowerCase() === normTarget)
+      if (matchingFieldDef && matchingFieldDef.id in art.client_inputs) {
+        const val = (art.client_inputs[matchingFieldDef.id] || '').trim()
+        if (val) return val
+      }
+    }
+
+    // 2. Tentar extrair de client_instructions
+    if (art.client_instructions) {
+      const lines = art.client_instructions.split('\n')
+      for (const line of lines) {
+        const colonIdx = line.indexOf(':')
+        if (colonIdx > 0) {
+          const lbl = line.substring(0, colonIdx).trim()
+          if (lbl.toLowerCase() === normTarget) {
+            return line.substring(colonIdx + 1).trim()
+          }
+        }
+      }
+    }
+
+    return ''
+  }
+
+  const generatedExtractText = useMemo(() => {
+    if (arts.length === 0) return ''
+
+    if (selectedFields.length === 0) {
+      return arts.map((_, index) => {
+        const artNum = index + 1
+        const prefix = artPrefixFormat === 'padded'
+          ? `Arte ${String(artNum).padStart(2, '0')}: `
+          : artPrefixFormat === 'simple'
+            ? `Arte ${artNum}: `
+            : ''
+        return `${prefix}`
+      }).join('\n')
+    }
+
+    return arts.map((art, index) => {
+      const artNum = index + 1
+      const prefix = artPrefixFormat === 'padded'
+        ? `Arte ${String(artNum).padStart(2, '0')}: `
+        : artPrefixFormat === 'simple'
+          ? `Arte ${artNum}: `
+          : ''
+
+      // Descobre quais campos estão configurados para esta arte no pack
+      const artNumStr = String(artNum)
+      const fileNameNum = art.file_name?.match(/\d+/)?.[0]
+      const packFields = order.packs?.art_custom_fields as Record<string, { id: string; label: string }[]> | null | undefined
+      const configuredList = packFields?.[artNumStr] || (fileNameNum ? packFields?.[fileNameNum] : null) || []
+      const hasPackConfig = Array.isArray(configuredList) && configuredList.length > 0
+      const configuredLabels = new Set(configuredList.map(f => f.label?.trim().toLowerCase()))
+
+      const items: string[] = []
+      for (const fieldLabel of selectedFields) {
+        const norm = fieldLabel.trim().toLowerCase()
+        const isConfigured = configuredLabels.has(norm)
+        const val = getArtFieldValue(art, index, fieldLabel)
+
+        // Se o pack tem campos configurados para esta arte, respeita se o campo pertence a ela.
+        // Se a arte não tiver config específica no pack, ou se preserveEmptySlots estiver ativo, ou se houver valor, inclui.
+        const belongsToArt = hasPackConfig ? isConfigured : true
+
+        if (belongsToArt || !!val || preserveEmptySlots) {
+          if (includeLabels) {
+            // Quando selecionado para vir com o nome dos campos, SEMPRE vem o nome do campo mesmo se vazio!
+            items.push(`${fieldLabel}: ${val}`)
+          } else {
+            // Apenas valores: se tiver valor, ou se preserveEmptySlots estiver ativo
+            if (val || preserveEmptySlots) {
+              items.push(val)
+            }
+          }
+        }
+      }
+
+      const joinedContent = items.join(separator)
+      return `${prefix}${joinedContent}`
+    }).join('\n')
+  }, [arts, selectedFields, includeLabels, separator, artPrefixFormat, preserveEmptySlots, order.packs?.art_custom_fields])
+
+  function handleCopyExtractedText() {
+    if (!generatedExtractText) return
+    navigator.clipboard.writeText(generatedExtractText)
+    setCopiedExtract(true)
+    setTimeout(() => setCopiedExtract(false), 2500)
   }
 
   async function handleGenerateDriveFolders() {
@@ -485,6 +637,30 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
                 : 'Instruções e dados que o cliente solicitou para cada arte do pack.'}
             </p>
           </div>
+
+          {arts.length > 0 && (
+            <button
+              type="button"
+              onClick={handleOpenExtractModal}
+              className="btn-admin-action"
+              style={{
+                padding: '9px 18px',
+                fontSize: '0.88rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%)',
+                color: '#93c5fd',
+                border: '1px solid rgba(59, 130, 246, 0.35)',
+                borderRadius: '8px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(37, 99, 235, 0.15)',
+              }}
+            >
+              <span>📋</span> Copiar Informações das Artes
+            </button>
+          )}
         </div>
 
         {arts.length === 0 ? (
@@ -771,6 +947,408 @@ Assim que receber seu logotipo e você finalizar o preenchimento, já daremos in
       <div style={{ padding: '16px 0', borderTop: '1px solid var(--border-subtle)', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
         Criado em {new Date(order.created_at).toLocaleString('pt-BR')} • Atualizado em {new Date(order.updated_at).toLocaleString('pt-BR')}
       </div>
+
+      {/* Modal de Extração e Cópia em Lote das Artes */}
+      {isExtractModalOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.78)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '16px',
+          }}
+          onClick={() => setIsExtractModalOpen(false)}
+        >
+          <div
+            style={{
+              background: '#121214',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '18px',
+              width: '100%',
+              maxWidth: '740px',
+              maxHeight: '90vh',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.8)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div
+              style={{
+                padding: '20px 24px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'rgba(255, 255, 255, 0.02)',
+              }}
+            >
+              <div>
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: '1.15rem',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                >
+                  <span>📋</span> Copiar Informações das Artes em Lista
+                </h3>
+                <p style={{ margin: '4px 0 0 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                  Selecione os campos que deseja extrair. Cada arte terá sua linha com os dados correspondentes.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsExtractModalOpen(false)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#a1a1aa',
+                  fontSize: '1.25rem',
+                  cursor: 'pointer',
+                  padding: '6px 10px',
+                  borderRadius: '6px',
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div
+              style={{
+                padding: '20px 24px',
+                overflowY: 'auto',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px',
+              }}
+            >
+              {/* Seleção de Campos */}
+              <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                  }}
+                >
+                  <label
+                    style={{
+                      fontSize: '0.86rem',
+                      fontWeight: 600,
+                      color: '#f4f4f5',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <span>🎯</span> Selecione quais campos deseja extrair:
+                  </label>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedFields([...availableFields])}
+                      style={{
+                        padding: '4px 10px',
+                        fontSize: '0.75rem',
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        color: '#d4d4d8',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Marcar Todos
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedFields([])}
+                      style={{
+                        padding: '4px 10px',
+                        fontSize: '0.75rem',
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        color: '#d4d4d8',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Desmarcar Todos
+                    </button>
+                  </div>
+                </div>
+
+                {availableFields.length === 0 ? (
+                  <div
+                    style={{
+                      padding: '12px 14px',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: '8px',
+                      border: '1px dashed rgba(255, 255, 255, 0.1)',
+                      color: 'var(--text-muted)',
+                      fontSize: '0.82rem',
+                    }}
+                  >
+                    Nenhum campo estruturado detectado neste pack.
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {availableFields.map((fieldLabel) => {
+                      const isSelected = selectedFields.includes(fieldLabel)
+                      return (
+                        <button
+                          key={fieldLabel}
+                          type="button"
+                          onClick={() => {
+                            if (isSelected) {
+                              setSelectedFields((prev) => prev.filter((f) => f !== fieldLabel))
+                            } else {
+                              setSelectedFields((prev) => [...prev, fieldLabel])
+                            }
+                          }}
+                          style={{
+                            padding: '8px 14px',
+                            borderRadius: '8px',
+                            fontSize: '0.83rem',
+                            fontWeight: 500,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease',
+                            background: isSelected ? 'rgba(59, 130, 246, 0.18)' : 'rgba(255, 255, 255, 0.03)',
+                            color: isSelected ? '#93c5fa' : '#a1a1aa',
+                            border: isSelected ? '1px solid rgba(59, 130, 246, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
+                          }}
+                        >
+                          <span style={{ fontSize: '0.9rem' }}>{isSelected ? '☑️' : '⬜'}</span>
+                          <span>{fieldLabel}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Opções de Formatação */}
+              <div
+                style={{
+                  padding: '14px 16px',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                }}
+              >
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#e4e4e7' }}>
+                  ⚙️ Opções de Formatação
+                </div>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+                  {/* Incluir rótulo */}
+                  <label
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontSize: '0.82rem',
+                      color: '#d4d4d8',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={includeLabels}
+                      onChange={(e) => setIncludeLabels(e.target.checked)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    <span>Incluir nome dos campos (mesmo quando vazios: <em>Arte 01: Plan y precio:  | WhatsApp: 000...</em>)</span>
+                  </label>
+
+                  {/* Preservar posições vazias */}
+                  {selectedFields.length > 1 && (
+                    <label
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontSize: '0.82rem',
+                        color: '#d4d4d8',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={preserveEmptySlots}
+                        onChange={(e) => setPreserveEmptySlots(e.target.checked)}
+                        style={{ cursor: 'pointer' }}
+                      />
+                      <span>Forçar todos os campos selecionados em todas as artes</span>
+                    </label>
+                  )}
+                </div>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', marginTop: '4px' }}>
+                  {/* Formato do prefixo */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Prefixo:</span>
+                    <select
+                      value={artPrefixFormat}
+                      onChange={(e) => setArtPrefixFormat(e.target.value as any)}
+                      style={{
+                        background: '#18181b',
+                        color: '#f4f4f5',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <option value="padded">Arte 01: (2 dígitos)</option>
+                      <option value="simple">Arte 1: (1 dígito)</option>
+                      <option value="none">Sem prefixo (apenas dados)</option>
+                    </select>
+                  </div>
+
+                  {/* Separador entre campos */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Separador:</span>
+                    <select
+                      value={separator}
+                      onChange={(e) => setSeparator(e.target.value)}
+                      style={{
+                        background: '#18181b',
+                        color: '#f4f4f5',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '6px',
+                        padding: '4px 10px',
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <option value=" | ">Barra ( | )</option>
+                      <option value=" - ">Hífen ( - )</option>
+                      <option value=", ">Vírgula (, )</option>
+                      <option value=" / ">Barra normal ( / )</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Preview */}
+              <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#f4f4f5' }}>
+                    👁️ Pré-visualização ({arts.length} artes listadas):
+                  </label>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    {selectedFields.length} campo(s) selecionado(s)
+                  </span>
+                </div>
+                <textarea
+                  readOnly
+                  value={generatedExtractText}
+                  rows={10}
+                  style={{
+                    width: '100%',
+                    background: '#09090b',
+                    color: '#e4e4e7',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '10px',
+                    padding: '12px 14px',
+                    fontSize: '0.82rem',
+                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                    lineHeight: 1.5,
+                    resize: 'vertical',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div
+              style={{
+                padding: '16px 24px',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'rgba(255, 255, 255, 0.02)',
+              }}
+            >
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                💡 Todas as {arts.length} artes permanecem na ordem exata de exibição.
+              </div>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <button
+                  type="button"
+                  onClick={() => setIsExtractModalOpen(false)}
+                  style={{
+                    padding: '9px 16px',
+                    fontSize: '0.85rem',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    color: '#d4d4d8',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: 500,
+                  }}
+                >
+                  Fechar
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCopyExtractedText}
+                  style={{
+                    padding: '9px 20px',
+                    fontSize: '0.88rem',
+                    background: copiedExtract ? '#16a34a' : '#22c55e',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 14px rgba(34, 197, 94, 0.3)',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <span>{copiedExtract ? '✓' : '📋'}</span>
+                  <span>{copiedExtract ? 'Copiado com Sucesso!' : 'Copiar Lista Completa'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

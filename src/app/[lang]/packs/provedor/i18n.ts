@@ -207,7 +207,7 @@ export const PROVEDOR_I18N: Record<'pt' | 'es', ProvedorContent> = {
     metadata: {
       title: 'Pack de Plantillas para Proveedores de Internet | Diseños Editables',
       description:
-        'Pack de plantillas editables para proveedores de internet. Un paquete completo listo para abrir desde tu celular o computadora, agregar tu logo y tus planes, y descargar para publicar en menos de 5 minutos.',
+        'Pack de plantillas editables para proveedores de internet. Un paquete completo listo para abrir desde tu celular o computadora, agregar tu logo y tus planes, y descargar para publicar en pocos clics.',
     },
     hero: {
       badge: 'Pack de diciembre',
@@ -216,7 +216,7 @@ export const PROVEDOR_I18N: Record<'pt' | 'es', ProvedorContent> = {
       titleHighlight: 'Proveedores de',
       titleHighlight2: 'Internet',
       subtitle:
-        'Un paquete completo listo para abrir desde tu celular o computadora, agregar tu logo y tus planes, y descargar para publicar en menos de 5 minutos.',
+        'Un paquete completo listo para abrir desde tu celular o computadora, agregar tu logo y tus planes, y descargar para publicar en pocos clics.',
       desc: 'El trabajo pesado del diseño ya está resuelto. La dirección visual, la armonía de colores y la organización de la información ya están listas: solo tienes que ingresar tus datos, descargar y publicar.',
     },
     versoes: {

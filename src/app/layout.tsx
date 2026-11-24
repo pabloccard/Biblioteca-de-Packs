@@ -9,6 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || 'https://bibliotecadepacks.com.br'
+  ),
   title: "Biblioteca de Packs — Artes Editáveis",
   description: "Acesse seus packs de artes editáveis para Canva e Photoshop. Designs profissionais prontos para personalizar.",
   keywords: ["packs", "artes editáveis", "canva", "photoshop", "design", "social media"],
@@ -17,16 +20,16 @@ export const metadata: Metadata = {
     description: "Acesse seus packs de artes editáveis para Canva e Photoshop. Designs profissionais prontos para personalizar.",
     images: [
       {
-        url: '/herocover.png',
-        width: 1200,
-        height: 630,
-        alt: 'Preview Biblioteca de Packs',
+        url: '/sales-pages/provedor-v2/versao-cover-1.png',
+        width: 980,
+        height: 745,
+        alt: 'Biblioteca de Packs',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/herocover.png'],
+    images: ['/sales-pages/provedor-v2/versao-cover-1.png'],
   },
   appleWebApp: {
     capable: true,

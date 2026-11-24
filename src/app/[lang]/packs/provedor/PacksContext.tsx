@@ -66,8 +66,14 @@ export function PacksProvider({
   cacheBust?: boolean
 }) {
   const isEs = lang === 'es'
-  const resolvedArtesFolder =
-    artesFolder || (isEs ? '/sales-pages/provedor-v2-es/artes' : '/sales-pages/provedor-v2/artes')
+  const defaultArtesFolder = isEs
+    ? (theme && theme !== 'green'
+        ? `/sales-pages/provedor-v2-es/artes-${theme}`
+        : '/sales-pages/provedor-v2-es/artes')
+    : (theme && theme !== 'green' && theme !== 'verde'
+        ? `/sales-pages/provedor-v2/artes-${theme}`
+        : '/sales-pages/provedor-v2/artes')
+  const resolvedArtesFolder = artesFolder || defaultArtesFolder
   const content = getProvedorContent(lang)
 
   // Query param para garantir que novas imagens nunca fiquem presas em cache do navegador
@@ -75,7 +81,21 @@ export function PacksProvider({
 
   // 1. Mockup principal (.webp)
   const defaultMockup = isEs
-    ? '/sales-pages/provedor-v2-es/mockup.webp'
+    ? (theme === 'vermelho'
+        ? '/sales-pages/provedor-v2-es/mockup-vermelho.webp'
+        : theme === 'laranja'
+          ? '/sales-pages/provedor-v2-es/mockup-laranja.webp'
+          : theme === 'roxo'
+            ? '/sales-pages/provedor-v2-es/mockup-roxo.webp'
+            : theme === 'azul'
+              ? '/sales-pages/provedor-v2-es/mockup-azul.webp'
+              : theme === 'amarelo'
+                ? '/sales-pages/provedor-v2-es/mockup-amarelo.webp'
+                : theme === 'verde'
+                  ? '/sales-pages/provedor-v2-es/mockup-verde.webp'
+                  : theme === 'azul-laranja'
+                    ? '/sales-pages/provedor-v2-es/mockup-azul-laranja.webp'
+                    : '/sales-pages/provedor-v2-es/mockup.webp')
     : theme === 'vermelho'
       ? '/sales-pages/provedor-v2/mockup-vermelho.webp'
       : theme === 'laranja'

@@ -14,7 +14,7 @@ export default async function CustomizationDetailPage({ params }: { params: Prom
 
   const { data: order } = await supabase
     .from('customization_orders')
-    .select('*, packs(id, name, cover_image_url, language)')
+    .select('*, packs(id, name, cover_image_url, language, art_custom_fields)')
     .eq('id', id)
     .single()
 

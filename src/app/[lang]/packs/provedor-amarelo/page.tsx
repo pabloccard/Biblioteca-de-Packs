@@ -11,6 +11,7 @@ import NovaOfertaSection from '../provedor/NovaOfertaSection'
 import AutoralSection from '../provedor/AutoralSection'
 import FaqSection from '../provedor/FaqSection'
 import { PacksProvider } from '../provedor/PacksContext'
+import { buildProvedorMetadata } from '../provedor/metadataHelper'
 import '../provedor/vendas.css'
 
 const urbanist = Urbanist({
@@ -21,10 +22,13 @@ const urbanist = Urbanist({
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Pack de Artes para Provedor de Internet | Edição Amarelo',
-  description:
-    'Pack de Artes Editáveis para Provedor de Internet. Um pacote completo pronto para você abrir no celular ou computador, colocar a sua logo e os seus planos e baixar para postar em menos de 5 minutos.',
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
+  const { lang } = await params
+  return buildProvedorMetadata({ lang, theme: 'amarelo' })
 }
 
 export default async function ProvedorAmareloSalesPage({

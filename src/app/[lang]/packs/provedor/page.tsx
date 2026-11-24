@@ -12,6 +12,7 @@ import AutoralSection from './AutoralSection'
 import FaqSection from './FaqSection'
 import { PacksProvider } from './PacksContext'
 import { getProvedorContent } from './i18n'
+import { buildProvedorMetadata } from './metadataHelper'
 import './vendas.css'
 
 const urbanist = Urbanist({
@@ -20,17 +21,15 @@ const urbanist = Urbanist({
   variable: '--font-urbanist',
 })
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ lang: string }>
 }): Promise<Metadata> {
   const { lang } = await params
-  const content = getProvedorContent(lang)
-  return {
-    title: content.metadata.title,
-    description: content.metadata.description,
-  }
+  return buildProvedorMetadata({ lang, theme: 'default' })
 }
 
 export default async function ProvedorSalesPage({

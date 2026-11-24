@@ -11,6 +11,8 @@ import NovaOfertaSection from '../provedor/NovaOfertaSection'
 import AutoralSection from '../provedor/AutoralSection'
 import FaqSection from '../provedor/FaqSection'
 import { PacksProvider } from '../provedor/PacksContext'
+import { getProvedorContent } from '../provedor/i18n'
+import { buildProvedorMetadata } from '../provedor/metadataHelper'
 import '../provedor/vendas.css'
 
 const urbanist = Urbanist({
@@ -21,10 +23,13 @@ const urbanist = Urbanist({
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Pack de Artes para Provedor de Internet | Edição Vermelho',
-  description:
-    'Pack de Artes Editáveis para Provedor de Internet. Um pacote completo pronto para você abrir no celular ou computador, colocar a sua logo e os seus planos e baixar para postar em menos de 5 minutos.',
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
+  const { lang } = await params
+  return buildProvedorMetadata({ lang, theme: 'vermelho' })
 }
 
 export default async function ProvedorVermelhoSalesPage({
@@ -33,10 +38,16 @@ export default async function ProvedorVermelhoSalesPage({
   params: Promise<{ lang: string }>
 }) {
   const { lang } = await params
+  const isEs = lang === 'es'
+  const content = getProvedorContent(lang)
 
   return (
-    <PacksProvider artesFolder="/sales-pages/provedor-v2/artes-vermelho" theme="vermelho">
-      <main className={`vendas-page vendas-page--vermelho ${urbanist.className} ${urbanist.variable}`}>
+    <PacksProvider
+      lang={lang}
+      theme="vermelho"
+      artesFolder={isEs ? '/sales-pages/provedor-v2-es/artes-vermelho' : '/sales-pages/provedor-v2/artes-vermelho'}
+    >
+      <main className={`vendas-page vendas-page--vermelho ${isEs ? 'vendas-page--es' : ''} ${urbanist.className} ${urbanist.variable}`}>
         <div className="vendas-container">
           {/* 1. HERO (com carrossel de artes integrado) */}
           <HeroSection />
@@ -48,10 +59,7 @@ export default async function ProvedorVermelhoSalesPage({
           <EditeSection />
 
           {/* FAIXA: FÁCIL EDIÇÃO */}
-          <FaixaSection
-            text="FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO • FÁCIL EDIÇÃO"
-            variant="light"
-          />
+          <FaixaSection text={content.faixaEdicao} variant="light" />
 
           {/* 4. FÁCIL EDIÇÃO */}
           <FacilEdicaoSection />
@@ -60,19 +68,16 @@ export default async function ProvedorVermelhoSalesPage({
           <SuporteSection />
 
           {/* FAIXA: FEEDBACKS */}
-          <FaixaSection text="FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS • FEEDBACKS" />
+          <FaixaSection text={content.faixaFeedbacks} />
 
           {/* 6. FEEDBACKS */}
           <FeedbacksSection />
 
-          {/* 7. NOVA OFERTA (Black Friday R$ 37,90) */}
+          {/* 7. NOVA OFERTA */}
           <NovaOfertaSection />
 
           {/* FAIXA: CRIAÇÃO 100% AUTORAL */}
-          <FaixaSection
-            text="CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL • CRIAÇÃO 100% AUTORAL"
-            variant="dark"
-          />
+          <FaixaSection text={content.faixaAutoral} variant="dark" />
 
           {/* 8. 100% AUTORAL */}
           <AutoralSection />
