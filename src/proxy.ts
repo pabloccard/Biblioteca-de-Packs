@@ -4,6 +4,32 @@ import type { NextRequest } from 'next/server'
 const locales = ['pt', 'es', 'en']
 const defaultLocale = 'pt'
 
+function detectPreferredLocale(acceptLanguage: string): string {
+  if (!acceptLanguage) return defaultLocale
+
+  const preferences = acceptLanguage
+    .split(',')
+    .map((item) => {
+      const [langTag, qPart] = item.trim().split(';')
+      const lang = langTag.trim().toLowerCase().split('-')[0]
+      let q = 1.0
+      if (qPart && qPart.trim().startsWith('q=')) {
+        const parsedQ = parseFloat(qPart.trim().substring(2))
+        if (!isNaN(parsedQ)) q = parsedQ
+      }
+      return { lang, q }
+    })
+    .sort((a, b) => b.q - a.q)
+
+  for (const pref of preferences) {
+    if (locales.includes(pref.lang)) {
+      return pref.lang
+    }
+  }
+
+  return defaultLocale
+}
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -36,10 +62,12 @@ export function proxy(request: NextRequest) {
 
   // 3. Detecção do idioma para rotas na raiz ou sem locale (ex: '/')
   const acceptLanguage = request.headers.get('accept-language') || ''
-  const preferredLocale = memberLangCookie || (
-    acceptLanguage.toLowerCase().includes('es') ? 'es' :
-    acceptLanguage.toLowerCase().includes('en') ? 'en' : defaultLocale
-  )
+  const isSalesPage = pathname.includes('/packs/') || pathname.includes('provedor')
+
+  // Para páginas de vendas, prioriza o idioma real do navegador do visitante (evita cookie de teste antigo)
+  const preferredLocale = isSalesPage
+    ? detectPreferredLocale(acceptLanguage)
+    : (memberLangCookie || detectPreferredLocale(acceptLanguage))
 
   request.nextUrl.pathname = `/${preferredLocale}${pathname}`
   return NextResponse.redirect(request.nextUrl)
